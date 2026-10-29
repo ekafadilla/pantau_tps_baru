@@ -1,0 +1,598 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard {{ $roleLabel }} | SI Pantau TPS</title>
+
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7f5;
+            color: #26382f;
+        }
+
+        a { text-decoration: none; color: inherit; }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            flex-shrink: 0;
+            background: #176b43;
+            color: white;
+            padding: 25px 16px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px 30px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .brand i { font-size: 27px; }
+
+        .menu-title {
+            color: #c7e2d2;
+            font-size: 11px;
+            margin: 10px 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 7px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .menu i { font-size: 18px; }
+
+        .menu.active,
+        .menu:hover {
+            background: #2c8058;
+        }
+
+        .sidebar-bottom {
+            margin-top: 35px;
+            border-top: 1px solid #438563;
+            padding-top: 18px;
+        }
+
+        .logout {
+            width: 100%;
+            background: white;
+            color: #176b43;
+            border: none;
+            padding: 11px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .topbar {
+            min-height: 72px;
+            background: white;
+            border-bottom: 1px solid #e4ebe6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 30px;
+            gap: 15px;
+        }
+
+        .topbar-title { font-size: 18px; font-weight: bold; }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            background: #e2f1e7;
+            color: #176b43;
+            font-weight: bold;
+        }
+
+        .content {
+            padding: 28px 30px;
+            max-width: 1500px;
+            margin: auto;
+        }
+
+        .welcome {
+            background: #e6f2ff;
+            border: 1px solid #d3e6fb;
+            border-radius: 9px;
+            padding: 24px;
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 23px;
+            margin: 0 0 9px;
+        }
+
+        .welcome p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #596b7c;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0 15px;
+        }
+
+        .section-heading h2 {
+            font-size: 17px;
+            margin: 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 9px;
+            padding: 19px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            color: #6d7a71;
+            font-size: 13px;
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            background: #e7f4eb;
+            color: #176b43;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: bold;
+            margin-top: 14px;
+        }
+
+        .stat-note {
+            color: #78857c;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 9px;
+            overflow: hidden;
+        }
+
+        .panel-heading {
+            padding: 18px 20px;
+            border-bottom: 1px solid #e8eee9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .panel-heading h2 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .primary-button {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 7px;
+            background: #176b43;
+            color: white;
+            border-radius: 6px;
+            padding: 10px 13px;
+            font-size: 13px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .primary-button:hover { background: #105735; }
+
+        .table-wrap { overflow-x: auto; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #edf1ee;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f8faf8;
+            color: #647168;
+            font-weight: bold;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 9px;
+            border-radius: 20px;
+            font-size: 11px;
+            background: #fff2d8;
+            color: #946200;
+        }
+
+        .status-diproses {
+            background: #e5efff;
+            color: #245ab1;
+        }
+
+        .status-selesai {
+            background: #e2f5e8;
+            color: #176b43;
+        }
+
+        .status-ditolak {
+            background: #fde8e7;
+            color: #ad302b;
+        }
+
+        .empty {
+            padding: 35px 20px;
+            text-align: center;
+            color: #78857c;
+            font-size: 13px;
+        }
+
+        .empty i {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #9aa99f;
+        }
+
+        .help-panel {
+            margin-top: 22px;
+            padding: 20px;
+            background: #eef7f0;
+            border: 1px solid #dcece0;
+            border-radius: 9px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+        }
+
+        .help-icon {
+            font-size: 24px;
+            color: #176b43;
+        }
+
+        .help-panel h3 {
+            margin: 0 0 7px;
+            font-size: 15px;
+        }
+
+        .help-panel p {
+            margin: 0;
+            color: #627267;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px 15px;
+            color: #7b857e;
+            font-size: 12px;
+        }
+
+        .simple-card {
+            background: white;
+            border: 1px solid #e1e9e3;
+            border-radius: 9px;
+            padding: 25px;
+        }
+
+        @media (max-width: 1000px) {
+            .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .sidebar { width: 210px; }
+        }
+
+        @media (max-width: 650px) {
+            .layout { display: block; }
+            .sidebar { width: 100%; padding: 15px; }
+            .brand { padding: 5px 8px 15px; }
+            .menu-title { display: none; }
+            .menu { display: inline-flex; margin: 3px; padding: 10px; }
+            .sidebar-bottom { margin-top: 10px; padding-top: 10px; }
+            .logout { width: auto; padding: 10px 14px; }
+            .topbar { padding: 15px 18px; }
+            .content { padding: 20px 15px; }
+            .stats { gap: 10px; }
+            .stat-card { padding: 14px; }
+            .stat-top { align-items: flex-start; }
+            .stat-number { font-size: 23px; }
+            .welcome { padding: 20px; }
+            .welcome h1 { font-size: 20px; }
+            .section-heading { align-items: flex-start; flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <i class="bi bi-recycle"></i>
+            <span>SI PANTAU TPS</span>
+        </div>
+
+        <div class="menu-title">Menu Utama</div>
+
+        <a class="menu active"
+           href="{{ route('dashboard.role', ['role' => $role]) }}">
+            <i class="bi bi-grid"></i>
+            Dashboard
+        </a>
+
+        @if ($role === 'masyarakat')
+            <a class="menu" href="{{ url('/masyarakat/laporan/saya') }}">
+                <i class="bi bi-file-earmark-text"></i>
+                Laporan Saya
+            </a>
+
+            <a class="menu" href="{{ route('masyarakat.laporan.create') }}">
+                <i class="bi bi-plus-circle"></i>
+                Buat Laporan
+            </a>
+        @endif
+
+        <div class="sidebar-bottom">
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button type="submit" class="logout">
+                    <i class="bi bi-box-arrow-right"></i>
+                    Keluar
+                </button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="topbar">
+            <div class="topbar-title">Dashboard {{ $roleLabel }}</div>
+
+            <div class="user-info">
+                <div class="avatar">
+                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                </div>
+                <div>
+                    <strong>{{ auth()->user()->name }}</strong><br>
+                    <span>{{ $roleLabel }}</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="content">
+
+            @if ($role === 'masyarakat')
+
+                <section class="welcome">
+                    <h1>Selamat Datang, {{ auth()->user()->name }}!</h1>
+                    <p>
+                        Pantau laporan pengaduan TPS sampah Anda dan bantu
+                        menjaga kebersihan lingkungan Kabupaten Indramayu.
+                    </p>
+                </section>
+
+                <div class="section-heading">
+                    <h2>Ringkasan Laporan</h2>
+                    <a class="primary-button"
+                       href="{{ route('masyarakat.laporan.create') }}">
+                        <i class="bi bi-plus-lg"></i>
+                        Buat Laporan Baru
+                    </a>
+                </div>
+
+                <section class="stats">
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Total Laporan</span>
+                            <span class="stat-icon"><i class="bi bi-file-text"></i></span>
+                        </div>
+                        <div class="stat-number">{{ $totalLaporan }}</div>
+                        <div class="stat-note">Seluruh laporan Anda</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Menunggu</span>
+                            <span class="stat-icon"><i class="bi bi-clock-history"></i></span>
+                        </div>
+                        <div class="stat-number">{{ $laporanMenunggu }}</div>
+                        <div class="stat-note">Menunggu pemeriksaan</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Diproses</span>
+                            <span class="stat-icon"><i class="bi bi-arrow-repeat"></i></span>
+                        </div>
+                        <div class="stat-number">{{ $laporanDiproses }}</div>
+                        <div class="stat-note">Sedang ditindaklanjuti</div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-top">
+                            <span>Selesai</span>
+                            <span class="stat-icon"><i class="bi bi-check-circle"></i></span>
+                        </div>
+                        <div class="stat-number">{{ $laporanSelesai }}</div>
+                        <div class="stat-note">Laporan telah selesai</div>
+                    </div>
+                </section>
+
+                <section class="panel" style="margin-top: 27px;">
+                    <div class="panel-heading">
+                        <h2>Laporan Terbaru</h2>
+                        <a href="{{ url('/masyarakat/laporan/saya') }}"
+                           style="font-size: 13px; color: #176b43;">
+                            Lihat Semua
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+
+                    @if ($laporanTerbaru->isEmpty())
+                        <div class="empty">
+                            <i class="bi bi-inbox"></i>
+                            <strong>Belum ada laporan</strong>
+                            <p>Silakan buat laporan jika menemukan masalah pada TPS.</p>
+                            <br>
+                            <a class="primary-button"
+                               href="{{ route('masyarakat.laporan.create') }}">
+                                <i class="bi bi-plus-lg"></i>
+                                Buat Laporan
+                            </a>
+                        </div>
+                    @else
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama TPS</th>
+                                        <th>Kategori</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($laporanTerbaru as $laporan)
+                                        @php
+                                            $status = $laporan->status_laporan;
+                                            $statusClass = match ($status) {
+                                                'selesai' => 'status-selesai',
+                                                'diproses', 'ditangani' => 'status-diproses',
+                                                'ditolak' => 'status-ditolak',
+                                                default => '',
+                                            };
+                                        @endphp
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                {{ $laporan->tps->nama_tps ?? 'TPS tidak tersedia' }}
+                                            </td>
+                                            <td>{{ $laporan->kategori_kondisi }}</td>
+                                            <td>
+                                                {{ \Illuminate\Support\Carbon::parse($laporan->waktu_pelaporan)->format('d-m-Y') }}
+                                            </td>
+                                            <td>
+                                                <span class="status {{ $statusClass }}">
+                                                    {{ ucfirst($status) }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </section>
+
+                <section class="help-panel">
+                    <i class="bi bi-info-circle help-icon"></i>
+                    <div>
+                        <h3>Butuh Bantuan?</h3>
+                        <p>
+                            Pastikan informasi dan foto yang dikirim sesuai
+                            dengan kondisi TPS yang dilaporkan. Laporan Anda
+                            akan diperiksa oleh petugas terkait.
+                        </p>
+                    </div>
+                </section>
+
+            @else
+
+                <section class="welcome">
+                    <h1>Selamat Datang, {{ auth()->user()->name }}!</h1>
+                    <p>
+                        Anda berhasil masuk ke Sistem Pengaduan dan Monitoring
+                        TPS Sampah Kabupaten Indramayu.
+                    </p>
+                </section>
+
+                <section class="simple-card">
+                    <h2 style="margin-top: 0;">Dashboard {{ $roleLabel }}</h2>
+                    <p>
+                        Halaman ini akan menampilkan fitur sesuai dengan
+                        hak akses {{ strtolower($roleLabel) }}.
+                    </p>
+                </section>
+
+            @endif
+
+        </main>
+
+        <footer>
+            SI Pantau TPS &copy; {{ date('Y') }} |
+            DLH Kabupaten Indramayu
+        </footer>
+    </div>
+</div>
+</body>
+</html>

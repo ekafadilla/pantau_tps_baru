@@ -1,0 +1,85 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Laporan;
+use Illuminate\Http\Request;
+
+class DashboardController extends Controller
+{
+    public function index(Request $request)
+    {
+        $user = $request->user();
+
+        if (!in_array($user->role, ['masyarakat', 'uptd', 'supir', 'admin'])) {
+            abort(403, 'Role akun tidak dikenali.');
+        }
+
+        return redirect()->route('dashboard.role', [
+            'role' => $user->role,
+        ]);
+    }
+
+    public function show(string $role)
+    {
+        $roles = [
+            'masyarakat' => 'Masyarakat',
+            'uptd' => 'UPTD',
+            'supir' => 'Supir',
+            'admin' => 'Admin',
+        ];
+
+        abort_unless(array_key_exists($role, $roles), 404);
+        abort_unless(auth()->user()->role === $role, 403);
+
+        $totalLaporan = 0;
+        $laporanMenunggu = 0;
+        $laporanDiproses = 0;
+        $laporanSelesai = 0;
+        $laporanTerbaru = collect();
+
+        if ($role === 'masyarakat') {
+            $query = Laporan::where('id_pengguna', auth()->id());
+
+            $totalLaporan = (clone $query)->count();
+
+            $laporanMenunggu = (clone $query)
+                ->where('status_laporan', 'menunggu')
+                ->count();
+
+            $laporanDiproses = (clone $query)
+                ->whereIn('status_laporan', ['diproses', 'ditangani'])
+                ->count();
+
+            $laporanSelesai = (clone $query)
+                ->where('status_laporan', 'selesai')
+                ->count();
+
+            $laporanTerbaru = (clone $query)
+                ->with('tps')
+                ->latest('waktu_pelaporan')
+                ->take(5)
+                ->get();
+
+            return view('masyarakat.laporan.dashboard', [
+                'role' => $role,
+                'roleLabel' => $roles[$role],
+                'totalLaporan' => $totalLaporan,
+                'laporanMenunggu' => $laporanMenunggu,
+                'laporanDiproses' => $laporanDiproses,
+                'laporanSelesai' => $laporanSelesai,
+                'laporanTerbaru' => $laporanTerbaru,
+            ]);
+        }
+
+        return view('dashboard.index', [
+            'role' => $role,
+            'roleLabel' => $roles[$role],
+            'totalLaporan' => $totalLaporan,
+            'laporanMenunggu' => $laporanMenunggu,
+            'laporanDiproses' => $laporanDiproses,
+            'laporanSelesai' => $laporanSelesai,
+            'laporanTerbaru' => $laporanTerbaru,
+        ]);
+    }
+}
