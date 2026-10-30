@@ -157,7 +157,29 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
 use App\Http\Controllers\AdminTpsController;
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/tps', [AdminTpsController::class, 'index'])
+        ->name('admin.tps.index');
 
+    Route::get('/admin/tps/{tps}', [AdminTpsController::class, 'show'])
+        ->whereNumber('tps')
+        ->name('admin.tps.show');
+
+    Route::get('/admin/tps/tambah', [AdminTpsController::class, 'create'])
+        ->name('admin.tps.create');
+
+    Route::post('/admin/tps', [AdminTpsController::class, 'store'])
+        ->name('admin.tps.store');
+
+    Route::get('/admin/tps/{tps}/edit', [AdminTpsController::class, 'edit'])
+        ->name('admin.tps.edit');
+
+    Route::put('/admin/tps/{tps}', [AdminTpsController::class, 'update'])
+        ->name('admin.tps.update');
+
+    Route::delete('/admin/tps/{tps}', [AdminTpsController::class, 'destroy'])
+        ->name('admin.tps.destroy');
+});
 
 // Edit Landing Page
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
