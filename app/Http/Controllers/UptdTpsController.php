@@ -36,6 +36,18 @@ class UptdTpsController extends Controller
 
         $totalTps = $this->tpsWilayah()->count();
 
-        return view('uptd.tps.index', compact('tps', 'totalTps'));
+        $totalDenganKoordinat = $this->tpsWilayah()
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->count();
+
+        $totalTanpaKoordinat = $totalTps - $totalDenganKoordinat;
+
+        return view('uptd.tps.index', compact(
+            'tps',
+            'totalTps',
+            'totalDenganKoordinat',
+            'totalTanpaKoordinat'
+        ));
     }
 }

@@ -3,7 +3,7 @@
 @section('title', 'Data Laporan UPTD')
 @section('page-title', 'Data Laporan')
 @section('content')
-<div class="container-fluid py-4">
+<div class="container-fluid py-4 uptd-report-page">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
         <div>
             <h3 class="fw-bold mb-1">Data Laporan</h3>
@@ -17,16 +17,21 @@
 
     <div class="row g-3 mb-4">
         @foreach([
-            ['Total Laporan', $totalLaporan],
-            ['Menunggu', $menunggu],
-            ['Dalam Proses', $diproses],
-            ['Selesai', $selesai]
-        ] as [$judul, $jumlah])
+            ['Total Laporan', $totalLaporan, 'bi-clipboard-data', '#e2f1e7', '#176b43'],
+            ['Menunggu', $menunggu, 'bi-clock-history', '#fff4dc', '#b7791f'],
+            ['Dalam Proses', $diproses, 'bi-arrow-repeat', '#e8f1ff', '#3569b7'],
+            ['Selesai', $selesai, 'bi-check2-circle', '#e5f5eb', '#23804b']
+        ] as [$judul, $jumlah, $ikon, $latarIkon, $warnaIkon])
             <div class="col-6 col-xl-3">
-                <div class="card border-0 shadow-sm h-100">
+                <div class="card summary-card h-100">
                     <div class="card-body">
-                        <div class="text-muted small mb-2">{{ $judul }}</div>
-                        <div class="fs-3 fw-bold">{{ $jumlah }}</div>
+                        <div>
+                            <div class="summary-label">{{ $judul }}</div>
+                            <div class="summary-number">{{ $jumlah }}</div>
+                        </div>
+                        <div class="summary-icon" style="background: {{ $latarIkon }}; color: {{ $warnaIkon }};">
+                            <i class="bi {{ $ikon }}"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,8 +116,8 @@
                                 <td>
                                     <a
                                         href="{{ route('uptd.laporan.show', $item->id) }}"
-                                        class="btn btn-sm btn-outline-success"
-                                    >Detail</a>
+                                        class="btn-detail"
+                                    ><i class="bi bi-eye"></i> Detail</a>
                                 </td>
                             </tr>
                         @empty

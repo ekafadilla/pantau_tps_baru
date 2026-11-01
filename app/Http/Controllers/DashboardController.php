@@ -80,6 +80,28 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
+// Data grafik status laporan
+$grafikStatus = [
+    (clone $query)->where('status_laporan', 'menunggu')->count(),
+    (clone $query)->whereIn('status_laporan', ['diproses', 'ditangani'])->count(),
+    (clone $query)->where('status_laporan', 'selesai')->count(),
+];
+
+// Data grafik tren laporan 7 hari terakhir
+$grafikTrenLabel = [];
+$grafikTrenData = [];
+
+for ($i = 6; $i >= 0; $i--) {
+    $tanggal = now()->subDays($i);
+
+    $grafikTrenLabel[] = $tanggal->format('d M');
+
+    $grafikTrenData[] = (clone $query)
+        ->whereDate('waktu_pelaporan', $tanggal->toDateString())
+        ->count();
+}
+
+
         return view(
             $role === 'masyarakat'
                 ? 'masyarakat.laporan.dashboard'
@@ -92,6 +114,9 @@ class DashboardController extends Controller
                 'laporanDiproses' => $laporanDiproses,
                 'laporanSelesai' => $laporanSelesai,
                 'laporanTerbaru' => $laporanTerbaru,
+		'grafikStatus' => $grafikStatus,
+		'grafikTrenLabel' => $grafikTrenLabel,
+		'grafikTrenData' => $grafikTrenData,
             ]
         );
     }
