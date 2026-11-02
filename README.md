@@ -1,58 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+﻿<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+# ♻️ SI PANTAU TPS
+
+### Sistem Informasi Pelaporan Kondisi Tempat Penampungan Sementara (TPS) Berbasis Web
+
+<p>
+  <img src="https://img.shields.io/badge/Laravel-PHP-red?style=for-the-badge&logo=laravel" alt="Laravel">
+  <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql" alt="MySQL">
+  <img src="https://img.shields.io/badge/Map-Leaflet-green?style=for-the-badge&logo=leaflet" alt="Leaflet">
+  <img src="https://img.shields.io/badge/Platform-Web-orange?style=for-the-badge&logo=googlechrome" alt="Web">
 </p>
 
-## About Laravel
+**Mempermudah pelaporan, membantu monitoring, dan mendukung penanganan kondisi TPS.**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+</div>
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📌 Tentang Proyek
 
-## Learning Laravel
+**SI Pantau TPS** merupakan sistem informasi berbasis web yang dikembangkan untuk mempermudah masyarakat dalam melaporkan kondisi Tempat Penampungan Sementara (TPS) serta membantu petugas dalam melakukan monitoring dan pengelolaan laporan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Sistem ini menyediakan media pelaporan yang lebih terstruktur dengan informasi berupa foto, lokasi, waktu, kategori kondisi TPS, dan keterangan. Laporan yang masuk dapat dikelola oleh petugas melalui dashboard untuk mendukung proses verifikasi, penentuan urgensi, pemantauan status, serta pencatatan tindak lanjut.
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Proyek ini dikembangkan sebagai bentuk dukungan terhadap pengelolaan informasi kondisi TPS yang lebih terorganisasi.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+## 🎯 Tujuan
 
-## Agentic Development
+- Mempermudah masyarakat melaporkan kondisi TPS.
+- Membantu petugas mengetahui lokasi TPS yang membutuhkan penanganan.
+- Memudahkan pemantauan status dan tindak lanjut laporan.
+- Menyediakan riwayat kondisi dan penanganan TPS.
+- Mendukung penentuan prioritas penanganan berdasarkan tingkat urgensi.
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## ✨ Fitur Utama
+
+| Fitur | Deskripsi |
+|---|---|
+| Pelaporan TPS | Masyarakat dapat mengirim laporan kondisi TPS disertai foto dan keterangan. |
+| Informasi Lokasi | Menampilkan informasi lokasi TPS dan laporan melalui peta. |
+| Monitoring Laporan | Memantau perkembangan dan status laporan. |
+| Verifikasi Laporan | Petugas dapat memeriksa laporan yang masuk. |
+| Tingkat Urgensi | Mengelompokkan laporan berdasarkan tingkat urgensi. |
+| Tindak Lanjut | Mencatat proses dan hasil penanganan laporan. |
+| Riwayat TPS | Menyimpan riwayat laporan dan kondisi TPS. |
+| Dashboard | Menyediakan informasi sesuai hak akses masing-masing pengguna. |
+
+## 👥 Hak Akses Pengguna
+
+Sistem dirancang dengan lima jenis pengguna:
+
+1. **Pengunjung** – Melihat informasi publik yang tersedia.
+2. **Masyarakat** – Membuat laporan dan memantau laporan sendiri.
+3. **UPTD** – Mengelola, memverifikasi, dan memantau laporan serta penanganannya.
+4. **Petugas Lapangan** – Melihat dan menjalankan tugas penanganan.
+5. **Admin** – Mengelola data pengguna, TPS, petugas, dan data sistem.
+
+## 🔄 Alur Pelaporan
+
+1. Masyarakat membuka halaman sistem.
+2. Masyarakat mengisi laporan kondisi TPS.
+3. Laporan dikirim beserta foto, lokasi, dan keterangan.
+4. UPTD memeriksa dan memverifikasi laporan.
+5. Laporan dikelompokkan berdasarkan tingkat urgensi.
+6. Petugas melakukan penanganan sesuai penugasan.
+7. Status dan tindak lanjut laporan diperbarui.
+8. Riwayat penanganan dapat dipantau melalui sistem.
+
+## 🛠️ Teknologi yang Digunakan
+
+| Teknologi | Kegunaan |
+|---|---|
+| PHP | Bahasa pemrograman sisi server |
+| Laravel | Framework pengembangan aplikasi web |
+| MySQL | Pengelolaan basis data |
+| HTML | Struktur halaman web |
+| CSS | Pengaturan tampilan halaman |
+| JavaScript | Interaksi pada halaman web |
+| Leaflet.js | Menampilkan peta interaktif |
+| OpenStreetMap | Sumber data peta |
+
+## ⚙️ Instalasi dan Menjalankan Proyek
+
+### 1. Persiapan
+
+Pastikan perangkat telah memiliki:
+
+- PHP
+- Composer
+- MySQL
+- Node.js dan NPM
+- XAMPP atau lingkungan server lokal lainnya
+- Git
+
+### 2. Clone Repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone URL_REPOSITORY
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Masuk ke direktori proyek:
 
-## Contributing
+```bash
+cd pantau_tps_baru
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Install Dependency
 
-## Code of Conduct
+```bash
+composer install
+npm install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Konfigurasi Environment
 
-## Security Vulnerabilities
+Salin file konfigurasi:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+cp .env.example .env
+```
 
-## License
+Pada Windows PowerShell, gunakan:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```powershell
+Copy-Item .env.example .env
+```
+
+Kemudian buat application key:
+
+```bash
+php artisan key:generate
+```
+
+### 5. Konfigurasi Database
+
+Buat database MySQL, kemudian sesuaikan konfigurasi pada file `.env`.
+
+Contoh:
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nama_database
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+Sesuaikan nama database dan kredensial dengan konfigurasi lokal.
+
+### 6. Migrasi Database
+
+```bash
+php artisan migrate
+```
+
+### 7. Build Asset
+
+```bash
+npm run build
+```
+
+### 8. Jalankan Aplikasi
+
+```bash
+php artisan serve
+```
+
+Buka aplikasi melalui browser:
+
+```text
+http://127.0.0.1:8000
+```
+
+## 📂 Struktur Proyek
+
+```text
+pantau_tps_baru/
+│
+├── app/
+│   ├── Http/
+│   ├── Models/
+│   └── Providers/
+│
+├── database/
+│   ├── migrations/
+│   └── seeders/
+│
+├── public/
+│
+├── resources/
+│   ├── css/
+│   ├── js/
+│   └── views/
+│
+├── routes/
+│   └── web.php
+│
+├── storage/
+├── tests/
+├── .env.example
+├── artisan
+├── composer.json
+├── package.json
+└── README.md
+```
+
+## 🎓 Informasi Proyek
+
+| Keterangan | Detail |
+|---|---|
+| Nama Proyek | SI Pantau TPS |
+| Jenis Proyek | Proyek Pengembangan Sistem Informasi |
+| Program Studi | D3 Teknik Informatika |
+| Institusi | Politeknik Negeri Indramayu |
+| Tahun | 2026 |
+| Metode Pengembangan | Waterfall |
+
+## 👩‍💻 Tim Pengembang
+
+Proyek ini dikembangkan oleh Kelompok 5:
+
+- Amanda Zulfah
+- Anggi Kumalasari
+- Eka Fadilla
+- Nadifa Aulia
+
+---
+
+<div align="center">
+
+**SI PANTAU TPS**
+
+_Mendukung pelaporan dan monitoring kondisi TPS yang lebih terstruktur._
+
+© 2026 Kelompok 5 – D3 Teknik Informatika, Politeknik Negeri Indramayu
+
+</div>
