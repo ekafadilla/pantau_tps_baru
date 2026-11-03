@@ -81,10 +81,28 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
    
 });
 
-// Lupa kata sandi
-Route::middleware('guest')->get('/forgot-password', function () {
-    return view('auth.forgot-password');
-})->name('password.request');
+// Pemulihan kata sandi
+Route::middleware('guest')->group(function () {
+    Route::get('/forgot-password', [
+        \App\Http\Controllers\PasswordResetController::class,
+        'create'
+    ])->name('password.request');
+
+    Route::post('/forgot-password', [
+        \App\Http\Controllers\PasswordResetController::class,
+        'sendLink'
+    ])->name('password.email');
+
+    Route::get('/reset-password/{token}', [
+        \App\Http\Controllers\PasswordResetController::class,
+        'showResetForm'
+    ])->name('password.reset');
+
+    Route::post('/reset-password', [
+        \App\Http\Controllers\PasswordResetController::class,
+        'reset'
+    ])->name('password.update');
+});
 
 
 Route::middleware('auth')->get('/uptd/tps', [\App\Http\Controllers\UptdTpsController::class, 'index'])
@@ -206,3 +224,16 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         'show'
     ])->whereNumber('laporan')->name('laporan.show');
 });
+
+// Pengaturan akun UPTD
+Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
+    Route::get('/pengaturan', [\App\Http\Controllers\UptdPengaturanController::class, 'edit'])
+        ->name('pengaturan.edit');
+
+    Route::put('/pengaturan', [\App\Http\Controllers\UptdPengaturanController::class, 'update'])
+        ->name('pengaturan.update');
+
+    Route::put('/pengaturan/kata-sandi', [\App\Http\Controllers\UptdPengaturanController::class, 'updatePassword'])
+        ->name('pengaturan.password');
+});
+
