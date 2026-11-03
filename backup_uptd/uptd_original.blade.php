@@ -16,11 +16,32 @@
         .brand i { font-size: 27px; }
         .menu-title { color: #c7e2d2; font-size: 11px; margin: 10px 12px; text-transform: uppercase; letter-spacing: 1px; }
         .menu { display: flex; align-items: center; gap: 12px; padding: 12px; margin-bottom: 7px; border-radius: 6px; font-size: 14px; color: white; }
-        .menu i { font-size: 18px; }
-        .menu.active, .menu:hover { background: #2c8058; color: white; }
-        .sidebar-bottom { margin-top: 35px; border-top: 1px solid #438563; padding-top: 18px; }
-        .logout { width: 100%; background: white; color: #176b43; border: none; padding: 11px; border-radius: 6px; cursor: pointer; text-align: left; }
-        .main { flex: 1; min-width: 0; }
+        .menu i {
+             font-size: 18px; 
+        }
+        .menu.active, .menu:hover { 
+            background: #2c8058; 
+            color: white; 
+        }
+        .sidebar-bottom {
+             margin-top: 35px; 
+             border-top: 1px solid #438563; 
+             padding-top: 18px; 
+        }
+        .logout { 
+            width: 100%; 
+            background: white; c
+            olor: #176b43; 
+            border: none; 
+            padding: 11px; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            text-align: left; 
+        }
+        .main { 
+            flex: 1; 
+            min-width: 0; 
+        }
         .topbar {
             height: 72px;
             min-height: 72px;

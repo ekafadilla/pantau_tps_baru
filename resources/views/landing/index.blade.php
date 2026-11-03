@@ -10,7 +10,7 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <style>
+   <style>
 :root {
     --forest: #123d2b;
     --forest-2: #18583b;
@@ -685,57 +685,6 @@ button, input {
     line-height: 1.8;
 }
 
-/* FOOTER */
-.footer {
-    margin-top: 65px;
-    padding: 43px 0 19px;
-    color: white;
-    background: linear-gradient(120deg, #102f22, #174a32);
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: 1.2fr .8fr;
-    gap: 30px;
-    padding-bottom: 26px;
-}
-
-.footer h3 {
-    margin-bottom: 10px;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.footer p,
-.footer a {
-    color: #c7d9cd;
-    font-size: 12px;
-    line-height: 1.8;
-}
-
-.footer-links {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.footer-links a {
-    transition: color .2s, transform .2s;
-}
-
-.footer-links a:hover {
-    color: var(--lime);
-    transform: translateX(4px);
-}
-
-.footer-bottom {
-    padding-top: 17px;
-    border-top: 1px solid rgba(255,255,255,.14);
-    color: #b7cabe;
-    font-size: 11px;
-    text-align: center;
-}
-
 /* ANIMASI SCROLL */
 .js-reveal .reveal {
     opacity: 0;
@@ -929,15 +878,6 @@ button, input {
     .information-card {
         padding: 20px;
     }
-
-    .footer {
-        margin-top: 45px;
-    }
-
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 22px;
-    }
 }
 
 @media (max-width: 380px) {
@@ -970,411 +910,159 @@ button, input {
         transform: none;
     }
 }
-    
-/* ==========================================
-   PREMIUM ECO-TECH ENHANCEMENT
-========================================== */
 
-:root {
-    --premium-green: #176b43;
-    --premium-lime: #c7ef65;
-    --premium-glow: rgba(199,239,101,.25);
+/* =========================================================
+   FOOTER LANDING PAGE (DIPINDAHKAN KE LUAR MEDIA QUERY)
+   ========================================================= */
+body footer.landing-footer {
+    display: block;
+    width: 100%;
+    background-color: #176b43;
+    color: #ffffff;
+    padding: 45px 0 20px;
+    margin-top: 50px;
+    box-sizing: border-box;
 }
 
-/* NAVBAR SCROLL PROGRESS */
-.navbar {
-    position: sticky;
-    isolation: isolate;
+body footer.landing-footer .footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr 1.3fr 1fr;
+    gap: 35px;
+    align-items: start;
 }
 
-.navbar::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: var(--scroll-progress, 0%);
-    height: 3px;
-    background: linear-gradient(90deg, #218653, #c7ef65);
-    transition: width .08s linear;
+body footer.landing-footer .footer-col {
+    display: flex;
+    flex-direction: column;
 }
 
-/* HERO LEBIH HIDUP */
-.hero {
-    background-size: 180% 180%;
-    animation: heroBackground 16s ease infinite;
-}
-
-@keyframes heroBackground {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-.hero-content {
-    position: relative;
-}
-
-.hero-content::before,
-.hero-content::after {
-    position: absolute;
-    z-index: 4;
+body footer.landing-footer .footer-brand {
     display: flex;
     align-items: center;
-    gap: 9px;
-    border: 1px solid rgba(255,255,255,.85);
-    border-radius: 13px;
-    color: var(--forest);
-    background: rgba(255,255,255,.91);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    box-shadow: 0 12px 30px rgba(18,61,43,.13);
-    pointer-events: none;
-    animation: floatingCard 5s ease-in-out infinite;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 12px;
 }
 
-.hero-content::before {
-    content: "♻  LINGKUNGAN LEBIH TERJAGA";
-    top: 15%;
-    right: -13px;
-    padding: 12px 16px;
-    font-size: 10px;
-    font-weight: 800;
-    letter-spacing: .35px;
+body footer.landing-footer .footer-brand i {
+    font-size: 24px;
+    color: #86efac;
 }
 
-.hero-content::after {
-    content: "●  LAYANAN PELAPORAN TPS";
-    right: 26%;
-    bottom: 9%;
-    padding: 11px 15px;
-    color: #237447;
-    font-size: 9px;
-    font-weight: 800;
-    letter-spacing: .3px;
-    animation-delay: -2.5s;
+body footer.landing-footer .footer-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 16px;
 }
 
-@keyframes floatingCard {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-9px); }
+body footer.landing-footer p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d1e4d8;
+    margin: 0 0 10px;
 }
 
-/* IMAGE HERO */
-.hero-image {
-    border: 5px solid rgba(255,255,255,.9);
-    box-shadow:
-        0 25px 55px rgba(18,61,43,.16),
-        0 5px 15px rgba(18,61,43,.07);
-    transition: transform .5s ease, box-shadow .5s ease;
+body footer.landing-footer ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-.hero-image:hover {
-    transform: translateY(-7px) scale(1.015);
-    box-shadow: 0 30px 65px rgba(18,61,43,.22);
-}
-
-/* BUTTON SHIMMER */
-.btn {
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-.btn::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: -50%;
-    left: -80%;
-    width: 45%;
-    height: 200%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255,255,255,.3),
-        transparent
-    );
-    transform: skewX(-20deg);
-    transition: left .6s ease;
-}
-
-.btn:hover::before {
-    left: 140%;
-}
-
-/* STATISTIK LEBIH BERKARAKTER */
-.stat-card {
-    background: linear-gradient(145deg, #ffffff, #fbfdf9);
-}
-
-.stat-card:nth-child(1) {
-    --stat-accent: #218653;
-}
-
-.stat-card:nth-child(2) {
-    --stat-accent: #8ab83e;
-}
-
-.stat-card:nth-child(3) {
-    --stat-accent: #e2a64c;
-}
-
-.stat-card::before {
-    background: var(--stat-accent);
-}
-
-.stat-card::after {
-    content: "";
-    position: absolute;
-    right: -30px;
-    bottom: -42px;
-    width: 105px;
-    height: 105px;
-    border: 1px solid color-mix(in srgb, var(--stat-accent), transparent 72%);
-    border-radius: 50%;
-    box-shadow: 0 0 0 13px color-mix(in srgb, var(--stat-accent), transparent 94%);
-    opacity: .8;
-    transition: transform .4s ease;
-}
-
-.stat-card:hover::after {
-    transform: scale(1.2);
-}
-
-/* AREA DATA TPS */
-section#data-tps {
-    position: relative;
-    background:
-        radial-gradient(circle at 100% 15%, rgba(199,239,101,.12), transparent 28%),
-        linear-gradient(180deg, #f7f9f4, #f0f6ef);
-}
-
-.tps-card {
-    background: rgba(255,255,255,.96);
-}
-
-.tps-card:hover .tps-detail {
-    letter-spacing: .2px;
-}
-
-/* BANNER PENGADUAN */
-.complaint-banner {
-    background-size: 180% 180%;
-    animation: bannerGlow 12s ease infinite;
-}
-
-@keyframes bannerGlow {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-}
-
-/* INFORMASI LAYANAN */
-.information-card:nth-child(1) .icon {
-    color: #218653;
-    background: linear-gradient(145deg, #e5f5e9, #d4ebd9);
-}
-
-.information-card:nth-child(2) .icon {
-    color: #8b9e35;
-    background: linear-gradient(145deg, #f2f7d9, #e8efc2);
-}
-
-.information-card:nth-child(3) .icon {
-    color: #c18a32;
-    background: linear-gradient(145deg, #fff3dd, #f9e7c6);
-}
-
-/* DETAIL INTERAKSI */
-.search-input::placeholder {
-    color: #a1aca3;
-}
-
-.search-input {
-    transition: background .25s ease;
-}
-
-.search-input:focus {
-    background: #fbfef9;
-}
-
-.tps-detail:focus-visible,
-.btn:focus-visible,
-.nav-links a:focus-visible {
-    outline: 3px solid rgba(33,134,83,.3);
-    outline-offset: 3px;
-}
-
-/* MOBILE */
-@media (max-width: 950px) {
-    .hero-content::before {
-        right: 0;
-        top: 46%;
-    }
-
-    .hero-content::after {
-        right: 20%;
-        bottom: 3%;
-    }
-}
-
-@media (max-width: 650px) {
-    .hero-content::before {
-        top: auto;
-        right: 5px;
-        bottom: 48%;
-        padding: 9px 11px;
-        font-size: 8px;
-    }
-
-    .hero-content::after {
-        display: none;
-    }
-
-    .hero-image {
-        border-width: 4px;
-    }
-
-    .stat-card::after {
-        width: 75px;
-        height: 75px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .hero,
-    .hero-image,
-    .hero-content::before,
-    .hero-content::after,
-    .complaint-banner {
-        animation: none !important;
-    }
-}
-
-/* =========================================
-   ALUR PENGADUAN - PUBLIC SERVICE PORTAL
-========================================= */
-.complaint-flow-section {
-    background: #f7faf8;
-    padding-top: 76px;
-    padding-bottom: 76px;
-}
-
-.flow-heading {
-    margin-bottom: 34px;
-}
-
-.flow-eyebrow {
-    display: inline-block;
-    color: #25845b;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
+body footer.landing-footer li {
     margin-bottom: 10px;
+    font-size: 13px;
+    color: #d1e4d8;
 }
 
-.complaint-flow-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+body footer.landing-footer a {
+    color: #d1e4d8;
+    text-decoration: none;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s ease;
 }
 
-.flow-card {
-    position: relative;
-    background: #ffffff;
-    border: 1px solid #e5eee8;
-    border-radius: 14px;
-    padding: 25px 21px;
-    min-height: 235px;
-    transition: transform .2s ease, box-shadow .2s ease;
+/* PETA */
+body footer.landing-footer .col-map-box {
+    width: 100%;
+    height: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.flow-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 28px rgba(24, 75, 49, .08);
+body footer.landing-footer .col-map-box iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+/* PETA END */
+
+body footer.landing-footer a:hover {
+    color: #86efac;
 }
 
-.flow-number {
-    position: absolute;
-    top: 18px;
-    right: 19px;
-    color: #d5e8dc;
-    font-size: 25px;
-    font-weight: 800;
+body footer.landing-footer .contact-info i {
+    color: #86efac;
+    font-size: 15px;
 }
 
-.flow-icon {
-    width: 47px;
-    height: 47px;
+/* Style Tombol Sosial Media */
+body footer.landing-footer .social-media-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+body footer.landing-footer .social-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background: #eaf5ee;
-    color: #25845b;
-    font-size: 21px;
-    margin-bottom: 21px;
-}
-
-.flow-card h3 {
-    color: #203b2c;
     font-size: 16px;
-    font-weight: 700;
-    margin-bottom: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
-.flow-card p {
-    color: #718078;
-    font-size: 13px;
-    line-height: 1.75;
-    margin: 0;
+body footer.landing-footer .social-icon:hover {
+    transform: translateY(-3px);
 }
 
-.flow-note {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    background: #edf6f0;
-    border-left: 3px solid #398a60;
-    border-radius: 8px;
-    padding: 15px 18px;
-    margin-top: 24px;
-    color: #42614e;
+body footer.landing-footer .social-icon.tiktok:hover { background: #000000; }
+body footer.landing-footer .social-icon.instagram:hover { background: #e1306c; }
+body footer.landing-footer .social-icon.facebook:hover { background: #1877f2; }
+body footer.landing-footer .social-icon.youtube:hover { background: #ff0000; }
+
+body footer.landing-footer .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: 35px;
+    padding-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: #a3c9b1;
 }
 
-.flow-note i {
-    color: #25845b;
-    font-size: 18px;
-    margin-top: 2px;
-}
-
-.flow-note p {
-    font-size: 13px;
-    line-height: 1.7;
-    margin: 0;
-}
-
-@media (max-width: 900px) {
-    .complaint-flow-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 560px) {
-    .complaint-flow-section {
-        padding-top: 52px;
-        padding-bottom: 52px;
-    }
-
-    .complaint-flow-grid {
+/* Responsif Layar HP untuk Footer */
+@media (max-width: 768px) {
+    body footer.landing-footer .footer-container {
         grid-template-columns: 1fr;
-        gap: 13px;
-    }
-
-    .flow-card {
-        min-height: auto;
-        padding: 21px;
+        gap: 25px;
     }
 }
-</style>
+    </style>
 </head>
 
 <body>
@@ -1398,7 +1086,6 @@ section#data-tps {
                 <a href="#beranda">Beranda</a>
                 <a href="#data-tps">Data TPS</a>
                 <a href="#informasi">Informasi</a>
-                <a href="#alur-pengaduan">Alur Pengaduan</a>
             </nav>
 
             <div class="nav-actions">
@@ -1709,126 +1396,101 @@ section#data-tps {
             </div>
         </section>
 
-
-        <!-- ALUR PENGADUAN -->
-        <section class="section complaint-flow-section" id="alur-pengaduan">
-            <div class="container">
-
-                <div class="section-heading flow-heading">
-                    <div>
-                        <span class="flow-eyebrow">PROSEDUR LAYANAN</span>
-                        <h2>Alur Pengaduan Masyarakat</h2>
-                        <p>
-                            Setiap laporan kondisi TPS melalui SI Pantau TPS
-                            akan melalui tahapan berikut agar dapat dipantau
-                            proses penanganannya.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="complaint-flow-grid">
-
-                    <div class="flow-card">
-                        <div class="flow-number">01</div>
-                        <div class="flow-icon">
-                            <i class="bi bi-file-earmark-plus"></i>
-                        </div>
-                        <h3>Kirim Laporan</h3>
-                        <p>
-                            Masyarakat menyampaikan laporan dengan melengkapi
-                            keterangan, lokasi, dan foto kondisi TPS.
-                        </p>
-                    </div>
-
-                    <div class="flow-card">
-                        <div class="flow-number">02</div>
-                        <div class="flow-icon">
-                            <i class="bi bi-clipboard-check"></i>
-                        </div>
-                        <h3>Verifikasi Laporan</h3>
-                        <p>
-                            Petugas memeriksa informasi dan kelengkapan
-                            laporan yang telah diterima.
-                        </p>
-                    </div>
-
-                    <div class="flow-card">
-                        <div class="flow-number">03</div>
-                        <div class="flow-icon">
-                            <i class="bi bi-truck"></i>
-                        </div>
-                        <h3>Tindak Lanjut</h3>
-                        <p>
-                            Laporan yang telah diverifikasi dapat
-                            ditindaklanjuti oleh petugas terkait.
-                        </p>
-                    </div>
-
-                    <div class="flow-card">
-                        <div class="flow-number">04</div>
-                        <div class="flow-icon">
-                            <i class="bi bi-check2-circle"></i>
-                        </div>
-                        <h3>Pembaruan Status</h3>
-                        <p>
-                            Perkembangan dan hasil penanganan diperbarui
-                            agar dapat diketahui melalui sistem.
-                        </p>
-                    </div>
-
-                </div>
-
-                <div class="flow-note">
-                    <i class="bi bi-info-circle"></i>
-                    <p>
-                        Masyarakat dapat menggunakan SI Pantau TPS untuk
-                        menyampaikan laporan kondisi tempat penampungan sampah
-                        secara terstruktur.
-                    </p>
-                </div>
-
-            </div>
-        </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
 
-            <div class="footer-content">
-
-                <div>
-                    <h3>SI Pantau TPS</h3>
-
-                    <p>
-                        Sistem Pengaduan dan Monitoring TPS Sampah Berbasis Web
-                        untuk mendukung pengelolaan lingkungan di Kabupaten
-                        Indramayu.
-                    </p>
-                </div>
-
-                <div>
-                    <h3>Menu</h3>
-
-                    <div class="footer-links">
-                        <a href="#beranda">Beranda</a>
-                        <a href="#data-tps">Data TPS</a>
-                        <a href="#informasi">Informasi</a>
-                <a href="#alur-pengaduan">Alur Pengaduan</a>
-                        <a href="#pengaduan">Pengaduan</a>
-                        <a href="{{ route('login') }}">Masuk</a>
-                        <a href="{{ route('register') }}">Daftar</a>
-                    </div>
-                </div>
-
+<!-- FOOTER LANDING PAGE -->
+<footer class="landing-footer">
+    <div class="footer-container">
+        
+        <!-- Kolom 1: Profil & Deskripsi  -->
+        <div class="footer-col brand-col">
+            <div class="footer-brand">
+                <i class="bi bi-recycle"></i>
+                <span>SI PANTAU TPS</span>
             </div>
+            <p>Sistem Pengaduan dan Monitoring TPS Sampah Berbasis Web untuk mendukung pengelolaan lingkungan di Kabupaten Indramayu.</p>
 
-            <div class="footer-bottom">
-                &copy; {{ date('Y') }} SI Pantau TPS — DLH Kabupaten Indramayu
+            {{-- peta lokasi --}}
+            <div class="col-map-box">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.513476251214!2d108.3243!3d-6.3314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6eb94df5555555%3A0x123456789abcdef!2sDinas%20Lingkungan%20Hidup%20Kabupaten%20Indramayu!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
             </div>
-
         </div>
-    </footer>
+
+        <!-- Kolom 2: Menu Navigasi -->
+        <div class="footer-col">
+            <h4 class="footer-title">Menu</h4>
+            <ul class="footer-links">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#tps">Data TPS</a></li>
+                <li><a href="#informasi">Informasi</a></li>
+                <li><a href="#alur">Alur Pengaduan</a></li>
+                <li><a href="{{ route('login') }}">Masuk</a></li>
+                <li><a href="{{ route('register') }}">Daftar</a></li>
+            </ul>
+        </div>
+
+        <!-- Kolom 3: Kontak & Alamat + Peta -->
+        <div class="footer-col">
+            <h4 class="footer-title">Kontak & Lokasi</h4>
+            <ul class="contact-info">
+                <li>
+                    <i class="bi bi-geo-alt-fill"></i>
+                    <span>Jl. Pahlawan No. 49, Lemahabang, Kec. Indramayu, Kab. Indramayu</span>
+                </li>
+            </ul>
+
+            
+
+            <!-- Kontak Lainnya (WhatsApp & Email) -->
+            <ul class="contact-info" style="margin-top: 12px;">
+                <li>
+                    <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-whatsapp"></i>
+                        <span>+62 812-3456-7890</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="mailto:dlh@indramayukab.go.id">
+                        <i class="bi bi-envelope-fill"></i>
+                        <span>dlh@indramayukab.go.id</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Kolom 4: Ikon Sosial Media Interaktif -->
+        <div class="footer-col">
+            <h4 class="footer-title">Ikuti Kami</h4>
+            <p>Dapatkan informasi kebersihan lingkungan:</p>
+            <div class="social-media-icons">
+                <a href="https://www.tiktok.com/@dlh.indramayu" target="_blank" title="TikTok DLH Indramayu" class="social-icon tiktok">
+                    <i class="bi bi-tiktok"></i>
+                </a>
+                <a href="https://www.instagram.com/dlh.indramayu" target="_blank" title="Instagram DLH Indramayu" class="social-icon instagram">
+                    <i class="bi bi-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/dlh.indramayu" target="_blank" title="Facebook DLH Indramayu" class="social-icon facebook">
+                    <i class="bi bi-facebook"></i>
+                </a>
+                <a href="https://www.youtube.com/@dlhindramayu" target="_blank" title="YouTube DLH Indramayu" class="social-icon youtube">
+                    <i class="bi bi-youtube"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2026 SI Pantau TPS — Dinas Lingkungan Hidup Kabupaten Indramayu</p>
+    </div>
+</footer>
+    
 
     <!-- PENCARIAN TPS -->
     <script>
@@ -1908,67 +1570,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-</script>
-<!-- PREMIUM-LANDING-INTERACTIONS -->
-<script>
-(function () {
-    function updateScrollProgress() {
-        const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = scrollable > 0
-            ? (window.scrollY / scrollable) * 100
-            : 0;
-
-        document.documentElement.style.setProperty(
-            '--scroll-progress',
-            progress + '%'
-        );
-    }
-
-    let ticking = false;
-
-    window.addEventListener('scroll', function () {
-        if (!ticking) {
-            window.requestAnimationFrame(function () {
-                updateScrollProgress();
-                ticking = false;
-            });
-            ticking = true;
-        }
-    }, { passive: true });
-
-    window.addEventListener('resize', updateScrollProgress);
-    updateScrollProgress();
-
-    // Menandai menu sesuai bagian yang sedang dilihat
-    const navLinks = document.querySelectorAll(
-        '.nav-links a[href^="#"]'
-    );
-
-    const sections = Array.from(navLinks)
-        .map(function (link) {
-            return document.querySelector(link.getAttribute('href'));
-        })
-        .filter(Boolean);
-
-    if ('IntersectionObserver' in window && sections.length) {
-        const sectionObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    navLinks.forEach(function (link) {
-                        const active = link.getAttribute('href') === '#' + entry.target.id;
-                        link.classList.toggle('active-section', active);
-                    });
-                }
-            });
-        }, {
-            rootMargin: '-25% 0px -60% 0px'
-        });
-
-        sections.forEach(function (section) {
-            sectionObserver.observe(section);
-        });
-    }
-})();
 </script>
 </body>
 </html>

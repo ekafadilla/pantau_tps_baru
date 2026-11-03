@@ -930,14 +930,126 @@ button, input {
         padding: 20px;
     }
 
-    .footer {
-        margin-top: 45px;
-    }
+    /* CSS KHUSUS FOOTER LANDING PAGE */
+.landing-footer {
+    width: 100%;
+    background-color: #176b43 !important; /* Hijau tua matching dengan navbar */
+    color: #ffffff !important;
+    padding: 45px 0 20px !important;
+    margin-top: 50px;
+}
 
-    .footer-content {
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1.3fr 0.8fr 1.3fr 1fr;
+    gap: 35px;
+}
+
+.footer-col p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #d1e4d8;
+    margin: 0 0 10px;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 15px;
+}
+
+.footer-brand i {
+    font-size: 24px;
+    color: #86efac;
+}
+
+.footer-title {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 16px;
+}
+
+.footer-links, .contact-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li, .contact-info li {
+    margin-bottom: 10px;
+}
+
+.footer-links a, .contact-info a {
+    color: #d1e4d8;
+    text-decoration: none;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover, .contact-info a:hover {
+    color: #86efac;
+}
+
+.contact-info i {
+    color: #86efac;
+    font-size: 15px;
+}
+
+/* Styling Ikon Sosial Media */
+.social-media-icons {
+    display: flex;
+    gap: 10px;
+}
+
+.social-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-3px);
+}
+
+.social-icon.tiktok:hover { background: #000000; }
+.social-icon.instagram:hover { background: #e1306c; }
+.social-icon.facebook:hover { background: #1877f2; }
+.social-icon.youtube:hover { background: #ff0000; }
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: 35px;
+    padding-top: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: #a3c9b1;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
         grid-template-columns: 1fr;
-        gap: 22px;
+        gap: 25px;
     }
+}
 }
 
 @media (max-width: 380px) {
