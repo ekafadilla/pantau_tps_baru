@@ -38,93 +38,181 @@
         }
 
         /* SIDEBAR */
-        .app-sidebar {
-            position: fixed;
-            inset: 0 auto 0 0;
-            z-index: 1000;
-            width: var(--sidebar-width);
-            padding: 25px 16px;
-            overflow-y: auto;
-            background: var(--primary);
-            color: #fff;
-        }
+        .sidebar {
+        position: fixed;
+        z-index: 1000;
+        inset: 0 auto 0 0;
+        width: 240px;
+        padding: 24px 16px;
+        overflow-y: auto;
+        background: #176b43;
+        color: white;
+        display: flex;
+        flex-direction: column;
+    }
 
-        .app-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 5px 15px 28px;
-            color: #fff;
-            font-size: 20px;
-            font-weight: 700;
-            white-space: nowrap;
-        }
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 6px 10px 25px;
+        font-size: 16px;
+        font-weight: 700;
+    }
 
-        .app-brand i {
-            font-size: 32px;
-        }
+    .brand i { 
+        font-size: 24px; 
+    }
 
-        .app-menu-label {
-            margin: 8px 15px 12px;
-            color: #c6e2d2;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
+    .menu-title {
+        margin: 10px 10px 10px;
+        color: #c7e2d2;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
 
-        .app-menu {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            min-height: 48px;
-            margin-bottom: 7px;
-            padding: 12px 15px;
-            border-radius: 8px;
-            color: #fff;
-            font-size: 14px;
-            text-decoration: none;
-            transition: background .15s ease;
-        }
+    .menu {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 40px;
+        padding: 10px 12px;
+        margin-bottom: 6px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        color: #ffffff;
+        text-decoration: none;
+        transition: background .2s ease;
+    }
 
-        .app-menu i {
-            width: 22px;
-            font-size: 19px;
-            text-align: center;
-        }
+    .menu i {
+        width: 18px;
+        font-size: 16px;
+        text-align: center;
+    }
 
-        .app-menu:hover,
-        .app-menu.active {
-            background: var(--sidebar-active);
-            color: #fff;
-        }
+    .menu:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+    }
 
-        .app-logout {
-            margin-top: 22px;
-            padding-top: 18px;
-            border-top: 1px solid rgba(255,255,255,.2);
-        }
+    .menu.active {
+        background: #2c8058;
+        box-shadow: inset 3px 0 #d8f0df;
+    }
 
-        .app-logout button {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: 100%;
-            min-height: 43px;
-            padding: 10px 15px;
-            border: 0;
-            border-radius: 8px;
-            background: #fff;
-            color: var(--primary);
-            font-size: 14px;
-            cursor: pointer;
-        }
+    .sidebar-bottom {
+        margin-top: auto;
+        padding-top: 18px;
+        border-top: 1px solid #438563;
+    }
 
-        /* AREA KONTEN */
-        .app-main {
-            min-height: 100vh;
-            margin-left: var(--sidebar-width);
-        }
+    .logout {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 100%;
+        min-height: 40px;
+        padding: 10px 12px;
+        border: 0;
+        border-radius: 8px;
+        background: transparent;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background .2s ease;
+    }
+
+    .logout i {
+        width: 18px;
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .logout:hover {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+            .app-brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 5px 15px 28px;
+                color: #fff;
+                font-size: 20px;
+                font-weight: 700;
+                white-space: nowrap;
+            }
+
+            .app-brand i {
+                font-size: 32px;
+            }
+
+            .app-menu-label {
+                margin: 8px 15px 12px;
+                color: #c6e2d2;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+            }
+
+            .app-menu {
+                display: flex;
+                align-items: center;
+                gap: 13px;
+                min-height: 48px;
+                margin-bottom: 7px;
+                padding: 12px 15px;
+                border-radius: 8px;
+                color: #fff;
+                font-size: 14px;
+                text-decoration: none;
+                transition: background .15s ease;
+            }
+
+            .app-menu i {
+                width: 22px;
+                font-size: 19px;
+                text-align: center;
+            }
+
+            .app-menu:hover,
+            .app-menu.active {
+                background: var(--sidebar-active);
+                color: #fff;
+            }
+
+            .app-logout {
+                margin-top: 22px;
+                padding-top: 18px;
+                border-top: 1px solid rgba(255,255,255,.2);
+            }
+
+            .app-logout button {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                width: 100%;
+                min-height: 43px;
+                padding: 10px 15px;
+                border: 0;
+                border-radius: 8px;
+                background: #fff;
+                color: var(--primary);
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            /* AREA KONTEN */
+            .app-main {
+                min-height: 100vh;
+                margin-left: var(--sidebar-width);
+            }
 
         /* HEADER */
         .app-header {
@@ -479,47 +567,37 @@
 
 <body>
 
-    <aside class="app-sidebar">
-        <div class="app-brand">
-            <i class="bi bi-recycle"></i>
-            <span>SI PANTAU TPS</span>
-        </div>
+    <aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <i class="bi bi-recycle"></i>
+        <span>SI PANTAU TPS</span>
+    </div>
 
-        <div class="app-menu-label">Menu Utama</div>
+    <div class="menu-title">Menu Utama</div>
+   <a class="menu {{ request()->routeIs('dashboard.role') && request()->route('role') === 'masyarakat' ? 'active' : '' }}" href="{{ route('dashboard.role', ['role' => 'masyarakat']) }}">
+    <i class="bi bi-grid-1x2-fill"></i> Dashboard
+</a>
+    <a class="menu {{ request()->routeIs('masyarakat.laporan.index') ? 'active' : '' }}" href="{{ route('masyarakat.laporan.index') }}">
+        <i class="bi bi-file-earmark-text-fill"></i> Laporan Saya
+    </a>
+    <a class="menu {{ request()->routeIs('masyarakat.laporan.create') ? 'active' : '' }}" href="{{ route('masyarakat.laporan.create') }}">
+        <i class="bi bi-plus-circle-fill"></i> Buat Laporan
+    </a>
 
-        <a href="{{ route('dashboard') }}"
-           class="app-menu {{ request()->routeIs('dashboard', 'dashboard.role') ? 'active' : '' }}">
-            <i class="bi bi-grid"></i>
-            <span>Dashboard</span>
-        </a>
+    <div class="menu-title" style="margin-top: 20px;">Pengaturan</div>
+    <a class="menu {{ request()->routeIs('masyarakat.pengaturan.*') ? 'active' : '' }}" href="{{ route('masyarakat.pengaturan.edit') }}">
+        <i class="bi bi-gear-fill"></i> Pengaturan Akun
+    </a>
 
-        <a href="{{ route('masyarakat.laporan.index') }}"
-           class="app-menu {{ request()->routeIs('masyarakat.laporan.index', 'masyarakat.laporan.show') ? 'active' : '' }}">
-            <i class="bi bi-file-earmark-text"></i>
-            <span>Laporan Saya</span>
-        </a>
-
-        <a href="{{ route('masyarakat.laporan.create') }}"
-           class="app-menu {{ request()->routeIs('masyarakat.laporan.create') ? 'active' : '' }}">
-            <i class="bi bi-plus-circle"></i>
-            <span>Buat Laporan</span>
-        </a>
-
-        <a href="{{ route('masyarakat.pengaturan.edit') }}">
-            <i class="bi bi-gear"></i>
-            <span>Pengaturan Akun</span>
-        </a>
-
-        <div class="app-logout">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Keluar</span>
-                </button>
-            </form>
-        </div>
-    </aside>
+    <div class="sidebar-bottom">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="logout">
+                <i class="bi bi-box-arrow-right"></i> Keluar
+            </button>
+        </form>
+    </div>
+</aside>
 
     <main class="app-main">
         <header class="app-header">
