@@ -38,181 +38,93 @@
         }
 
         /* SIDEBAR */
-        .sidebar {
-        position: fixed;
-        z-index: 1000;
-        inset: 0 auto 0 0;
-        width: 240px;
-        padding: 24px 16px;
-        overflow-y: auto;
-        background: #176b43;
-        color: white;
-        display: flex;
-        flex-direction: column;
-    }
+        .app-sidebar {
+            position: fixed;
+            inset: 0 auto 0 0;
+            z-index: 1000;
+            width: var(--sidebar-width);
+            padding: 25px 16px;
+            overflow-y: auto;
+            background: var(--primary);
+            color: #fff;
+        }
 
-    .brand {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 6px 10px 25px;
-        font-size: 16px;
-        font-weight: 700;
-    }
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 5px 15px 28px;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
 
-    .brand i { 
-        font-size: 24px; 
-    }
+        .app-brand i {
+            font-size: 32px;
+        }
 
-    .menu-title {
-        margin: 10px 10px 10px;
-        color: #c7e2d2;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-    }
+        .app-menu-label {
+            margin: 8px 15px 12px;
+            color: #c6e2d2;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
 
-    .menu {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        min-height: 40px;
-        padding: 10px 12px;
-        margin-bottom: 6px;
-        border-radius: 8px;
-        font-size: 13px;
-        font-weight: 500;
-        color: #ffffff;
-        text-decoration: none;
-        transition: background .2s ease;
-    }
+        .app-menu {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            min-height: 48px;
+            margin-bottom: 7px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 14px;
+            text-decoration: none;
+            transition: background .15s ease;
+        }
 
-    .menu i {
-        width: 18px;
-        font-size: 16px;
-        text-align: center;
-    }
+        .app-menu i {
+            width: 22px;
+            font-size: 19px;
+            text-align: center;
+        }
 
-    .menu:hover {
-        background: rgba(255, 255, 255, 0.15);
-        color: #ffffff;
-    }
+        .app-menu:hover,
+        .app-menu.active {
+            background: var(--sidebar-active);
+            color: #fff;
+        }
 
-    .menu.active {
-        background: #2c8058;
-        box-shadow: inset 3px 0 #d8f0df;
-    }
+        .app-logout {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,.2);
+        }
 
-    .sidebar-bottom {
-        margin-top: auto;
-        padding-top: 18px;
-        border-top: 1px solid #438563;
-    }
+        .app-logout button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            min-height: 43px;
+            padding: 10px 15px;
+            border: 0;
+            border-radius: 8px;
+            background: #fff;
+            color: var(--primary);
+            font-size: 14px;
+            cursor: pointer;
+        }
 
-    .logout {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        min-height: 40px;
-        padding: 10px 12px;
-        border: 0;
-        border-radius: 8px;
-        background: transparent;
-        color: #ffffff;
-        font-size: 13px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background .2s ease;
-    }
-
-    .logout i {
-        width: 18px;
-        font-size: 16px;
-        text-align: center;
-    }
-
-    .logout:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
-
-            .app-brand {
-                display: flex;
-                align-items: center;
-                gap: 12px;
-                padding: 5px 15px 28px;
-                color: #fff;
-                font-size: 20px;
-                font-weight: 700;
-                white-space: nowrap;
-            }
-
-            .app-brand i {
-                font-size: 32px;
-            }
-
-            .app-menu-label {
-                margin: 8px 15px 12px;
-                color: #c6e2d2;
-                font-size: 11px;
-                font-weight: 600;
-                letter-spacing: 1px;
-                text-transform: uppercase;
-            }
-
-            .app-menu {
-                display: flex;
-                align-items: center;
-                gap: 13px;
-                min-height: 48px;
-                margin-bottom: 7px;
-                padding: 12px 15px;
-                border-radius: 8px;
-                color: #fff;
-                font-size: 14px;
-                text-decoration: none;
-                transition: background .15s ease;
-            }
-
-            .app-menu i {
-                width: 22px;
-                font-size: 19px;
-                text-align: center;
-            }
-
-            .app-menu:hover,
-            .app-menu.active {
-                background: var(--sidebar-active);
-                color: #fff;
-            }
-
-            .app-logout {
-                margin-top: 22px;
-                padding-top: 18px;
-                border-top: 1px solid rgba(255,255,255,.2);
-            }
-
-            .app-logout button {
-                display: flex;
-                align-items: center;
-                gap: 10px;
-                width: 100%;
-                min-height: 43px;
-                padding: 10px 15px;
-                border: 0;
-                border-radius: 8px;
-                background: #fff;
-                color: var(--primary);
-                font-size: 14px;
-                cursor: pointer;
-            }
-
-            /* AREA KONTEN */
-            .app-main {
-                min-height: 100vh;
-                margin-left: var(--sidebar-width);
-            }
+        /* AREA KONTEN */
+        .app-main {
+            min-height: 100vh;
+            margin-left: var(--sidebar-width);
+        }
 
         /* HEADER */
         .app-header {
@@ -483,142 +395,344 @@
             color: #fff;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1000px) {
-            :root {
-                --sidebar-width: 210px;
-            }
+        .menu {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 44px;
+    margin-bottom: 6px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: #ffffff !important;
+    font-size: 14px;
+    text-decoration: none !important;
+    transition: background .15s ease;
+}
 
-            .app-content {
-                padding: 22px 20px;
-            }
+.menu i {
+    width: 20px;
+    font-size: 18px;
+    text-align: center;
+}
 
-            .app-header {
-                padding-right: 20px;
-                padding-left: 20px;
-            }
-        }
+.menu:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff !important;
+}
 
-        @media (max-width: 700px) {
-            :root {
-                --sidebar-width: 68px;
-            }
+.menu.active {
+    background: #2c8058;
+    color: #ffffff !important;
+    font-weight: 600;
+}
 
-            .app-sidebar {
-                padding: 18px 8px;
-            }
+       /* --- DESAIN SIDEBAR MODERN & ELEGAN --- */
+.sidebar {
+    position: fixed;
+    z-index: 1000;
+    inset: 0 auto 0 0;
+    width: 255px;
+    padding: 28px 20px;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #115334 0%, #0d3e27 100%);
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.08);
+}
 
-            .app-brand {
-                justify-content: center;
-                padding: 5px 0 25px;
-            }
+/* BRAND / LOGO */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 24px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
 
-            .app-brand span,
-            .app-menu-label,
-            .app-menu span,
-            .app-logout span {
-                display: none;
-            }
+.brand-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(4px);
+    color: #86efac;
+    font-size: 22px;
+}
 
-            .app-menu {
-                justify-content: center;
-                padding: 12px 5px;
-            }
+.brand-text {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: .5px;
+    color: #ffffff;
+    line-height: 1.2;
+}
 
-            .app-main {
-                margin-left: var(--sidebar-width);
-            }
+.brand-text span {
+    display: block;
+    font-size: 10px;
+    font-weight: 500;
+    color: #a7f3d0;
+    letter-spacing: 1px;
+}
 
-            .app-header {
-                align-items: flex-start;
-                gap: 10px;
-                padding: 15px 12px;
-            }
+/* JUDUL SECTION MENU */
+.menu-title {
+    margin: 16px 0 8px 8px;
+    color: #6ee7b7;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    opacity: 0.8;
+}
 
-            .app-header-title {
-                font-size: 17px;
-            }
+/* ITEM MENU */
+.menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 10px 14px;
+    margin-bottom: 4px;
+    border-radius: 10px;
+    color: #d1fae5 !important;
+    font-size: 13.5px;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: all .2s ease;
+}
 
-            .app-user {
-                gap: 7px;
-            }
+.menu i {
+    font-size: 18px;
+    color: #a7f3d0;
+    transition: transform .2s ease;
+}
 
-            .app-user-name {
-                max-width: 100px;
-                font-size: 12px;
-            }
+.menu:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff !important;
+    transform: translateX(3px);
+}
 
-            .app-content {
-                padding: 18px 12px;
-            }
+.menu:hover i {
+    color: #ffffff;
+}
 
-            .app-panel-header,
-            .app-panel-body {
-                padding: 15px;
-            }
+/* MENU AKTIF */
+.menu.active {
+    background: #1e7e4d !important;
+    color: #ffffff !important;
+    font-weight: 700;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+}
 
-            .mobile-stack {
-                flex-direction: column;
-                align-items: stretch !important;
-            }
-        }
+.menu.active i {
+    color: #86efac;
+}
+
+.menu.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 25%;
+    height: 50%;
+    width: 4px;
+    background: #86efac;
+    border-radius: 0 4px 4px 0;
+}
+
+/* BAGIAN BAWAH & TOMBOL KELUAR */
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.logout i {
+    font-size: 18px;
+    color: #fca5a5;
+}
+
+.logout:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.logout:hover i {
+    color: #ffffff;
+}
+
+/* Secara default (di Desktop), tombol hamburger DISEMBUNYIKAN */
+.btn-toggle-sidebar {
+    display: none !important;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #ffffff;
+    color: #176b43;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+    transition: all .2s ease;
+    margin-right: 14px;
+}
+
+/* HANYA MUNCUL di layar Tablet / Mobile (<= 1024px) */
+@media (max-width: 1024px) {
+    .btn-toggle-sidebar {
+        display: inline-flex !important;
+    }
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform .3s ease;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+        box-shadow: 6px 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .app-main {
+        margin-left: 0 !important;
+    }
+}
     </style>
 </head>
 
 <body>
 
-    <aside class="sidebar" id="sidebar">
+ <aside class="sidebar" id="sidebar">
+    <!-- BRAND / LOGO -->
     <div class="brand">
-        <i class="bi bi-recycle"></i>
-        <span>SI PANTAU TPS</span>
+        <div class="brand-icon">
+            <i class="bi bi-recycle"></i>
+        </div>
+        <div class="brand-text">
+            SI PANTAU TPS
+            <span>DLH INDRAMAYU</span>
+        </div>
     </div>
 
+    <!-- MENU UTAMA -->
     <div class="menu-title">Menu Utama</div>
-   <a class="menu {{ request()->routeIs('dashboard.role') && request()->route('role') === 'masyarakat' ? 'active' : '' }}" href="{{ route('dashboard.role', ['role' => 'masyarakat']) }}">
-    <i class="bi bi-grid-1x2-fill"></i> Dashboard
-</a>
-    <a class="menu {{ request()->routeIs('masyarakat.laporan.index') ? 'active' : '' }}" href="{{ route('masyarakat.laporan.index') }}">
-        <i class="bi bi-file-earmark-text-fill"></i> Laporan Saya
-    </a>
-    <a class="menu {{ request()->routeIs('masyarakat.laporan.create') ? 'active' : '' }}" href="{{ route('masyarakat.laporan.create') }}">
-        <i class="bi bi-plus-circle-fill"></i> Buat Laporan
+    
+    <a class="menu {{ request()->routeIs('dashboard.role') && request()->route('role') === 'masyarakat' ? 'active' : '' }}" 
+       href="{{ route('dashboard.role', ['role' => 'masyarakat']) }}">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
     </a>
 
-    <div class="menu-title" style="margin-top: 20px;">Pengaturan</div>
-    <a class="menu {{ request()->routeIs('masyarakat.pengaturan.*') ? 'active' : '' }}" href="{{ route('masyarakat.pengaturan.edit') }}">
-        <i class="bi bi-gear-fill"></i> Pengaturan Akun
+    <a class="menu {{ request()->routeIs('masyarakat.laporan.index') ? 'active' : '' }}" 
+       href="{{ route('masyarakat.laporan.index') }}">
+        <i class="bi bi-file-earmark-text-fill"></i>
+        <span>Laporan Saya</span>
     </a>
 
+    <a class="menu {{ request()->routeIs('masyarakat.laporan.create') ? 'active' : '' }}" 
+       href="{{ route('masyarakat.laporan.create') }}">
+        <i class="bi bi-plus-circle-fill"></i>
+        <span>Buat Laporan</span>
+    </a>
+
+    <!-- PENGATURAN -->
+    <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
+    
+    <a class="menu {{ request()->routeIs('masyarakat.pengaturan.*') ? 'active' : '' }}" 
+       href="{{ route('masyarakat.pengaturan.edit') }}">
+        <i class="bi bi-gear-fill"></i>
+        <span>Pengaturan Akun</span>
+    </a>
+
+    <!-- TOMBOL KELUAR -->
     <div class="sidebar-bottom">
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit" class="logout">
-                <i class="bi bi-box-arrow-right"></i> Keluar
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Keluar</span>
             </button>
         </form>
     </div>
 </aside>
 
     <main class="app-main">
+       
         <header class="app-header">
-            <h1 class="app-header-title">@yield('header', 'Dashboard Masyarakat')</h1>
-
-            <div class="app-user">
-                <div class="app-avatar">
-                    {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                </div>
-
-                <div>
-                    <div class="app-user-name">{{ auth()->user()->name }}</div>
-                    <div class="app-user-role">Masyarakat</div>
-                </div>
-            </div>
-        </header>
-
+    <!-- Bagian Kiri: Tombol Hamburger & Judul Halaman (Hanya 1 judul) -->
+    <div style="display: flex; align-items: center; gap: 14px;">
+        <button type="button" class="btn-toggle-sidebar" id="sidebarToggle" title="Buka Menu">
+            <i class="bi bi-list"></i>
+        </button>
+        <h1 class="app-header-title" style="margin: 0; font-size: 19px; font-weight: 700; color: #1e293b;">
+            @yield('header', 'Dashboard Masyarakat')
+        </h1>
+    </div>
+    
+    
+    <a href="{{ route('masyarakat.pengaturan.edit') }}" class="app-user" title="Pengaturan Akun" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 11px;">
+        <div class="app-avatar" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: #e2f1e7; color: #176b43; font-weight: 700; font-size: 15px;">
+            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+        </div>
+        <div>
+            <div class="app-user-name" style="font-size: 13px; font-weight: 700; color: #1e293b;">{{ auth()->user()->name }}</div>
+            <div class="app-user-role" style="font-size: 12px; color: #718078;">Masyarakat</div>
+        </div>
+    </a>
+</header>
         <section class="app-content">
             @yield('content')
         </section>
     </main>
+             <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const toggleBtn = document.getElementById('sidebarToggle');
+                    const sidebar 
+                    = document.getElementById('sidebar');
 
+                    if (toggleBtn && sidebar) {
+                        toggleBtn.addEventListener('click', function (e) {
+                            e.stopPropagation();
+                            sidebar.classList.toggle('show');
+                        });
+
+                        // Tutup sidebar jika mengklik di luar area sidebar (saat di tablet/HP)
+                        document.addEventListener('click', function (e) {
+                            if (window.innerWidth <= 1024 && !sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+                                sidebar.classList.remove('show');
+                            }
+                        });
+                    }
+                });
+            </script>
 </body>
 </html>
