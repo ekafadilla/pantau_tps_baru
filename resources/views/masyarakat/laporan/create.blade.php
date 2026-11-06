@@ -67,10 +67,10 @@
                         <option value="">-- Pilih TPS --</option>
 
                         @foreach ($tps as $item)
-                            <option value="{{ $item->id_tps }}"
-                                @selected(old('id_tps') == $item->id_tps)>
-                                {{ $item->nama_tps }}
-                            </option>
+                            <option value="{{ $item->id_tps ?? $item->id }}"
+                            @selected(old('id_tps') == ($item->id_tps ?? $item->id))>
+                            {{ $item->nama_tps }} 
+                        </option>   
                         @endforeach
                     </select>
 
