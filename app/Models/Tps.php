@@ -24,6 +24,15 @@ class Tps extends Model
         return $this->belongsTo(Wilayah::class, 'id_wilayah');
     }
 
+    public function supirs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'supir_tps',
+            'id_tps',
+            'id_supir'
+        )->withPivot(['rute', 'status'])->withTimestamps();
+    }
     public function laporans(): HasMany
     {
         return $this->hasMany(Laporan::class, 'id_tps');

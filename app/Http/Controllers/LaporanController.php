@@ -76,12 +76,35 @@ class LaporanController extends Controller
             'keterangan' => ['required', 'string', 'max:2000'],
             'foto' => ['required', 'array', 'min:1', 'max:5'],
             'foto.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
+
+            'kepenuhan_tps' => ['required', 'integer', 'between:1,4'],
+            'sampah_meluber' => ['required', 'integer', 'between:1,4'],
+            'dampak_lingkungan' => ['required', 'integer', 'between:1,4'],
+            'bau_hama' => ['required', 'integer', 'between:1,4'],
+            'gangguan_masyarakat' => ['required', 'integer', 'between:1,4'],
         ]);
+
+        $nilai = [
+            'kepenuhan_tps' => $validated['kepenuhan_tps'],
+            'sampah_meluber' => $validated['sampah_meluber'],
+            'dampak_lingkungan' => $validated['dampak_lingkungan'],
+            'bau_hama' => $validated['bau_hama'],
+            'gangguan_masyarakat' => $validated['gangguan_masyarakat'],
+        ];
+
+        $hasilUrgensi = app(\App\Services\UrgensiCalculator::class)
+            ->hitung($nilai);
 
         $fotoTersimpan = [];
 
         try {
-            DB::transaction(function () use ($validated, $request, &$fotoTersimpan) {
+            DB::transaction(function () use (
+                $validated,
+                $request,
+                $nilai,
+                $hasilUrgensi,
+                &$fotoTersimpan
+            ) {
                 $laporan = Laporan::create([
                     'id_pengguna' => Auth::id(),
                     'id_tps' => $validated['id_tps'],
@@ -90,6 +113,15 @@ class LaporanController extends Controller
                     'keterangan' => $validated['keterangan'],
                     'waktu_pelaporan' => now(),
                     'status_laporan' => 'menunggu',
+                ]);
+
+                $laporan->penilaianUrgensis()->create([
+                    'jenis_penilaian' => 'masyarakat',
+                    'id_penilai' => Auth::id(),
+                    ...$nilai,
+                    'skor_urgensi' => $hasilUrgensi['skor_urgensi'],
+                    'rekomendasi_urgensi' => $hasilUrgensi['rekomendasi_urgensi'],
+                    'catatan' => null,
                 ]);
 
                 foreach ($request->file('foto', []) as $foto) {
@@ -132,8 +164,8 @@ class LaporanController extends Controller
 
     $laporan->load([
         'tps',
-        'fotoLaporan',
-        'riwayatStatus',
+        'fotoLaporans',
+        'riwayatStatuses',
     ]);
 
     return view('masyarakat.laporan.show', compact('laporan'));

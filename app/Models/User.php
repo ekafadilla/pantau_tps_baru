@@ -33,6 +33,15 @@ class User extends Authenticatable
         ];
     }
 
+    public function tpsTugas(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            Tps::class,
+            'supir_tps',
+            'id_supir',
+            'id_tps'
+        )->withPivot(['rute', 'status'])->withTimestamps();
+    }
     public function wilayah(): BelongsTo
     {
         return $this->belongsTo(Wilayah::class, 'id_wilayah');

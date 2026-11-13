@@ -65,7 +65,7 @@ class AuthController extends Controller
             default => route('dashboard.role', ['role' => 'masyarakat']),
         };
 
-        return redirect()->intended($tujuan);
+        return redirect()->to($tujuan);
     }
 
     public function logout(Request $request)

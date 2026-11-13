@@ -225,6 +225,14 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     ])->whereNumber('laporan')->name('laporan.show');
 });
 
+// Aksi UPTD (verifikasi, tugaskan, tolak)
+Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
+    Route::post('/laporan/{laporan}/verifikasi', [UptdLaporanController::class, 'verifikasi'])->whereNumber('laporan')->name('laporan.verifikasi');
+    Route::post('/laporan/{laporan}/verifikasi-urgensi', [UptdLaporanController::class, 'verifikasiUrgensi'])->whereNumber('laporan')->name('laporan.verifikasi-urgensi');
+    Route::post('/laporan/{laporan}/tugaskan', [UptdLaporanController::class, 'tugaskan'])->whereNumber('laporan')->name('laporan.tugaskan');
+    Route::post('/laporan/{laporan}/tolak', [UptdLaporanController::class, 'tolak'])->whereNumber('laporan')->name('laporan.tolak');
+});
+
 // Pengaturan akun UPTD
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::get('/pengaturan', [\App\Http\Controllers\UptdPengaturanController::class, 'edit'])

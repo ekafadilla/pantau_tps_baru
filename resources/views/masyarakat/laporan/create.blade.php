@@ -67,8 +67,8 @@
                         <option value="">-- Pilih TPS --</option>
 
                         @foreach ($tps as $item)
-                            <option value="{{ $item->id_tps }}"
-                                @selected(old('id_tps') == $item->id_tps)>
+                            <option value="{{ $item->id }}"
+                                @selected(old('id_tps') == $item->id)>
                                 {{ $item->nama_tps }}
                             </option>
                         @endforeach
@@ -156,6 +156,88 @@
             </div>
 
             <div class="form-section">
+                <h4 class="form-section-title">Penilaian Awal Kondisi TPS</h4>
+                <p class="form-section-description">
+                    Pilih kondisi yang paling sesuai dengan keadaan TPS saat Anda membuat laporan.
+                    Penilaian ini digunakan sistem untuk memberikan rekomendasi tingkat urgensi awal.
+                </p>
+
+                <div class="form-group">
+                    <label for="kepenuhan_tps">1. Tingkat Kepenuhan TPS <span class="required-mark">*</span></label>
+                    <select name="kepenuhan_tps" id="kepenuhan_tps" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('kepenuhan_tps') == '1')>1 - Masih banyak ruang kosong</option>
+                        <option value="2" @selected(old('kepenuhan_tps') == '2')>2 - Mulai terisi</option>
+                        <option value="3" @selected(old('kepenuhan_tps') == '3')>3 - Hampir penuh</option>
+                        <option value="4" @selected(old('kepenuhan_tps') == '4')>4 - Penuh atau melebihi kapasitas</option>
+                    </select>
+                    @error('kepenuhan_tps')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="sampah_meluber">2. Kondisi Sampah Meluber <span class="required-mark">*</span></label>
+                    <select name="sampah_meluber" id="sampah_meluber" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('sampah_meluber') == '1')>1 - Tidak ada sampah di luar TPS</option>
+                        <option value="2" @selected(old('sampah_meluber') == '2')>2 - Sedikit sampah di sekitar TPS</option>
+                        <option value="3" @selected(old('sampah_meluber') == '3')>3 - Cukup banyak sampah di luar TPS</option>
+                        <option value="4" @selected(old('sampah_meluber') == '4')>4 - Sampah meluber secara luas</option>
+                    </select>
+                    @error('sampah_meluber')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="dampak_lingkungan">3. Dampak terhadap Lingkungan <span class="required-mark">*</span></label>
+                    <select name="dampak_lingkungan" id="dampak_lingkungan" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('dampak_lingkungan') == '1')>1 - Belum terlihat dampak lingkungan</option>
+                        <option value="2" @selected(old('dampak_lingkungan') == '2')>2 - Mulai mengganggu lingkungan sekitar</option>
+                        <option value="3" @selected(old('dampak_lingkungan') == '3')>3 - Mengganggu saluran air atau akses sekitar</option>
+                        <option value="4" @selected(old('dampak_lingkungan') == '4')>4 - Menimbulkan dampak lingkungan serius</option>
+                    </select>
+                    @error('dampak_lingkungan')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="bau_hama">4. Bau Tidak Sedap dan Hama <span class="required-mark">*</span></label>
+                    <select name="bau_hama" id="bau_hama" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('bau_hama') == '1')>1 - Tidak ada bau atau hama</option>
+                        <option value="2" @selected(old('bau_hama') == '2')>2 - Bau ringan atau sedikit hama</option>
+                        <option value="3" @selected(old('bau_hama') == '3')>3 - Bau cukup menyengat atau terdapat hama</option>
+                        <option value="4" @selected(old('bau_hama') == '4')>4 - Bau sangat menyengat atau banyak hama</option>
+                    </select>
+                    @error('bau_hama')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="gangguan_masyarakat">5. Gangguan terhadap Aktivitas Masyarakat <span class="required-mark">*</span></label>
+                    <select name="gangguan_masyarakat" id="gangguan_masyarakat" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('gangguan_masyarakat') == '1')>1 - Tidak mengganggu aktivitas</option>
+                        <option value="2" @selected(old('gangguan_masyarakat') == '2')>2 - Sedikit mengganggu aktivitas</option>
+                        <option value="3" @selected(old('gangguan_masyarakat') == '3')>3 - Mengganggu aktivitas masyarakat</option>
+                        <option value="4" @selected(old('gangguan_masyarakat') == '4')>4 - Sangat mengganggu aktivitas masyarakat</option>
+                    </select>
+                    @error('gangguan_masyarakat')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <small class="field-hint">
+                    Keterangan: semakin tinggi angka yang dipilih, semakin berat kondisi yang dilaporkan.
+                    Pilih berdasarkan keadaan yang benar-benar terlihat.
+                </small>
+            </div>
+            <div class="form-section">
                 <h4 class="form-section-title">Foto Pendukung</h4>
                 <p class="form-section-description">
                     Tambahkan foto sebagai bukti kondisi di lokasi.
@@ -167,7 +249,7 @@
                     </label>
 
                     <div class="upload-box">
-                        <div class="upload-icon">＋</div>
+                        <div class="upload-icon">ï¼‹</div>
 
                         <strong>Pilih foto dari perangkat</strong>
 
@@ -611,3 +693,4 @@
     });
 </script>
 @endsection
+
