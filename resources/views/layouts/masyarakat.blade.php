@@ -588,7 +588,7 @@
     color: #ffffff;
 }
 
-/* Secara default (di Desktop), tombol hamburger DISEMBUNYIKAN */
+/*menyembunyikan hamburger di tampilan dekstop */
 .btn-toggle-sidebar {
     display: none !important;
     align-items: center;
@@ -606,7 +606,7 @@
     margin-right: 14px;
 }
 
-/* HANYA MUNCUL di layar Tablet / Mobile (<= 1024px) */
+/* muncul hamburger menu ketika layar dikecilkan */
 @media (max-width: 1024px) {
     .btn-toggle-sidebar {
         display: inline-flex !important;
@@ -686,9 +686,9 @@
 </aside>
 
     <main class="app-main">
-       
         <header class="app-header">
-    <!-- Bagian Kiri: Tombol Hamburger & Judul Halaman (Hanya 1 judul) -->
+
+    <!-- hamburger dan judul halaman -->
     <div style="display: flex; align-items: center; gap: 14px;">
         <button type="button" class="btn-toggle-sidebar" id="sidebarToggle" title="Buka Menu">
             <i class="bi bi-list"></i>
