@@ -880,89 +880,6 @@ button, input {
     }
 }
 
-/* --- INFORMASI SECTION STYLING --- */
-.information-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
-}
-
-.information-card {
-    position: relative;
-    overflow: hidden;
-    padding: 30px 26px;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    background: white;
-    box-shadow: 0 6px 20px rgba(18,61,43,.04);
-    transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease, border-color .35s ease;
-}
-
-/* Garis aksen hijau minimalis di bagian atas kartu */
-.information-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: linear-gradient(90deg, #218653, #8ccf46);
-    opacity: 0.7;
-    transition: opacity .3s ease;
-}
-
-.information-card:hover {
-    transform: translateY(-8px);
-    border-color: #bce0c8;
-    box-shadow: 0 18px 38px rgba(18,61,43,.09);
-}
-
-.information-card:hover::before {
-    opacity: 1;
-}
-
-.information-card .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 52px;
-    height: 52px;
-    margin-bottom: 18px;
-    border-radius: 14px;
-    color: #ffffff;
-    background: linear-gradient(135deg, #218653, #124b32);
-    font-size: 23px;
-    box-shadow: 0 8px 18px rgba(33,134,83,.22);
-    transition: transform .35s ease;
-}
-
-.information-card:hover .icon {
-    transform: scale(1.1) rotate(-6deg);
-}
-
-.information-card h3 {
-    margin-bottom: 10px;
-    color: var(--forest);
-    font-size: 16px;
-    font-weight: 800;
-    letter-spacing: -.3px;
-}
-
-.information-card p {
-    color: var(--muted);
-    font-size: 13px;
-    line-height: 1.75;
-}
-
-/* Responsif untuk Layar HP */
-@media (max-width: 950px) {
-    .information-grid {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-}
-
-
 @media (max-width: 380px) {
     .hero h1 {
         font-size: 30px;
@@ -1418,8 +1335,7 @@ body footer.landing-footer .footer-bottom {
             </div>
         </section>
 
-      
-       <!-- INFORMASI -->
+        <!-- INFORMASI -->
         <section class="section" id="informasi">
             <div class="container">
 
@@ -1427,8 +1343,8 @@ body footer.landing-footer .footer-bottom {
                     <div>
                         <h2>Layanan SI Pantau TPS</h2>
                         <p>
-                            Fitur utama untuk membantu masyarakat memperoleh informasi
-                            dan menyampaikan laporan kondisi TPS secara transparan.
+                            Fitur untuk membantu masyarakat memperoleh informasi
+                            dan menyampaikan laporan kondisi TPS.
                         </p>
                     </div>
                 </div>
@@ -1437,40 +1353,40 @@ body footer.landing-footer .footer-bottom {
 
                     <div class="information-card">
                         <div class="icon">
-                            <i class="bi bi-geo-alt-fill"></i>
+                            <i class="bi bi-geo-alt"></i>
                         </div>
 
                         <h3>Informasi Lokasi TPS</h3>
 
                         <p>
-                            Membantu masyarakat melihat informasi sebaran lokasi tempat
-                            penampungan sementara yang tersedia di wilayah Kabupaten Indramayu.
+                            Membantu masyarakat melihat informasi lokasi TPS
+                            yang tersedia di wilayah Kabupaten Indramayu.
                         </p>
                     </div>
 
                     <div class="information-card">
                         <div class="icon">
-                            <i class="bi bi-clipboard-check-fill"></i>
+                            <i class="bi bi-clipboard-check"></i>
                         </div>
 
                         <h3>Pengaduan Masyarakat</h3>
 
                         <p>
-                            Menyediakan layanan pelaporan masalah kebersihan TPS dengan
-                            mudah dengan menyertakan keterangan kejadian, foto, serta titik lokasi.
+                            Menyediakan layanan pelaporan masalah TPS dengan
+                            menyertakan informasi kejadian, foto, dan lokasi.
                         </p>
                     </div>
 
                     <div class="information-card">
                         <div class="icon">
-                            <i class="bi bi-bar-chart-line-fill"></i>
+                            <i class="bi bi-bar-chart-line"></i>
                         </div>
 
                         <h3>Informasi Penanganan</h3>
 
                         <p>
-                            Memungkinkan masyarakat untuk memantau perkembangan status
-                            serta tindak lanjut penanganan pengaduan yang telah disampaikan.
+                            Membantu masyarakat mengetahui perkembangan
+                            penanganan pengaduan yang telah disampaikan.
                         </p>
                     </div>
 

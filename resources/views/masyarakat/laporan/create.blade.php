@@ -67,8 +67,8 @@
                         <option value="">-- Pilih TPS --</option>
 
                         @foreach ($tps as $item)
-                            <option value="{{ $item->id }}"
-                                @selected(old('id_tps') == $item->id)>
+                            <option value="{{ $item->id_tps ?? $item->id }}"
+                                @selected(old('id_tps') == ($item->id_tps ?? $item->id))>
                                 {{ $item->nama_tps }}
                             </option>
                         @endforeach
@@ -249,7 +249,7 @@
                     </label>
 
                     <div class="upload-box">
-                        <div class="upload-icon">ï¼‹</div>
+                        <div class="upload-icon">+</div>
 
                         <strong>Pilih foto dari perangkat</strong>
 
