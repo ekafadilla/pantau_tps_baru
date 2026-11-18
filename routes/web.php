@@ -220,14 +220,8 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 
 // Pengaturan akun UPTD
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
-    Route::get('/pengaturan', [\App\Http\Controllers\UptdPengaturanController::class, 'edit'])
-        ->name('pengaturan.edit');
 
-    Route::put('/pengaturan', [\App\Http\Controllers\UptdPengaturanController::class, 'update'])
-        ->name('pengaturan.update');
 
-    Route::put('/pengaturan/kata-sandi', [\App\Http\Controllers\UptdPengaturanController::class, 'updatePassword'])
-        ->name('pengaturan.password');
 });
 
 

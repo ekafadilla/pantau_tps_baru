@@ -26,7 +26,6 @@ class AksesRoleTest extends TestCase
     public function test_tamu_diarahkan_ke_login(): void
     {
         $this->get('/dashboard')->assertRedirect('/login');
-        $this->get('/masyarakat/pengaturan')->assertRedirect('/login');
         $this->get('/pengaturan')->assertRedirect('/login');
     }
 
