@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -578,6 +577,59 @@ button, input {
     line-height: 1.8;
 }
 
+/* REALTIME */
+.live-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 13px;
+    border: 1px solid #d5e9d5;
+    border-radius: 30px;
+    color: #176b43;
+    background: white;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,.55);
+    animation: livePulse 1.8s infinite;
+}
+
+.live-badge.is-offline { color: #95651a; border-color: #f0dca8; }
+.live-badge.is-offline .live-dot { background: #e2aa48; animation: none; }
+
+@keyframes livePulse {
+    0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.55); }
+    70%  { box-shadow: 0 0 0 9px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+.stat-value.is-updated { animation: statFlash .9s ease; }
+
+@keyframes statFlash {
+    0%   { color: #22a35f; transform: scale(1.08); }
+    100% { color: var(--forest); transform: scale(1); }
+}
+
+.tps-meta {
+    margin: -6px 0 12px;
+    color: #96a198;
+    font-size: 10.5px;
+}
+
+.status-alert {
+    color: #a33b2a;
+    background: #fdeae6;
+}
+
+.load-more-wrap { margin-top: 20px; text-align: center; }
+
 /* BANNER PENGADUAN */
 .complaint-banner {
     position: relative;
@@ -1150,19 +1202,19 @@ body footer.landing-footer .footer-bottom {
 
                 <div class="stat-card">
                     <p class="stat-label">Total TPS</p>
-                    <div class="stat-value">--</div>
+                    <div class="stat-value" id="statTotal">--</div>
                     <p class="stat-note">Data TPS terdaftar</p>
                 </div>
 
                 <div class="stat-card">
                     <p class="stat-label">TPS Aktif</p>
-                    <div class="stat-value">--</div>
+                    <div class="stat-value" id="statAktif">--</div>
                     <p class="stat-note">TPS dengan status aktif</p>
                 </div>
 
                 <div class="stat-card">
                     <p class="stat-label">Pengaduan Selesai</p>
-                    <div class="stat-value">--</div>
+                    <div class="stat-value" id="statSelesai">--</div>
                     <p class="stat-note">Laporan yang telah ditangani</p>
                 </div>
 
@@ -1178,6 +1230,11 @@ body footer.landing-footer .footer-bottom {
                         <h2>Informasi Tempat Penampungan Sementara</h2>
                         <p>Temukan informasi TPS berdasarkan nama atau lokasi.</p>
                     </div>
+
+                    <span class="live-badge" id="liveBadge" title="Data diperbarui otomatis">
+                        <span class="live-dot"></span>
+                        <span id="liveText">Memuat data...</span>
+                    </span>
                 </div>
 
                 <div class="search-box">
@@ -1199,116 +1256,17 @@ body footer.landing-footer .footer-bottom {
                     </button>
                 </div>
 
-                <div class="tps-grid" id="tpsGrid">
+                <div class="tps-grid" id="tpsGrid"></div>
 
-                    <!-- DATA CONTOH, BELUM TERHUBUNG KE DATABASE -->
-                    <article class="tps-card" data-search="tps contoh indramayu">
-                        <div class="tps-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=600&q=80"
-                                alt="Ilustrasi fasilitas pengelolaan sampah"
-                                loading="lazy"
-                            >
-                        </div>
-
-                        <div class="tps-content">
-                            <span class="status status-active">Contoh Data</span>
-                            <h3>TPS Contoh 1</h3>
-
-                            <p class="tps-location">
-                                <i class="bi bi-geo-alt"></i>
-                                Kabupaten Indramayu
-                            </p>
-
-                            <a href="{{ route('login') }}" class="tps-detail">
-                                Informasi TPS
-                            </a>
-                        </div>
-                    </article>
-
-                    <article class="tps-card" data-search="tps contoh jatibarang">
-                        <div class="tps-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80"
-                                alt="Ilustrasi pengelolaan sampah"
-                                loading="lazy"
-                            >
-                        </div>
-
-                        <div class="tps-content">
-                            <span class="status status-active">Contoh Data</span>
-                            <h3>TPS Contoh 2</h3>
-
-                            <p class="tps-location">
-                                <i class="bi bi-geo-alt"></i>
-                                Kecamatan Jatibarang
-                            </p>
-
-                            <a href="{{ route('login') }}" class="tps-detail">
-                                Informasi TPS
-                            </a>
-                        </div>
-                    </article>
-
-                    <article class="tps-card" data-search="tps contoh sindang">
-                        <div class="tps-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=600&q=80"
-                                alt="Ilustrasi fasilitas TPS"
-                                loading="lazy"
-                            >
-                        </div>
-
-                        <div class="tps-content">
-                            <span class="status status-process">Contoh Data</span>
-                            <h3>TPS Contoh 3</h3>
-
-                            <p class="tps-location">
-                                <i class="bi bi-geo-alt"></i>
-                                Kecamatan Sindang
-                            </p>
-
-                            <a href="{{ route('login') }}" class="tps-detail">
-                                Informasi TPS
-                            </a>
-                        </div>
-                    </article>
-
-                    <article class="tps-card" data-search="tps contoh lohbener">
-                        <div class="tps-image">
-                            <img
-                                src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80"
-                                alt="Ilustrasi kegiatan pengelolaan sampah"
-                                loading="lazy"
-                            >
-                        </div>
-
-                        <div class="tps-content">
-                            <span class="status status-active">Contoh Data</span>
-                            <h3>TPS Contoh 4</h3>
-
-                            <p class="tps-location">
-                                <i class="bi bi-geo-alt"></i>
-                                Kecamatan Lohbener
-                            </p>
-
-                            <a href="{{ route('login') }}" class="tps-detail">
-                                Informasi TPS
-                            </a>
-                        </div>
-                    </article>
-
+                <div class="load-more-wrap" id="loadMoreWrap" style="display:none">
+                    <button type="button" class="btn btn-outline" id="loadMoreBtn"></button>
                 </div>
 
                 <div class="empty-result" id="emptyResult">
                     Data TPS yang dicari tidak ditemukan.
                 </div>
 
-                <p class="data-note">
-                    Catatan: data TPS pada halaman ini masih berupa contoh.
-                    Data akan dihubungkan ke database setelah fitur pengelolaan
-                    TPS selesai dibuat.
-                </p>
+                
 
             </div>
         </section>
@@ -1490,44 +1448,207 @@ body footer.landing-footer .footer-bottom {
 </footer>
     
 
-    <!-- PENCARIAN TPS -->
+    <!-- DATA REALTIME + PENCARIAN TPS -->
     <script>
-        const searchInput = document.getElementById('searchTPS');
-        const searchButton = document.getElementById('searchButton');
-        const tpsCards = document.querySelectorAll('.tps-card');
-        const emptyResult = document.getElementById('emptyResult');
+        window.LANDING_DATA = @json($landing);
 
-        function cariTPS() {
-            const keyword = searchInput.value.toLowerCase().trim();
-            let jumlahTampil = 0;
+        (function () {
+            const ENDPOINT = @json(route('landing.data'));
+            const INTERVAL_MS = 10000;   // ambil data baru tiap 10 detik
+            const BATAS_AWAL = 8;        // jumlah kartu yang tampil awal
 
-            tpsCards.forEach(function (card) {
-                const namaLokasi = card.textContent.toLowerCase();
-                const dataSearch = card.dataset.search.toLowerCase();
+            const IMAGES = [
+                'https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=600&q=80',
+                'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80'
+            ];
 
-                if (
-                    namaLokasi.includes(keyword) ||
-                    dataSearch.includes(keyword)
-                ) {
-                    card.style.display = '';
-                    jumlahTampil++;
+            const grid = document.getElementById('tpsGrid');
+            const emptyResult = document.getElementById('emptyResult');
+            const searchInput = document.getElementById('searchTPS');
+            const searchButton = document.getElementById('searchButton');
+            const loadMoreWrap = document.getElementById('loadMoreWrap');
+            const loadMoreBtn = document.getElementById('loadMoreBtn');
+            const liveBadge = document.getElementById('liveBadge');
+            const liveText = document.getElementById('liveText');
+            const loginUrl = @json(route('login'));
+
+            let data = window.LANDING_DATA;
+            let tampilSemua = false;
+            let lastSignature = '';
+            let timer = null;
+
+            const nf = new Intl.NumberFormat('id-ID');
+
+            function setStat(id, value) {
+                const el = document.getElementById(id);
+                const text = nf.format(value);
+                if (el.textContent !== text) {
+                    const pertama = el.textContent === '--';
+                    el.textContent = text;
+                    if (!pertama) {
+                        el.classList.remove('is-updated');
+                        void el.offsetWidth;
+                        el.classList.add('is-updated');
+                    }
+                }
+            }
+
+            function renderStats() {
+                setStat('statTotal', data.stats.total_tps);
+                setStat('statAktif', data.stats.tps_aktif);
+                setStat('statSelesai', data.stats.pengaduan_selesai);
+            }
+
+            function el(tag, className, text) {
+                const node = document.createElement(tag);
+                if (className) node.className = className;
+                if (text !== undefined) node.textContent = text;
+                return node;
+            }
+
+            function buatKartu(t, index) {
+                const card = el('article', 'tps-card');
+
+                const imgWrap = el('div', 'tps-image');
+                const img = document.createElement('img');
+                img.src = IMAGES[index % IMAGES.length];
+                img.alt = 'Foto ilustrasi ' + t.nama;
+                img.loading = 'lazy';
+                imgWrap.appendChild(img);
+
+                const body = el('div', 'tps-content');
+
+                const berjalan = t.laporan_berjalan > 0;
+                body.appendChild(el(
+                    'span',
+                    'status ' + (berjalan ? 'status-process' : 'status-active'),
+                    berjalan ? 'Dalam Penanganan' : 'Normal'
+                ));
+
+                body.appendChild(el('h3', '', t.nama));
+
+                const loc = el('p', 'tps-location');
+                loc.title = t.alamat || '';
+                const icon = el('i', 'bi bi-geo-alt');
+                loc.appendChild(icon);
+                loc.appendChild(document.createTextNode(t.wilayah || t.alamat || '-'));
+                body.appendChild(loc);
+
+                if (berjalan) {
+                    body.appendChild(el('p', 'tps-meta', t.laporan_berjalan + ' laporan sedang berjalan'));
+                }
+
+                const link = el('a', 'tps-detail', 'Informasi TPS');
+                link.href = loginUrl;
+                body.appendChild(link);
+
+                card.appendChild(imgWrap);
+                card.appendChild(body);
+                return card;
+            }
+
+            function render() {
+                const keyword = searchInput.value.toLowerCase().trim();
+
+                const hasil = data.tps.filter(function (t) {
+                    if (!keyword) return true;
+                    return [t.nama, t.wilayah, t.alamat]
+                        .join(' ').toLowerCase().includes(keyword);
+                });
+
+                const batasi = !keyword && !tampilSemua && hasil.length > BATAS_AWAL;
+                const tampil = batasi ? hasil.slice(0, BATAS_AWAL) : hasil;
+
+                grid.replaceChildren.apply(grid, tampil.map(buatKartu));
+
+                emptyResult.style.display = hasil.length === 0 ? 'block' : 'none';
+                emptyResult.textContent = data.tps.length === 0
+                    ? 'Belum ada data TPS yang terdaftar.'
+                    : 'Data TPS yang dicari tidak ditemukan.';
+
+                if (batasi) {
+                    loadMoreWrap.style.display = '';
+                    loadMoreBtn.textContent = 'Tampilkan semua (' + hasil.length + ' TPS)';
+                } else if (!keyword && tampilSemua && hasil.length > BATAS_AWAL) {
+                    loadMoreWrap.style.display = '';
+                    loadMoreBtn.textContent = 'Tampilkan lebih sedikit';
                 } else {
-                    card.style.display = 'none';
+                    loadMoreWrap.style.display = 'none';
+                }
+            }
+
+            function setLive(online) {
+                liveBadge.classList.toggle('is-offline', !online);
+                if (online) {
+                    const jam = new Date(data.updated_at).toLocaleTimeString('id-ID', {
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+                    liveText.textContent = 'Realtime \u2022 diperbarui ' + jam;
+                } else {
+                    liveText.textContent = 'Koneksi terputus, mencoba lagi...';
+                }
+            }
+
+            function terapkan(baru) {
+                data = baru;
+                renderStats();
+
+                // Gambar ulang kartu hanya jika datanya berubah
+                const signature = JSON.stringify([data.stats, data.tps]);
+                if (signature !== lastSignature) {
+                    lastSignature = signature;
+                    render();
+                }
+                setLive(true);
+            }
+
+            async function ambilData() {
+                try {
+                    const res = await fetch(ENDPOINT, {
+                        headers: { 'Accept': 'application/json' },
+                        cache: 'no-store'
+                    });
+                    if (!res.ok) throw new Error('HTTP ' + res.status);
+                    terapkan(await res.json());
+                } catch (e) {
+                    setLive(false);
+                }
+            }
+
+            function mulaiPolling() {
+                if (timer) return;
+                timer = setInterval(ambilData, INTERVAL_MS);
+            }
+
+            function hentikanPolling() {
+                clearInterval(timer);
+                timer = null;
+            }
+
+            // Hemat kuota: berhenti saat tab tidak terlihat, ambil lagi saat kembali
+            document.addEventListener('visibilitychange', function () {
+                if (document.hidden) {
+                    hentikanPolling();
+                } else {
+                    ambilData();
+                    mulaiPolling();
                 }
             });
 
-            emptyResult.style.display =
-                jumlahTampil === 0 ? 'block' : 'none';
-        }
+            searchInput.addEventListener('input', render);
+            searchButton.addEventListener('click', render);
+            searchInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') render();
+            });
+            loadMoreBtn.addEventListener('click', function () {
+                tampilSemua = !tampilSemua;
+                render();
+            });
 
-        searchButton.addEventListener('click', cariTPS);
-        searchInput.addEventListener('input', cariTPS);
-
-        searchInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                cariTPS();
-            }
-        });
+            // Tampilkan data awal dari server, lalu mulai polling
+            terapkan(data);
+            mulaiPolling();
+        })();
     </script>
 
 <!-- LANDING-SCROLL-REVEAL -->

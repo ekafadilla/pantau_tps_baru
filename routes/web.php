@@ -1,20 +1,23 @@
-
 <?php
 
 use App\Http\Controllers\SupirTugasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UptdLaporanController;
 use App\Http\Controllers\PengaturanMasyarakatController;
 
 // Halaman utama
-Route::get('/', function () {
-    return view('landing.index');
-})->name('landing');
+Route::get('/', [LandingController::class, 'index'])->name('landing');
 
-// Pengaturan masyarakat
+// Data realtime untuk landing page (di-polling oleh JavaScript)
+Route::get('/api/landing/tps', [LandingController::class, 'data'])
+    ->middleware('throttle:60,1')
+    ->name('landing.data');
+
+
 // Pengaturan akun Masyarakat
 Route::get('/masyarakat/pengaturan', [
     PengaturanMasyarakatController::class,
@@ -244,4 +247,3 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::put('/pengaturan/kata-sandi', [\App\Http\Controllers\UptdPengaturanController::class, 'updatePassword'])
         ->name('pengaturan.password');
 });
-
