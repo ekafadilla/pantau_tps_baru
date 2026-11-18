@@ -73,6 +73,8 @@ class LaporanController extends Controller
             'id_tps' => ['required', 'exists:tps,id'],
             'kategori_kondisi' => ['required', 'string', 'max:100'],
             'lokasi' => ['nullable', 'string', 'max:255'],
+            'latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude' => ['nullable', 'numeric', 'between:-180,180'],
             'keterangan' => ['required', 'string', 'max:2000'],
             'foto' => ['required', 'array', 'min:1', 'max:5'],
             'foto.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:2048'],
@@ -110,6 +112,8 @@ class LaporanController extends Controller
                     'id_tps' => $validated['id_tps'],
                     'kategori_kondisi' => $validated['kategori_kondisi'],
                     'lokasi' => $validated['lokasi'] ?? null,
+            'latitude' => $validated['latitude'] ?? null,
+            'longitude' => $validated['longitude'] ?? null,
                     'keterangan' => $validated['keterangan'],
                     'waktu_pelaporan' => now(),
                     'status_laporan' => 'menunggu',
@@ -171,3 +175,5 @@ class LaporanController extends Controller
     return view('masyarakat.laporan.show', compact('laporan'));
 }
 }
+
+

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tps;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class UptdTpsController extends Controller
 {
@@ -43,11 +44,26 @@ class UptdTpsController extends Controller
 
         $totalTanpaKoordinat = $totalTps - $totalDenganKoordinat;
 
-        return view('uptd.tps.index', compact(
-            'tps',
-            'totalTps',
-            'totalDenganKoordinat',
-            'totalTanpaKoordinat'
-        ));
+        $tpsUntukPeta = $this->tpsWilayah()
+            ->whereNotNull('latitude')
+            ->whereNotNull('longitude')
+            ->get([
+                'id',
+                'nama_tps',
+                'alamat',
+                'latitude',
+                'longitude',
+            ]);
+
+        return Inertia::render('Uptd/Tps/Index', [
+            'tps' => $tps,
+            'tpsUntukPeta' => $tpsUntukPeta,
+            'totalTps' => $totalTps,
+            'totalDenganKoordinat' => $totalDenganKoordinat,
+            'totalTanpaKoordinat' => $totalTanpaKoordinat,
+            'filters' => [
+                'cari' => $request->input('cari', ''),
+            ],
+        ]);
     }
 }

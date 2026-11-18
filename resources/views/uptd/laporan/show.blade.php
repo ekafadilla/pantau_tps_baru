@@ -1,4 +1,4 @@
-@extends('layouts.uptd')
+﻿@extends('layouts.uptd')
 
 @section('title', 'Detail Laporan #' . $laporan->id . ' - UPTD')
 @section('page-title', 'Detail Laporan')
@@ -112,7 +112,7 @@
 
     <div class="row g-4">
 
-        {{-- â”€â”€ KOLOM KIRI â”€â”€ --}}
+        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KIRI Ã¢â€â‚¬Ã¢â€â‚¬ --}}
         <div class="col-lg-7 col-xl-8">
 
             {{-- Info Laporan --}}
@@ -150,6 +150,78 @@
                 </div>
             </div>
 
+            {{-- Peta Lokasi Laporan --}}
+            @php
+                $lokasiPeta = $laporan->lokasi
+                    ?: ($laporan->tps->alamat ?? '');
+
+                $latitude = $laporan->tps->latitude ?? null;
+                $longitude = $laporan->tps->longitude ?? null;
+
+                $punyaKoordinat = is_numeric($latitude)
+                    && is_numeric($longitude);
+
+                $queryPeta = $punyaKoordinat
+                    ? $latitude . ',' . $longitude
+                    : $lokasiPeta;
+
+                $urlGoogleMaps = 'https://www.google.com/maps/search/?api=1&query='
+                    . urlencode($queryPeta);
+
+                $urlEmbedMaps = 'https://maps.google.com/maps?q='
+                    . urlencode($queryPeta)
+                    . '&z=16&output=embed';
+            @endphp
+
+            @if($queryPeta)
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                        <div>
+                            <h6 class="fw-bold mb-1" style="color:#176b43">
+                                <i class="bi bi-geo-alt-fill me-1"></i>
+                                Peta Lokasi Laporan
+                            </h6>
+                            <p class="text-muted small mb-0">
+                                Lokasi TPS yang dilaporkan
+                            </p>
+                        </div>
+
+                        <a href="{{ $urlGoogleMaps }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-map me-1"></i>
+                            Buka di Google Maps
+                        </a>
+                    </div>
+
+                    <div class="rounded overflow-hidden"
+                         style="border:1px solid #dde8e1;">
+                        <iframe
+                            src="{{ $urlEmbedMaps }}"
+                            width="100%"
+                            height="320"
+                            style="border:0; display:block;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen
+                            title="Peta lokasi laporan">
+                        </iframe>
+                    </div>
+
+                    <div class="small text-muted mt-2">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        {{ $lokasiPeta }}
+                        @if($punyaKoordinat)
+                            <span class="d-block mt-1">
+                                Koordinat: {{ $latitude }}, {{ $longitude }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
             {{-- Info Penugasan (jika sudah ditugaskan) --}}
             @if(in_array($laporan->status_laporan, ['diproses','ditangani','selesai','ditolak']) && $laporan->supir)
             <div class="card border-0 mb-4">
@@ -164,7 +236,7 @@
                             <div class="info-label">Armada</div>
                             <div class="info-value">
                                 @if($laporan->armada)
-                                    {{ $laporan->armada->kode_armada }} â€“ {{ $laporan->armada->nomor_polisi }}
+                                    {{ $laporan->armada->kode_armada }} Ã¢â‚¬â€œ {{ $laporan->armada->nomor_polisi }}
                                     <span class="text-muted small">({{ $laporan->armada->jenis_armada }})</span>
                                 @else
                                     <span class="text-muted">Tidak ada armada</span>
@@ -267,7 +339,7 @@
 
         </div>{{-- /.col-left --}}
 
-        {{-- â”€â”€ KOLOM KANAN (Panel Aksi) â”€â”€ --}}
+        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KANAN (Panel Aksi) Ã¢â€â‚¬Ã¢â€â‚¬ --}}
         <div class="col-lg-5 col-xl-4">
             <div class="panel-aksi">
                 <h6><i class="bi bi-shield-check me-1"></i>Panel Aksi UPTD</h6>
@@ -511,7 +583,7 @@
                     </div>
                 @endif
 
-                {{-- STATUS: menunggu â†’ tombol verifikasi & tolak --}}
+                {{-- STATUS: menunggu Ã¢â€ â€™ tombol verifikasi & tolak --}}
                 @if($laporan->status_laporan === 'menunggu')
 
                     <p class="text-muted small mb-3">Laporan ini menunggu verifikasi dari Anda.</p>
@@ -537,7 +609,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
                                 <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
-                                          placeholder="Tuliskan alasan penolakanâ€¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
                                 @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <button type="submit" class="btn btn-danger w-100"
@@ -547,7 +619,7 @@
                         </form>
                     </div>
 
-                {{-- STATUS: diverifikasi â†’ form tugaskan + tolak --}}
+                {{-- STATUS: diverifikasi Ã¢â€ â€™ form tugaskan + tolak --}}
                 @elseif($laporan->status_laporan === 'diverifikasi')
 
                     <p class="text-muted small mb-3">Laporan telah diverifikasi. Tugaskan supir untuk menanganinya.</p>
@@ -559,10 +631,10 @@
                         <div class="mb-3">
                             <label class="form-label">Supir <span class="text-danger">*</span></label>
                             <select name="id_supir" class="form-select @error('id_supir') is-invalid @enderror" required>
-    <option value="">— Pilih Supir —</option>
+    <option value="">â€” Pilih Supir â€”</option>
     @foreach($supirList as $supir)
         <option value="{{ $supir->id }}" @selected(old('id_supir') == $supir->id)>
-            {{ $supir->name }}{{ $supir->tpsTugas->first()?->pivot?->rute ? ' — ' . $supir->tpsTugas->first()->pivot->rute : '' }}
+            {{ $supir->name }}{{ $supir->tpsTugas->first()?->pivot?->rute ? ' â€” ' . $supir->tpsTugas->first()->pivot->rute : '' }}
         </option>
     @endforeach
 </select>
@@ -576,10 +648,10 @@
                         <div class="mb-3">
                             <label class="form-label">Armada <span class="text-muted fw-normal">(opsional)</span></label>
                             <select name="id_armada" class="form-select @error('id_armada') is-invalid @enderror">
-                                <option value="">â€” Pilih Armada â€”</option>
+                                <option value="">Ã¢â‚¬â€ Pilih Armada Ã¢â‚¬â€</option>
                                 @foreach($armadaList as $arm)
                                     <option value="{{ $arm->id }}" @selected(old('id_armada') == $arm->id)>
-                                        {{ $arm->kode_armada }} â€“ {{ $arm->nomor_polisi }} ({{ $arm->jenis_armada }})
+                                        {{ $arm->kode_armada }} Ã¢â‚¬â€œ {{ $arm->nomor_polisi }} ({{ $arm->jenis_armada }})
                                     </option>
                                 @endforeach
                             </select>
@@ -602,7 +674,7 @@
                             <textarea name="instruksi_penanganan" rows="3"
                                       class="form-control @error('instruksi_penanganan') is-invalid @enderror"
                                       maxlength="1000"
-                                      placeholder="Tambahkan instruksi khusus untuk supirâ€¦">{{ old('instruksi_penanganan') }}</textarea>
+                                      placeholder="Tambahkan instruksi khusus untuk supirÃ¢â‚¬Â¦">{{ old('instruksi_penanganan') }}</textarea>
                             @error('instruksi_penanganan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
@@ -625,7 +697,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
                                 <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
-                                          placeholder="Tuliskan alasan penolakanâ€¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
                                 @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <button type="submit" class="btn btn-danger w-100"
@@ -656,4 +728,5 @@
     </div>{{-- /.row --}}
 </div>
 @endsection
+
 
