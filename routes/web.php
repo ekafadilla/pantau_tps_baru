@@ -14,22 +14,7 @@ Route::get('/', function () {
     return view('landing.index');
 })->name('landing');
 
-// Pengaturan masyarakat
-// Pengaturan akun Masyarakat
-Route::get('/masyarakat/pengaturan', [
-    PengaturanMasyarakatController::class,
-    'edit'
-])->middleware('auth')->name('masyarakat.pengaturan.edit');
 
-Route::put('/masyarakat/pengaturan', [
-    PengaturanMasyarakatController::class,
-    'update'
-])->middleware('auth')->name('masyarakat.pengaturan.update');
-
-Route::put('/masyarakat/pengaturan/kata-sandi', [
-    PengaturanMasyarakatController::class,
-    'updatePassword'
-])->middleware('auth')->name('masyarakat.pengaturan.password');
 
 // Login dan register
 Route::middleware('guest')->group(function () {
