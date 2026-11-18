@@ -7,7 +7,6 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UptdLaporanController;
-use App\Http\Controllers\PengaturanMasyarakatController;
 
 // Halaman utama
 Route::get('/', function () {
