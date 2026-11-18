@@ -15,7 +15,29 @@
         </a>
     </div>
 
+        {{-- PETA-SUPIR --}}
+    @php
+        $latTujuan = $tugas->latitude ?? $tugas->tps->latitude ?? null;
+        $lngTujuan = $tugas->longitude ?? $tugas->tps->longitude ?? null;
+    @endphp
+
     <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+            <h5 class="mb-2">Bagikan Lokasi</h5>
+            <p class="text-muted small mb-3">
+                Bagikan lokasi Anda saat menuju TPS agar UPTD dapat memantau posisi Anda.
+            </p>
+            <x-peta
+                mode="live"
+                :height="320"
+                :share-url="route('supir.lokasi.simpan')"
+                :tujuan="($latTujuan !== null && $lngTujuan !== null)
+                    ? ['lat' => (float) $latTujuan, 'lng' => (float) $lngTujuan, 'label' => 'lokasi laporan']
+                    : null"
+            />
+        </div>
+    </div>
+<div class="card border-0 shadow-sm mb-3">
         <div class="card-body">
             <h5 class="mb-3">Informasi Laporan</h5>
 

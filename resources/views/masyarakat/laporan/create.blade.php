@@ -146,7 +146,12 @@
                         value="{{ old('longitude') }}"
                     >
 
-                    <div id="report-location-picker"></div>
+                    <x-peta
+                    mode="picker"
+                    :height="320"
+                    lat-input="latitude"
+                    lng-input="longitude"
+                />
 
                     @error('latitude')
                         <small class="field-error">{{ $message }}</small>
