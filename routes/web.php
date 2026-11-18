@@ -19,17 +19,17 @@ Route::get('/', function () {
 Route::get('/masyarakat/pengaturan', [
     PengaturanMasyarakatController::class,
     'edit'
-])->name('masyarakat.pengaturan.edit');
+])->middleware('auth')->name('masyarakat.pengaturan.edit');
 
 Route::put('/masyarakat/pengaturan', [
     PengaturanMasyarakatController::class,
     'update'
-])->name('masyarakat.pengaturan.update');
+])->middleware('auth')->name('masyarakat.pengaturan.update');
 
 Route::put('/masyarakat/pengaturan/kata-sandi', [
     PengaturanMasyarakatController::class,
     'updatePassword'
-])->name('masyarakat.pengaturan.password');
+])->middleware('auth')->name('masyarakat.pengaturan.password');
 
 // Login dan register
 Route::middleware('guest')->group(function () {
@@ -37,13 +37,13 @@ Route::middleware('guest')->group(function () {
         ->name('login');
 
     Route::post('/login', [AuthController::class, 'login'])
-        ->name('login.store');
+        ->middleware('throttle:login')->name('login.store');
 
     Route::get('/register', [AuthController::class, 'showRegister'])
         ->name('register');
 
     Route::post('/register', [AuthController::class, 'register'])
-        ->name('register.store');
+        ->middleware('throttle:daftar')->name('register.store');
 });
 
 // Dashboard dan fitur setelah login
@@ -66,10 +66,10 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
 
     // Buat laporan masyarakat
     Route::get('/masyarakat/laporan/buat', [LaporanController::class, 'create'])
-        ->name('masyarakat.laporan.create');
+        ->middleware('verified')->name('masyarakat.laporan.create');
 
     Route::post('/masyarakat/laporan', [LaporanController::class, 'store'])
-        ->name('masyarakat.laporan.store');
+        ->middleware('verified')->name('masyarakat.laporan.store');
 
      Route::get('/masyarakat/laporan/{laporan}', [LaporanController::class, 'show'])
     ->whereNumber('laporan')
@@ -91,7 +91,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgot-password', [
         \App\Http\Controllers\PasswordResetController::class,
         'sendLink'
-    ])->name('password.email');
+    ])->middleware('throttle:reset')->name('password.email');
 
     Route::get('/reset-password/{token}', [
         \App\Http\Controllers\PasswordResetController::class,
@@ -101,7 +101,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/reset-password', [
         \App\Http\Controllers\PasswordResetController::class,
         'reset'
-    ])->name('password.update');
+    ])->middleware('throttle:reset')->name('password.update');
 });
 
 
@@ -245,3 +245,41 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
         ->name('pengaturan.password');
 });
 
+
+
+// Peta: lokasi supir (dibagikan supir, dibaca admin & UPTD)
+Route::middleware('auth')->group(function () {
+    Route::post('/supir/lokasi', [\App\Http\Controllers\LokasiSupirController::class, 'simpan'])
+        ->middleware('throttle:30,1')
+        ->name('supir.lokasi.simpan');
+
+    Route::delete('/supir/lokasi', [\App\Http\Controllers\LokasiSupirController::class, 'hapus'])
+        ->name('supir.lokasi.hapus');
+
+    Route::get('/peta/supir', [\App\Http\Controllers\LokasiSupirController::class, 'daftar'])
+        ->name('peta.supir');
+});
+// Verifikasi email
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', [\App\Http\Controllers\VerifikasiEmailController::class, 'notice'])
+        ->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\VerifikasiEmailController::class, 'verify'])
+        ->middleware('signed')
+        ->name('verification.verify');
+
+    Route::post('/email/verification-notification', [\App\Http\Controllers\VerifikasiEmailController::class, 'kirimUlang'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+// Pengaturan akun terpadu (semua role)
+Route::middleware('auth')->prefix('pengaturan')->name('pengaturan.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\PengaturanController::class, 'edit'])
+        ->name('edit');
+
+    Route::put('/profil', [\App\Http\Controllers\PengaturanController::class, 'updateProfil'])
+        ->name('profil');
+
+    Route::put('/kata-sandi', [\App\Http\Controllers\PengaturanController::class, 'updatePassword'])
+        ->name('password');
+});
