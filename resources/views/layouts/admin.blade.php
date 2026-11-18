@@ -79,6 +79,9 @@
            class="menu {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
             <i class="bi bi-file-earmark-text"></i><span>Data Laporan</span>
         </a>
+        <a href="{{ route('pengaturan.edit') }}" class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+            <i class="bi bi-gear"></i> Pengaturan
+        </a>
 
         <div class="sidebar-bottom">
             <form action="{{ route('logout') }}" method="POST">

@@ -213,7 +213,7 @@
         <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
 
         <a class="menu {{ request()->is('profile*') ? 'active' : '' }}"
-           href="{{ url('/profile') }}">
+           href="{{ route('pengaturan.edit') }}">
             <i class="bi bi-gear-fill"></i>
             <span>Pengaturan Akun</span>
         </a>

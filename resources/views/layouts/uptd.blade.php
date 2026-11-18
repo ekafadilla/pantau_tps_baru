@@ -363,8 +363,8 @@
 
             <span class="nav-label" style="margin-top:8px">Akun</span>
 
-            <a href="{{ route('uptd.pengaturan.edit') }}"
-               class="nav-link-item {{ request()->routeIs('uptd.pengaturan.*') ? 'active' : '' }}">
+            <a href="{{ route('pengaturan.edit') }}"
+               class="nav-link-item {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
                 <i class="bi bi-gear"></i> Pengaturan
             </a>
         </nav>
