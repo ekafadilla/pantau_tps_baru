@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use HasFactory, Notifiable;
 
@@ -41,6 +42,10 @@ class User extends Authenticatable
             'id_supir',
             'id_tps'
         )->withPivot(['rute', 'status'])->withTimestamps();
+    }
+    public function lokasiSupir(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(LokasiSupir::class, 'id_supir');
     }
     public function wilayah(): BelongsTo
     {
