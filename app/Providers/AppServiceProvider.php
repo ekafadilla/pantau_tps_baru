@@ -3,10 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Http\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,32 +17,18 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        // Aturan kata sandi: minimal 8, huruf dan angka, dicek ke daftar kebocoran.
-        Password::defaults(fn () => Password::min(8)
-            );
+        Paginator::useBootstrapFive();
 
-        // Login: 5 kali per menit per kombinasi email dan IP.
         RateLimiter::for('login', function (Request $request) {
-            $email = (string) $request->input('email');
-            return Limit::perMinute(5)->by($email . '|' . $request->ip());
+            return Limit::perMinute(5)->by($request->ip());
         });
 
-        // Daftar: 5 kali per menit per IP.
         RateLimiter::for('daftar', function (Request $request) {
             return Limit::perMinute(5)->by($request->ip());
         });
 
-        // Lupa dan reset kata sandi: 3 kali per menit per email dan IP.
-        RateLimiter::for('reset', function (Request $request) {
-            $email = (string) $request->input('email');
-            return Limit::perMinute(3)->by($email . '|' . $request->ip());
-        });
-
-        // Custom rate limiter for report submissions
         RateLimiter::for('user-reports', function (Request $request) {
-            $identifier = $request->user() ? $request->user()->id : $request->ip();
-            // Example: max 3 reports per 10 minutes
-            return Limit::perMinutes(10, 3)->by($identifier);
+            return Limit::perMinute(10)->by($request->user()?->id ?: $request->ip());
         });
     }
 }

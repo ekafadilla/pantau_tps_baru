@@ -15,6 +15,10 @@
             min-height: 100vh; 
             align-items: flex-start;
         }
+                nav[role="navigation"] svg {
+            width: 20px !important;
+            height: 20px !important;
+        }
 
         /* SIDEBAR */
         .sidebar {
@@ -262,14 +266,7 @@
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
-<<<<<<< HEAD
-
-    <!-- SIDEBAR ADMIN -->
     <aside class="sidebar" id="sidebar">
-        <!-- BRAND  -->
-=======
-    <aside class="sidebar" id="sidebar">
->>>>>>> fitur-peta
         <a href="{{ route('admin.dashboard') }}" class="brand">
             <div class="brand-icon">
                 <i class="bi bi-recycle"></i>
@@ -314,19 +311,6 @@
                 <span>Data Laporan</span>
             </a>
 
-<<<<<<< HEAD
-            <!-- PENGATURAN -->
-            <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
-
-            <a href="{{ url('/profile') }}"
-               class="menu {{ request()->is('profile*') ? 'active' : '' }}">
-                <i class="bi bi-gear-fill"></i>
-                <span>Pengaturan Akun</span>
-            </a>
-        </div>
-
-        <!-- TOMBOL KELUAR (TETAP DIAM DI BAWAH, TIDAK PERLU SCROLL HALAMAN) -->
-=======
         <a href="{{ route('admin.spam.index') }}"
            class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
             <i class="bi bi-shield-exclamation"></i><span>Deteksi Spam</span>
@@ -335,7 +319,6 @@
             <i class="bi bi-gear"></i> Pengaturan
         </a>
 
->>>>>>> fitur-peta
         <div class="sidebar-bottom">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -353,17 +336,8 @@
     <!-- MAIN CONTENT -->
     <div class="main">
         <header class="topbar">
-<<<<<<< HEAD
-            <div class="d-flex align-items-center gap-3">
-                <button type="button" class="btn btn-outline-success d-md-none" id="btnToggleSidebar">
-                    <i class="bi bi-list fs-4"></i>
-                </button>
-                <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
-            </div>
-=======
             <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu"><i class="bi bi-list"></i></button>
             <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
->>>>>>> fitur-peta
             <div class="user-info">
                 <div>
                     <strong>{{ auth()->user()->name }}</strong><br>
@@ -382,28 +356,6 @@
         </footer>
     </div>
 </div>
-<<<<<<< HEAD
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('sidebarOverlay');
-    const btnToggle = document.getElementById('btnToggleSidebar');
-
-    if (btnToggle) {
-        btnToggle.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
-            overlay.classList.toggle('show');
-        });
-    }
-
-    if (overlay) {
-        overlay.addEventListener('click', () => {
-            sidebar.classList.remove('show');
-            overlay.classList.remove('show');
-        });
-    }
-=======
 <script>
 (function () {
     const sidebar = document.getElementById('sidebar');
@@ -441,7 +393,6 @@
         if (window.innerWidth > 991) closeSidebar();
     });
 })();
->>>>>>> fitur-peta
 </script>
 </body>
 </html>
