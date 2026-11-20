@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -177,8 +177,10 @@
             .content { padding: 18px 12px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
 </head>
 <body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
 
     <!-- SIDEBAR -->
@@ -212,8 +214,8 @@
         <!-- PENGATURAN -->
         <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
 
-        <a class="menu {{ request()->is('profile*') ? 'active' : '' }}"
-           href="{{ url('/profile') }}">
+        <a class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}"
+           href="{{ route('pengaturan.edit') }}">
             <i class="bi bi-gear-fill"></i>
             <span>Pengaturan Akun</span>
         </a>
@@ -233,6 +235,7 @@
     <!-- MAIN CONTENT -->
     <main class="main">
         <header class="topbar">
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu"><i class="bi bi-list"></i></button>
             <h1 class="topbar-title">@yield('page-title', 'Dashboard Supir')</h1>
             <div class="user-info">
                 <div>
@@ -252,5 +255,43 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(function () {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('sidebarToggle');
+
+    if (!sidebar || !overlay || !toggle) return;
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.classList.remove('sidebar-open');
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.classList.toggle('sidebar-open');
+    }
+
+    toggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeSidebar();
+    });
+
+    sidebar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth <= 991) closeSidebar();
+        });
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 991) closeSidebar();
+    });
+})();
+</script>
 </body>
 </html>

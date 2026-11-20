@@ -627,6 +627,7 @@
     }
 }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
 </head>
 
 <body>
@@ -667,8 +668,8 @@
     <!-- PENGATURAN -->
     <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
     
-    <a class="menu {{ request()->routeIs('masyarakat.pengaturan.*') ? 'active' : '' }}" 
-       href="{{ route('masyarakat.pengaturan.edit') }}">
+    <a class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}" 
+       href="{{ route('pengaturan.edit') }}">
         <i class="bi bi-gear-fill"></i>
         <span>Pengaturan Akun</span>
     </a>
@@ -699,7 +700,7 @@
     </div>
     
     
-    <a href="{{ route('masyarakat.pengaturan.edit') }}" class="app-user" title="Pengaturan Akun" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 11px;">
+    <a href="{{ route('pengaturan.edit') }}" class="app-user" title="Pengaturan Akun" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 11px;">
         <div class="app-avatar" style="display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; background: #e2f1e7; color: #176b43; font-weight: 700; font-size: 15px;">
             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
         </div>

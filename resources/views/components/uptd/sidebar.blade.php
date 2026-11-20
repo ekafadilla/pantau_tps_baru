@@ -1,0 +1,218 @@
+﻿<style>
+    /* SIDEBAR BERSAMA KHUSUS UPTD */
+    #sidebar {
+        position: fixed !important;
+        z-index: 1050 !important;
+        inset: 0 auto 0 0 !important;
+        width: 235px !important;
+        min-width: 235px !important;
+        height: 100vh !important;
+        padding: 22px 15px !important;
+        overflow-y: auto !important;
+        display: flex !important;
+        flex-direction: column !important;
+        color: #fff !important;
+        background: linear-gradient(180deg, #125735 0%, #0e432c 100%) !important;
+        box-shadow: 3px 0 18px rgba(15,55,35,.12) !important;
+        transition: transform .25s ease !important;
+    }
+
+    #sidebar .brand {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        padding: 8px 9px 30px !important;
+        color: #fff !important;
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        letter-spacing: .2px !important;
+    }
+
+    #sidebar .brand i {
+        font-size: 23px !important;
+    }
+
+    #sidebar .menu-title {
+        margin: 8px 10px 13px !important;
+        color: #c6dfd0 !important;
+        font-size: 10px !important;
+        letter-spacing: 1.2px !important;
+        text-transform: uppercase !important;
+    }
+
+    #sidebar .menu {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 11px !important;
+        min-height: 43px !important;
+        margin: 0 0 6px !important;
+        padding: 11px 12px !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+        color: rgba(255,255,255,.88) !important;
+        background: transparent !important;
+        font-size: 12px !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+        transition: background .18s ease, color .18s ease !important;
+    }
+
+    #sidebar .menu i {
+        flex: 0 0 18px !important;
+        width: 18px !important;
+        color: inherit !important;
+        font-size: 16px !important;
+        text-align: center !important;
+    }
+
+    #sidebar .menu:hover {
+        color: #fff !important;
+        background: rgba(255,255,255,.11) !important;
+    }
+
+    #sidebar .menu.active {
+        color: #fff !important;
+        background: #246d49 !important;
+        box-shadow: inset 3px 0 #b9dfc6, 0 2px 8px rgba(0,0,0,.08) !important;
+    }
+
+    #sidebar .sidebar-bottom {
+        margin-top: auto !important;
+        padding-top: 20px !important;
+        border-top: 1px solid rgba(255,255,255,.18) !important;
+    }
+
+    #sidebar .logout {
+        display: flex !important;
+        align-items: center !important;
+        gap: 11px !important;
+        width: 100% !important;
+        min-height: 43px !important;
+        padding: 11px 12px !important;
+        border: 0 !important;
+        border-radius: 8px !important;
+        color: #fff !important;
+        background: transparent !important;
+        font-family: inherit !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        text-align: left !important;
+        cursor: pointer !important;
+        transition: background .18s ease !important;
+    }
+
+    #sidebar .logout:hover {
+        color: #fff !important;
+        background: rgba(255,255,255,.11) !important;
+    }
+
+    #sidebarOverlay {
+        display: none;
+    }
+
+    @media (max-width: 900px) {
+        #sidebar {
+            transform: translateX(-100%) !important;
+        }
+
+        #sidebar.show {
+            transform: translateX(0) !important;
+        }
+
+        #sidebarOverlay {
+            display: block;
+            position: fixed;
+            inset: 0;
+            z-index: 1040;
+            background: rgba(15,30,20,.38);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity .2s ease, visibility .2s ease;
+        }
+
+        #sidebarOverlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .main {
+            width: 100% !important;
+            margin-left: 0 !important;
+        }
+
+        .menu-toggle {
+            display: inline-flex !important;
+        }
+    }
+
+    /* PENYESUAIAN GARIS SIDEBAR */
+    #sidebar .brand {
+        position: relative !important;
+        padding-bottom: 30px !important;
+    }
+
+    #sidebar .brand::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 8px !important;
+        right: 4px !important;
+        bottom: 0 !important;
+        height: 1px !important;
+        background: rgba(255,255,255,.18) !important;
+    }
+
+    #sidebar .menu.active {
+        position: relative !important;
+        overflow: hidden !important;
+    }
+
+    #sidebar .menu.active::before {
+        content: "" !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        width: 4px !important;
+        border-radius: 8px 0 0 8px !important;
+        background: #c6e8d2 !important;
+    }
+</style>
+
+<aside class="sidebar" id="sidebar">
+    <div class="brand">
+        <i class="bi bi-recycle"></i>
+        <span>SI PANTAU TPS</span>
+    </div>
+
+    <div class="menu-title">Menu Utama</div>
+
+    <a class="menu {{ request()->routeIs('dashboard.role') ? 'active' : '' }}"
+       href="{{ route('dashboard.role', ['role' => 'uptd']) }}">
+        <i class="bi bi-grid"></i> Dashboard
+    </a>
+
+    <a href="{{ route('uptd.laporan.index') }}"
+       class="menu {{ request()->routeIs('uptd.laporan.*') ? 'active' : '' }}">
+        <i class="bi bi-file-earmark-text"></i> Data Laporan
+    </a>
+
+    <a href="{{ route('uptd.tps.index') }}"
+       class="menu {{ request()->routeIs('uptd.tps.*') ? 'active' : '' }}">
+        <i class="bi bi-geo-alt"></i> Data TPS Wilayah
+    </a>
+
+    <div class="sidebar-bottom">
+        <form action="{{ route('logout') }}" method="POST">
+            @csrf
+            <button type="submit" class="logout">
+                <i class="bi bi-box-arrow-right"></i> Keluar
+            </button>
+        </form>
+    </div>
+</aside>
+
+<div class="sidebar-overlay" id="sidebarOverlay"
+     onclick="document.getElementById('sidebar').classList.remove('show'); this.classList.remove('show');">
+</div>
+

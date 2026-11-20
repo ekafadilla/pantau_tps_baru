@@ -131,6 +131,35 @@
                     @error('lokasi')
                         <small class="field-error">{{ $message }}</small>
                     @enderror
+
+                    <input
+                        type="hidden"
+                        name="latitude"
+                        id="latitude"
+                        value="{{ old('latitude') }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="longitude"
+                        id="longitude"
+                        value="{{ old('longitude') }}"
+                    >
+
+                    <x-peta
+                    mode="picker"
+                    :height="320"
+                    lat-input="latitude"
+                    lng-input="longitude"
+                />
+
+                    @error('latitude')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+
+                    @error('longitude')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -659,6 +688,55 @@
             width: 100%;
         }
     }
+
+    .report-location-picker {
+        margin-top: 12px;
+    }
+
+    .report-location-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 15px;
+        border: 1px solid #176b43;
+        border-radius: 7px;
+        background: #176b43;
+        color: #fff;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .report-location-button:hover {
+        background: #125735;
+    }
+
+    .report-location-button:disabled {
+        opacity: .6;
+        cursor: wait;
+    }
+
+    .report-location-status {
+        margin-top: 9px;
+        padding: 10px 12px;
+        border: 1px solid #dce8df;
+        border-radius: 7px;
+        background: #f4f9f5;
+        color: #52685a;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .report-location-map {
+        width: 100%;
+        height: 320px;
+        margin-top: 12px;
+        border: 1px solid #dce5de;
+        border-radius: 8px;
+        overflow: hidden;
+    }
 </style>
 
 <script>
@@ -693,4 +771,5 @@
     });
 </script>
 @endsection
+
 

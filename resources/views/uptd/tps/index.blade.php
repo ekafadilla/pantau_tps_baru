@@ -409,6 +409,31 @@
 
     </div>
 
+    {{-- PETA-UPTD --}}
+    <div class="tps-panel mb-4">
+        <div class="tps-panel-header">
+            <h5>Peta Sebaran TPS dan Posisi Supir</h5>
+            <p>Titik TPS pada halaman ini dan posisi supir yang sedang membagikan lokasi.</p>
+        </div>
+        <div class="p-3">
+            <x-peta
+                :height="380"
+                :poll-url="route('peta.supir')"
+                :markers="$tps->getCollection()
+                    ->filter(fn ($t) => $t->latitude !== null && $t->longitude !== null)
+                    ->map(fn ($t) => [
+                        'id' => $t->id_tps ?? $t->id,
+                        'type' => 'tps',
+                        'lat' => (float) $t->latitude,
+                        'lng' => (float) $t->longitude,
+                        'title' => $t->nama_tps,
+                        'subtitle' => $t->alamat,
+                    ])
+                    ->values()
+                    ->all()"
+            />
+        </div>
+    </div>
     {{-- DAFTAR TPS --}}
     <div class="tps-panel">
 

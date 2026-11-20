@@ -9,6 +9,8 @@ class SupirTugasController extends Controller
 {
     public function index()
     {
+        abort_unless(auth()->user()->role === 'supir', 403);
+
         $tugas = Laporan::with(['tps', 'armada', 'pengguna'])
             ->where('id_supir', auth()->id())
             ->whereNotIn('status_laporan', ['selesai', 'ditolak'])
@@ -20,6 +22,8 @@ class SupirTugasController extends Controller
 
     public function show($id)
     {
+        abort_unless(auth()->user()->role === 'supir', 403);
+
         $tugas = Laporan::with([
             'tps',
             'armada',

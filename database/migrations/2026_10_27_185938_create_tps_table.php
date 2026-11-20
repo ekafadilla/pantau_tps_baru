@@ -1,12 +1,10 @@
-
-<?php
+﻿<?php
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     public function up(): void
     {
         Schema::create('tps', function (Blueprint $table) {
@@ -18,10 +16,11 @@ return new class extends Migration
                 ->restrictOnDelete();
 
             $table->string('nama_tps');
-            $table->text('alamat');
+            $table->text('alamat')->nullable();
             $table->decimal('latitude', 10, 7)->nullable();
             $table->decimal('longitude', 10, 7)->nullable();
             $table->text('keterangan')->nullable();
+
             $table->timestamps();
         });
     }

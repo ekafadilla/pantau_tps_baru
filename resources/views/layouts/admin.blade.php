@@ -256,14 +256,20 @@
             .content { padding: 20px 15px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
 </head>
 </head>
 <body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
+<<<<<<< HEAD
 
     <!-- SIDEBAR ADMIN -->
     <aside class="sidebar" id="sidebar">
         <!-- BRAND  -->
+=======
+    <aside class="sidebar" id="sidebar">
+>>>>>>> fitur-peta
         <a href="{{ route('admin.dashboard') }}" class="brand">
             <div class="brand-icon">
                 <i class="bi bi-recycle"></i>
@@ -308,6 +314,7 @@
                 <span>Data Laporan</span>
             </a>
 
+<<<<<<< HEAD
             <!-- PENGATURAN -->
             <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
 
@@ -319,6 +326,16 @@
         </div>
 
         <!-- TOMBOL KELUAR (TETAP DIAM DI BAWAH, TIDAK PERLU SCROLL HALAMAN) -->
+=======
+        <a href="{{ route('admin.spam.index') }}"
+           class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
+            <i class="bi bi-shield-exclamation"></i><span>Deteksi Spam</span>
+        </a>
+        <a href="{{ route('pengaturan.edit') }}" class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+            <i class="bi bi-gear"></i> Pengaturan
+        </a>
+
+>>>>>>> fitur-peta
         <div class="sidebar-bottom">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
@@ -336,12 +353,17 @@
     <!-- MAIN CONTENT -->
     <div class="main">
         <header class="topbar">
+<<<<<<< HEAD
             <div class="d-flex align-items-center gap-3">
                 <button type="button" class="btn btn-outline-success d-md-none" id="btnToggleSidebar">
                     <i class="bi bi-list fs-4"></i>
                 </button>
                 <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
             </div>
+=======
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu"><i class="bi bi-list"></i></button>
+            <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
+>>>>>>> fitur-peta
             <div class="user-info">
                 <div>
                     <strong>{{ auth()->user()->name }}</strong><br>
@@ -360,6 +382,7 @@
         </footer>
     </div>
 </div>
+<<<<<<< HEAD
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
@@ -380,6 +403,46 @@
             overlay.classList.remove('show');
         });
     }
+=======
+<script>
+(function () {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('sidebarToggle');
+
+    if (!sidebar || !overlay || !toggle) return;
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.classList.remove('sidebar-open');
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.classList.toggle('sidebar-open');
+    }
+
+    toggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeSidebar();
+    });
+
+    sidebar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth <= 991) closeSidebar();
+        });
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 991) closeSidebar();
+    });
+})();
+>>>>>>> fitur-peta
 </script>
 </body>
 </html>
+

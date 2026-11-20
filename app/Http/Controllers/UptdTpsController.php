@@ -43,11 +43,11 @@ class UptdTpsController extends Controller
 
         $totalTanpaKoordinat = $totalTps - $totalDenganKoordinat;
 
-        return view('uptd.tps.index', compact(
-            'tps',
-            'totalTps',
-            'totalDenganKoordinat',
-            'totalTanpaKoordinat'
-        ));
+        return view('uptd.tps.index', [
+            'tps' => $tps,
+            'totalTps' => $totalTps,
+            'totalDenganKoordinat' => $totalDenganKoordinat,
+            'totalTanpaKoordinat' => $totalTanpaKoordinat,
+        ]);
     }
 }

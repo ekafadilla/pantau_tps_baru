@@ -1,0 +1,1005 @@
+﻿/* ==========================================================
+   SI Pantau TPS - sistem tampilan bersama
+   Dipakai oleh semua role: masyarakat, uptd, supir, admin.
+   ========================================================== */
+
+:root {
+    --warna-utama: #176b43;
+    --warna-utama-gelap: #125735;
+    --warna-utama-muda: #e8f3ec;
+    --warna-latar: #f4f6f5;
+    --warna-kartu: #ffffff;
+    --warna-teks: #1f2d26;
+    --warna-teks-redup: #66756d;
+    --warna-garis: #e2e8e4;
+    --warna-bahaya: #b42318;
+    --warna-peringatan: #9a6b15;
+    --warna-sukses: #176b43;
+
+    --radius: 10px;
+    --radius-kecil: 7px;
+    --bayangan: 0 1px 2px rgba(16, 24, 20, .04), 0 1px 3px rgba(16, 24, 20, .06);
+
+    --tinggi-navbar: 60px;
+    --lebar-sidebar: 232px;
+    --font-dasar: 14px;
+    --transisi: 150ms ease;
+}
+
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    font-size: var(--font-dasar);
+    line-height: 1.55;
+    color: var(--warna-teks);
+    background: var(--warna-latar);
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--warna-teks);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    line-height: 1.3;
+}
+h1 { font-size: 20px; margin-bottom: 4px; }
+h2 { font-size: 18px; margin-bottom: 4px; }
+h3 { font-size: 16px; margin-bottom: 4px; }
+h4 { font-size: 15px; margin-bottom: 4px; }
+h5 { font-size: 14px; margin-bottom: 4px; }
+
+p, .teks-redup { color: var(--warna-teks-redup); font-size: 13px; }
+
+a { color: var(--warna-utama); text-decoration: none; transition: color var(--transisi); }
+a:hover { color: var(--warna-utama-gelap); }
+
+/* ---------- Navbar atas ---------- */
+.ui-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    height: var(--tinggi-navbar);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 0 20px;
+    background: var(--warna-kartu);
+    border-bottom: 1px solid var(--warna-garis);
+}
+
+/* ---------- Sidebar ---------- */
+.ui-sidebar {
+    position: fixed;
+    top: var(--tinggi-navbar);
+    left: 0;
+    bottom: 0;
+    width: var(--lebar-sidebar);
+    padding: 14px 10px;
+    overflow-y: auto;
+    background: var(--warna-kartu);
+    border-right: 1px solid var(--warna-garis);
+}
+
+.ui-sidebar .menu-label {
+    padding: 10px 12px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--warna-teks-redup);
+}
+
+.ui-sidebar .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    margin-bottom: 2px;
+    border-radius: var(--radius-kecil);
+    color: var(--warna-teks);
+    font-size: 13.5px;
+    font-weight: 500;
+    transition: background var(--transisi), color var(--transisi);
+}
+.ui-sidebar .menu-item i { font-size: 16px; width: 18px; text-align: center; color: var(--warna-teks-redup); }
+.ui-sidebar .menu-item:hover { background: var(--warna-latar); color: var(--warna-teks); }
+.ui-sidebar .menu-item.aktif { background: var(--warna-utama-muda); color: var(--warna-utama); }
+.ui-sidebar .menu-item.aktif i { color: var(--warna-utama); }
+
+/* ---------- Area konten ---------- */
+.ui-main {
+    margin-left: var(--lebar-sidebar);
+    padding: 24px 28px 40px;
+    min-height: calc(100vh - var(--tinggi-navbar));
+}
+
+@media (max-width: 991px) {
+    .ui-sidebar { transform: translateX(-100%); transition: transform .2s ease; z-index: 1040; }
+    .ui-sidebar.terbuka { transform: translateX(0); box-shadow: 0 8px 24px rgba(0,0,0,.12); }
+    .ui-main { margin-left: 0; padding: 18px 16px 32px; }
+}
+
+/* ---------- Kartu ---------- */
+.ui-kartu, .card {
+    background: var(--warna-kartu);
+    border: 1px solid var(--warna-garis);
+    border-radius: var(--radius);
+    box-shadow: var(--bayangan);
+}
+.ui-kartu { padding: 18px 20px; }
+
+/* ---------- Tombol ---------- */
+.btn {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 7px 14px;
+    border-radius: var(--radius-kecil);
+    transition: background var(--transisi), border-color var(--transisi), color var(--transisi);
+}
+.btn-sm { font-size: 12px; padding: 5px 10px; }
+.btn-success, .btn-primary {
+    background: var(--warna-utama);
+    border-color: var(--warna-utama);
+    color: #fff;
+}
+.btn-success:hover, .btn-primary:hover {
+    background: var(--warna-utama-gelap);
+    border-color: var(--warna-utama-gelap);
+    color: #fff;
+}
+.btn-outline-secondary {
+    color: var(--warna-teks);
+    border-color: var(--warna-garis);
+    background: var(--warna-kartu);
+}
+.btn-outline-secondary:hover { background: var(--warna-latar); color: var(--warna-teks); border-color: var(--warna-garis); }
+
+/* ---------- Form ---------- */
+.form-label { font-size: 13px; font-weight: 500; color: var(--warna-teks); margin-bottom: 6px; }
+.form-control, .form-select {
+    font-size: 13px;
+    padding: 8px 11px;
+    border-radius: var(--radius-kecil);
+    border-color: #d5ddd8;
+    background-color: #fff;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--warna-utama);
+    box-shadow: 0 0 0 3px rgba(23, 107, 67, .12);
+}
+.form-text, small.text-muted { font-size: 12px; }
+
+/* ---------- Tabel ---------- */
+.table { font-size: 13px; color: var(--warna-teks); }
+.table thead th {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--warna-teks-redup);
+    background: var(--warna-latar);
+    border-bottom: 1px solid var(--warna-garis);
+    padding: 10px 12px;
+}
+.table td { padding: 11px 12px; vertical-align: middle; border-color: var(--warna-garis); }
+.table tbody tr:hover { background: #fafbfa; }
+
+/* ---------- Badge dan alert ---------- */
+.badge { font-size: 11px; font-weight: 600; padding: 4px 8px; border-radius: 999px; }
+.alert { font-size: 13px; border-radius: var(--radius-kecil); padding: 10px 14px; border-width: 1px; }
+
+/* ---------- Gerak halus untuk interaksi ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+/* ==========================================================
+   PENYERAGAMAN LAYOUT ADMIN DAN SUPIR
+   ========================================================== */
+
+.layout > .sidebar {
+    width: 245px;
+    min-width: 245px;
+    flex: 0 0 245px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 22px 15px;
+    background: linear-gradient(180deg, #176b43 0%, #125735 100%);
+    color: #ffffff;
+}
+
+.layout > .sidebar .brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 48px;
+    padding: 5px 9px 20px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(255,255,255,.15);
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.layout > .sidebar .brand:hover {
+    color: #ffffff;
+}
+
+.layout > .sidebar .brand i {
+    font-size: 23px;
+}
+
+.layout > .sidebar .brand-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255,255,255,.13);
+    color: #b8ebcd;
+    font-size: 19px;
+}
+
+.layout > .sidebar .brand-text {
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.layout > .sidebar .brand-text span {
+    display: block;
+    margin-top: 2px;
+    color: #b8ebcd;
+    font-size: 10px;
+    font-weight: 500;
+}
+
+.layout > .sidebar .menu-title {
+    margin: 10px 10px 9px;
+    color: #b8d9c6;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .8px;
+}
+
+.layout > .sidebar .menu {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-height: 40px;
+    padding: 9px 11px;
+    margin-bottom: 4px;
+    border-radius: 7px;
+    color: #edf7f0;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .15s ease, color .15s ease;
+}
+
+.layout > .sidebar .menu i {
+    width: 19px;
+    flex: 0 0 19px;
+    text-align: center;
+    color: #b8ebcd;
+    font-size: 16px;
+}
+
+.layout > .sidebar .menu:hover {
+    background: rgba(255,255,255,.10);
+    color: #ffffff;
+}
+
+.layout > .sidebar .menu.active {
+    background: #2c8058;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.layout > .sidebar .menu.active i {
+    color: #ffffff;
+}
+
+.layout > .sidebar .sidebar-bottom {
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,.15);
+}
+
+.layout > .sidebar .logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    width: 100%;
+    min-height: 39px;
+    padding: 9px 12px;
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 7px;
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background .15s ease;
+}
+
+.layout > .sidebar .logout:hover {
+    background: rgba(255,255,255,.16);
+}
+
+.layout > .main {
+    flex: 1;
+    min-width: 0;
+    background: var(--warna-latar);
+}
+
+.layout > .main > .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    min-height: 66px;
+    height: auto;
+    padding: 12px 25px;
+    background: #ffffff;
+    border-bottom: 1px solid var(--warna-garis);
+}
+
+.layout > .main .topbar-title {
+    margin: 0;
+    color: var(--warna-teks);
+    font-size: 17px;
+    font-weight: 650;
+}
+
+.layout > .main .user-info {
+    gap: 10px;
+    font-size: 13px;
+}
+
+.layout > .main .avatar {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border: 1px solid #d8ebdf;
+    background: var(--warna-utama-muda);
+    color: var(--warna-utama);
+    font-size: 14px;
+}
+
+.layout > .main > .content {
+    width: 100%;
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 24px 25px 35px;
+}
+
+@media (max-width: 768px) {
+    .layout > .sidebar {
+        width: 100%;
+        min-width: 0;
+        min-height: auto;
+        flex: none;
+        padding: 14px;
+    }
+
+    .layout > .sidebar .sidebar-bottom {
+        margin-top: 16px;
+    }
+
+    .layout > .main > .topbar {
+        position: relative;
+        min-height: 60px;
+        padding: 12px 15px;
+    }
+
+    .layout > .main > .content {
+        padding: 18px 14px 28px;
+    }
+}
+
+/* ==========================================
+   RESPONSIVE FIXED SIDEBAR - ADMIN & SUPIR
+   ========================================== */
+
+.layout > .sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0;
+    z-index: 1050;
+    width: 245px !important;
+    min-width: 245px !important;
+    height: 100vh;
+    min-height: 100vh !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(165deg, #176b43 0%, #125735 100%);
+    box-shadow: 5px 0 24px rgba(18, 87, 53, .12);
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,.3) transparent;
+}
+
+.layout > .main {
+    width: calc(100% - 245px);
+    min-height: 100vh;
+    margin-left: 245px;
+}
+
+.layout > main.main {
+    width: calc(100% - 245px);
+    min-height: 100vh;
+    margin-left: 245px;
+}
+
+.layout > .main > .topbar,
+.layout > main.main > .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 68px;
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(14px);
+    box-shadow: 0 3px 16px rgba(20, 60, 40, .045);
+}
+
+.sidebar-toggle {
+    display: none;
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #dce9e0;
+    border-radius: 11px;
+    background: #f0f7f2;
+    color: #176b43;
+    font-size: 23px;
+    cursor: pointer;
+    transition: all .2s ease;
+}
+
+.sidebar-toggle:hover {
+    color: #fff;
+    background: #176b43;
+    border-color: #176b43;
+    transform: translateY(-1px);
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+.layout > .sidebar .menu {
+    transition: background .2s ease, padding-left .2s ease, transform .2s ease;
+}
+
+.layout > .sidebar .menu:hover {
+    padding-left: 17px;
+    transform: translateX(2px);
+    background: rgba(255,255,255,.13);
+}
+
+.layout > .sidebar .menu.active {
+    background: #2c8058;
+    box-shadow: inset 3px 0 0 #b9e5c8, 0 4px 12px rgba(0,0,0,.09);
+}
+
+@media (max-width: 991px) {
+    .layout > .sidebar {
+        width: 270px !important;
+        min-width: 270px !important;
+        transform: translateX(-105%);
+        transition: transform .3s cubic-bezier(.2,.8,.2,1);
+        box-shadow: 12px 0 35px rgba(0,0,0,.18);
+    }
+
+    .layout > .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .layout > .main,
+    .layout > main.main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .sidebar-toggle {
+        display: inline-flex;
+    }
+
+    .sidebar-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+        z-index: 1040;
+        background: rgba(15, 30, 22, .48);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity .25s ease, visibility .25s ease;
+        backdrop-filter: blur(2px);
+    }
+
+    .sidebar-overlay.open {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    body.sidebar-open {
+        overflow: hidden;
+    }
+
+    .layout > .main > .topbar,
+    .layout > main.main > .topbar {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .layout > .sidebar {
+        width: min(285px, 85vw) !important;
+        min-width: min(285px, 85vw) !important;
+    }
+
+    .topbar-title {
+        font-size: 15px !important;
+    }
+
+    .user-info {
+        gap: 7px !important;
+        font-size: 12px !important;
+    }
+}
+
+/* ==========================================================
+   ADMIN DASHBOARD - MODERN GREEN EXPERIENCE
+   ========================================================== */
+
+/* Perapian posisi navbar dan area utama */
+.layout {
+    align-items: flex-start;
+}
+
+.layout > .main {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+    margin-left: 245px;
+    margin-top: 0;
+    padding: 0;
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 90% 5%, rgba(46, 139, 87, .055), transparent 28%),
+        #f4f7f5;
+}
+
+.layout > .main > .topbar {
+    position: sticky;
+    top: 0;
+    height: 72px;
+    min-height: 72px;
+    margin: 0;
+    padding: 0 30px;
+    border: 0;
+    border-bottom: 1px solid #e5ece7;
+    border-radius: 0;
+    background: rgba(255, 255, 255, .97);
+    box-shadow: 0 3px 18px rgba(25, 65, 43, .055);
+    backdrop-filter: blur(16px);
+}
+
+.layout > .main > .content {
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* Area sambutan */
+.layout > .main > .content > .mb-4:first-child {
+    position: relative;
+    overflow: hidden;
+    padding: 25px 28px;
+    border: 1px solid #d9ecdf;
+    border-radius: 16px;
+    background:
+        radial-gradient(circle at 90% 20%, rgba(255,255,255,.28), transparent 25%),
+        linear-gradient(115deg, #e3f3e8 0%, #f5faf6 55%, #e8f4ec 100%);
+    box-shadow: 0 7px 22px rgba(23, 107, 67, .055);
+}
+
+.layout > .main > .content > .mb-4:first-child h2 {
+    color: #145b39;
+    font-size: 23px !important;
+    font-weight: 750;
+    letter-spacing: -.6px;
+}
+
+.layout > .main > .content > .mb-4:first-child p {
+    margin-top: 7px;
+    color: #60776a !important;
+    font-size: 13px;
+}
+
+/* Judul bagian dashboard */
+.layout > .main > .content > h5 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 25px;
+    margin-bottom: 15px !important;
+    color: #263d30;
+    font-size: 15px;
+    font-weight: 750;
+}
+
+.layout > .main > .content > h5::before {
+    width: 4px;
+    height: 18px;
+    border-radius: 5px;
+    background: linear-gradient(180deg, #39a66b, #176b43);
+    content: "";
+}
+
+/* Kartu statistik */
+.layout > .main .stat-card {
+    position: relative;
+    height: 100%;
+    min-height: 132px;
+    overflow: hidden;
+    padding: 18px 19px;
+    border: 1px solid #e3ebe5;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 3px 12px rgba(27, 57, 39, .035);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.layout > .main .stat-card::after {
+    position: absolute;
+    right: -23px;
+    bottom: -34px;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: var(--card-accent-bg, #e8f3ec);
+    opacity: .65;
+    content: "";
+    transition: transform .3s ease;
+}
+
+.layout > .main .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--card-accent, #a8d7b8);
+    box-shadow: 0 12px 25px rgba(27, 75, 47, .10);
+}
+
+.layout > .main .stat-card:hover::after {
+    transform: scale(1.25);
+}
+
+.layout > .main .stat-card .stat-label {
+    position: relative;
+    z-index: 1;
+    color: #68796e;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+.layout > .main .stat-card .stat-number {
+    position: relative;
+    z-index: 1;
+    margin-top: 13px;
+    color: var(--card-accent, #176b43);
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+    line-height: 1.15;
+}
+
+.layout > .main .stat-card .text-secondary {
+    position: relative;
+    z-index: 1;
+    margin-top: 5px;
+    color: #8a9890 !important;
+    font-size: 11px;
+}
+
+.layout > .main .stat-card .stat-icon {
+    position: relative;
+    z-index: 1;
+    width: 42px;
+    height: 42px;
+    border: 1px solid var(--card-accent-border, #d7ebdd);
+    border-radius: 12px;
+    background: var(--card-accent-bg, #e8f3ec);
+    color: var(--card-accent, #176b43);
+    font-size: 19px;
+    transition: transform .25s ease;
+}
+
+.layout > .main .stat-card:hover .stat-icon {
+    transform: rotate(-7deg) scale(1.08);
+}
+
+/* Variasi warna kartu statistik */
+.layout > .main .row.g-3.mb-4:first-of-type > div:nth-child(4n+1) .stat-card {
+    --card-accent: #176b43;
+    --card-accent-bg: #e5f3e9;
+    --card-accent-border: #d3eadb;
+}
+
+.layout > .main .row.g-3.mb-4:first-of-type > div:nth-child(4n+2) .stat-card {
+    --card-accent: #2876b8;
+    --card-accent-bg: #e8f2fc;
+    --card-accent-border: #d6e7f8;
+}
+
+.layout > .main .row.g-3.mb-4:first-of-type > div:nth-child(4n+3) .stat-card {
+    --card-accent: #b7791f;
+    --card-accent-bg: #fff4df;
+    --card-accent-border: #f5e5bf;
+}
+
+.layout > .main .row.g-3.mb-4:first-of-type > div:nth-child(4n) .stat-card {
+    --card-accent: #7955ad;
+    --card-accent-bg: #f1eafd;
+    --card-accent-border: #e5d9f7;
+}
+
+/* Kartu status laporan */
+.layout > .main .content > .row.g-3.mb-4:nth-of-type(2) .stat-card {
+    min-height: 105px;
+    background: linear-gradient(135deg, #fff 0%, #f8fbf9 100%);
+}
+
+.layout > .main .content > .row.g-3.mb-4:nth-of-type(2) > div:nth-child(1) .stat-number {
+    color: #c28a27;
+}
+
+.layout > .main .content > .row.g-3.mb-4:nth-of-type(2) > div:nth-child(2) .stat-number {
+    color: #2876b8;
+}
+
+.layout > .main .content > .row.g-3.mb-4:nth-of-type(2) > div:nth-child(3) .stat-number {
+    color: #c34d48;
+}
+
+/* Panel laporan terbaru */
+.layout > .main .panel {
+    overflow: hidden;
+    border: 1px solid #e2ebe5;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 5px 18px rgba(27, 57, 39, .045);
+}
+
+.layout > .main .panel-heading {
+    padding: 17px 20px;
+    border-bottom: 1px solid #e9efeb;
+    background: linear-gradient(90deg, #f0f8f2, #fff);
+    color: #24543a;
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.layout > .main .table {
+    margin-bottom: 0;
+    font-size: 12px;
+}
+
+.layout > .main .table thead th {
+    padding: 13px 15px;
+    background: #f6faf7;
+    color: #68796e;
+    font-size: 10px;
+    letter-spacing: .055em;
+}
+
+.layout > .main .table tbody td {
+    padding: 14px 15px;
+    border-color: #edf1ee;
+    color: #46564c;
+}
+
+.layout > .main .table tbody tr {
+    transition: background .2s ease;
+}
+
+.layout > .main .table tbody tr:hover {
+    background: #f2f8f4;
+}
+
+/* Footer */
+.layout > .main > footer {
+    color: #8a9890 !important;
+    font-size: 11px !important;
+}
+
+/* Responsif */
+@media (max-width: 991px) {
+    .layout > .main {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .layout > .main > .topbar {
+        height: 66px;
+        min-height: 66px;
+        padding: 0 18px;
+    }
+
+    .layout > .main > .content {
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .layout > .main > .content {
+        padding: 17px 13px 25px;
+    }
+
+    .layout > .main > .content > .mb-4:first-child {
+        padding: 20px 18px;
+        border-radius: 13px;
+    }
+
+    .layout > .main > .content > .mb-4:first-child h2 {
+        font-size: 19px !important;
+    }
+
+    .layout > .main .stat-card {
+        min-height: 118px;
+        padding: 14px;
+    }
+
+    .layout > .main .stat-card .stat-number {
+        font-size: 25px;
+    }
+}
+
+
+/* ==========================================
+   SIDEBAR - PROFESSIONAL INTERACTION
+   ========================================== */
+
+.layout > .sidebar {
+    background: linear-gradient(180deg, #176b43 0%, #125735 100%);
+    box-shadow: 5px 0 22px rgba(18, 55, 37, .09);
+}
+
+.layout > .sidebar .menu {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-height: 45px;
+    margin: 0 0 5px;
+    padding: 10px 13px;
+    overflow: hidden;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #e5f0e9;
+    font-size: 13px;
+    font-weight: 500;
+    transition:
+        background .22s ease,
+        border-color .22s ease,
+        color .22s ease;
+}
+
+/* Indikator sisi kiri */
+.layout > .sidebar .menu::before {
+    position: absolute;
+    top: 9px;
+    bottom: 9px;
+    left: 0;
+    width: 3px;
+    border-radius: 0 4px 4px 0;
+    background: #c5e8d1;
+    content: "";
+    opacity: 0;
+    transform: scaleY(.45);
+    transition: opacity .22s ease, transform .22s ease;
+}
+
+.layout > .sidebar .menu i {
+    position: relative;
+    z-index: 1;
+    width: 20px;
+    flex: 0 0 20px;
+    color: #b9d9c6;
+    font-size: 17px;
+    text-align: center;
+    transition: color .22s ease, transform .22s ease;
+}
+
+.layout > .sidebar .menu span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Menu aktif */
+.layout > .sidebar .menu.active {
+    border-color: rgba(255, 255, 255, .10);
+    background: rgba(255, 255, 255, .14);
+    color: #ffffff;
+    font-weight: 600;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.layout > .sidebar .menu.active::before {
+    opacity: 1;
+    transform: scaleY(1);
+}
+
+.layout > .sidebar .menu.active i {
+    color: #ffffff;
+}
+
+/* Interaksi hover */
+.layout > .sidebar .menu:not(.active):hover {
+    border-color: rgba(255, 255, 255, .08);
+    background: rgba(255, 255, 255, .085);
+    color: #ffffff;
+}
+
+.layout > .sidebar .menu:hover::before {
+    opacity: .8;
+    transform: scaleY(1);
+}
+
+.layout > .sidebar .menu:hover i {
+    color: #ffffff;
+    transform: translateX(2px);
+}
+
+/* Fokus keyboard */
+.layout > .sidebar .menu:focus-visible {
+    outline: 2px solid #c5e8d1;
+    outline-offset: 3px;
+}
+
+/* Area tombol keluar */
+.layout > .sidebar .sidebar-bottom {
+    margin-top: auto;
+    padding-top: 17px;
+    border-top: 1px solid rgba(255, 255, 255, .16);
+}
+
+.layout > .sidebar .logout {
+    min-height: 42px;
+    border: 1px solid rgba(255, 255, 255, .16);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, .09);
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background .22s ease, border-color .22s ease;
+}
+
+.layout > .sidebar .logout:hover {
+    border-color: rgba(255, 255, 255, .28);
+    background: rgba(255, 255, 255, .16);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .layout > .sidebar .menu,
+    .layout > .sidebar .menu::before,
+    .layout > .sidebar .menu i,
+    .layout > .sidebar .logout {
+        transition: none !important;
+    }
+}

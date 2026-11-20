@@ -17,6 +17,8 @@ class Laporan extends Model
         'id_armada',
         'kategori_kondisi',
         'lokasi',
+        'latitude',
+        'longitude',
         'keterangan',
         'waktu_pelaporan',
         'status_laporan',
@@ -75,3 +77,4 @@ class Laporan extends Model
         return $this->hasMany(PenilaianUrgensi::class, 'id_laporan');
     }
 }
+
