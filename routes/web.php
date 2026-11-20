@@ -8,6 +8,12 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\UptdLaporanController;
+use App\Http\Controllers\LaporanMasyarakatController;
+use App\Http\Controllers\LokasiSupirController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UptdPengaturanController;
+
+Route::get('/admin/dashboard', [AdminController::class, 'index']);
 
 // Halaman utama
 Route::get('/', [LandingController::class, 'index'])->name('landing');
@@ -18,14 +24,8 @@ Route::get('/api/landing/tps', [LandingController::class, 'data'])
     ->name('landing.data');
 
 
-<<<<<<< HEAD
 // Pengaturan akun Masyarakat
-Route::get('/masyarakat/pengaturan', [
-    PengaturanMasyarakatController::class,
-    'edit'
-])->name('masyarakat.pengaturan.edit');
-=======
->>>>>>> fitur-peta
+
 
 
 // Login dan register
@@ -41,6 +41,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'register'])
         ->middleware('throttle:daftar')->name('register.store');
+});
+    // Data lokasi supir untuk peta Admin dan UPTD
+Route::middleware('auth')->group(function () {
+    Route::get('/peta-supir', [LokasiSupirController::class, 'daftar'])
+        ->name('peta.supir');
 });
 
 
@@ -104,6 +109,10 @@ Route::middleware('guest')->group(function () {
 });
 
 
+
+
+// UPTD
+Route::get('/uptd/pengaturan', [UptdPengaturanController::class, 'edit'])->name('uptd.pengaturan.edit');
 
 Route::middleware('auth')->get('/uptd/tps', [\App\Http\Controllers\UptdTpsController::class, 'index'])
     ->name('uptd.tps.index');
@@ -178,7 +187,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
 
 use App\Http\Controllers\AdminTpsController;
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->group(function (){
     Route::get('/admin/tps', [AdminTpsController::class, 'index'])
         ->name('admin.tps.index');
 
@@ -241,67 +250,46 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 
 
 // Pengaturan akun UPTD
-Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
-
-
-<<<<<<< HEAD
-    Route::put('/pengaturan/kata-sandi', [\App\Http\Controllers\UptdPengaturanController::class, 'updatePassword'])
-        ->name('pengaturan.password');
-});
-=======
-});
-
-
-
-
-// Peta: lokasi supir (dibagikan supir, dibaca admin & UPTD)
-Route::middleware('auth')->group(function () {
-    Route::post('/supir/lokasi', [\App\Http\Controllers\LokasiSupirController::class, 'simpan'])
-        ->middleware('throttle:30,1')
-        ->name('supir.lokasi.simpan');
-
-    Route::delete('/supir/lokasi', [\App\Http\Controllers\LokasiSupirController::class, 'hapus'])
-        ->name('supir.lokasi.hapus');
-
-    Route::get('/peta/supir', [\App\Http\Controllers\LokasiSupirController::class, 'daftar'])
-        ->name('peta.supir');
-});
-
-// Verifikasi email
-Route::middleware('auth')->group(function () {
-    Route::get('/email/verify', [\App\Http\Controllers\VerifikasiEmailController::class, 'notice'])
-        ->name('verification.notice');
-
-    Route::get('/email/verify/{id}/{hash}', [\App\Http\Controllers\VerifikasiEmailController::class, 'verify'])
-        ->middleware('signed')
-        ->name('verification.verify');
-
-    Route::post('/email/verification-notification', [\App\Http\Controllers\VerifikasiEmailController::class, 'kirimUlang'])
-        ->middleware('throttle:6,1')
-        ->name('verification.send');
-});
 
 // Pengaturan akun terpadu (semua role)
-Route::middleware('auth')->prefix('pengaturan')->name('pengaturan.')->group(function () {
-    Route::get('/', [\App\Http\Controllers\PengaturanController::class, 'edit'])
-        ->name('edit');
+Route::middleware('auth')
+    ->prefix('pengaturan')
+    ->name('pengaturan.')
+    ->group(function () {
 
-    Route::put('/profil', [\App\Http\Controllers\PengaturanController::class, 'updateProfil'])
-        ->name('profil');
+        Route::get('/', [
+            \App\Http\Controllers\PengaturanController::class,
+            'edit'
+        ])->name('edit');
 
-    Route::put('/kata-sandi', [\App\Http\Controllers\PengaturanController::class, 'updatePassword'])
-        ->name('password');
-});
+        Route::put('/profil', [
+            \App\Http\Controllers\PengaturanController::class,
+            'updateProfil'
+        ])->name('profil');
+
+        Route::put('/kata-sandi', [
+            \App\Http\Controllers\PengaturanController::class,
+            'updatePassword'
+        ])->name('password');
+    });
 
 
 // Manajemen deteksi spam (khusus admin)
 Route::middleware('auth')->group(function () {
-    Route::get('/admin/spam', [AdminSpamController::class, 'index'])
-        ->name('admin.spam.index');
 
-    Route::post('/admin/spam/{deteksiSpam}/review', [AdminSpamController::class, 'review'])
-        ->name('admin.spam.review');
-    Route::post('/admin/spam/{user}/reset', [AdminSpamController::class, 'reset'])
-        ->name('admin.spam.reset');
+    Route::get('/admin/spam', [
+        \App\Http\Controllers\AdminSpamController::class,
+        'index'
+    ])->name('admin.spam.index');
+
+    Route::post('/admin/spam/{deteksiSpam}/review', [
+        \App\Http\Controllers\AdminSpamController::class,
+        'review'
+    ])->name('admin.spam.review');
+
+    Route::post('/admin/spam/{user}/reset', [
+        \App\Http\Controllers\AdminSpamController::class,
+        'reset'
+    ])->name('admin.spam.reset');
+
 });
->>>>>>> fitur-peta

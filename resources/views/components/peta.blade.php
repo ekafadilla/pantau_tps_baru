@@ -27,7 +27,7 @@
 
 @once
     @viteReactRefresh
-    @vite(['resources/js/peta.jsx'])
+    {{-- @vite(['resources/js/peta.jsx']) --}}
 @endonce
 
 {{-- {{ }} meng-escape tanda kutip, jadi isi database tidak bisa merusak atribut --}}
