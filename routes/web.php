@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\AdminSpamController;
 use App\Http\Controllers\SupirTugasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -30,6 +31,7 @@ Route::middleware('guest')->group(function () {
         ->middleware('throttle:daftar')->name('register.store');
 });
 
+
 // Dashboard dan fitur setelah login
 Route::middleware('auth')->group(function () {
 Route::get('/uptd/laporan', [UptdLaporanController::class, 'index'])
@@ -53,7 +55,7 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
         ->middleware('verified')->name('masyarakat.laporan.create');
 
     Route::post('/masyarakat/laporan', [LaporanController::class, 'store'])
-        ->middleware('verified')->name('masyarakat.laporan.store');
+        ->middleware(['verified','throttle:user-reports'])->name('masyarakat.laporan.store');
 
      Route::get('/masyarakat/laporan/{laporan}', [LaporanController::class, 'show'])
     ->whereNumber('laporan')
@@ -64,6 +66,7 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
 
    
 });
+
 
 // Pemulihan kata sandi
 Route::middleware('guest')->group(function () {
@@ -89,6 +92,7 @@ Route::middleware('guest')->group(function () {
 });
 
 
+
 Route::middleware('auth')->get('/uptd/tps', [\App\Http\Controllers\UptdTpsController::class, 'index'])
     ->name('uptd.tps.index');
 
@@ -101,6 +105,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/supir/tugas/{id}', [SupirTugasController::class, 'show'])
         ->name('supir.tugas.show');
 });
+
 
 use App\Http\Controllers\SupirDashboardController;
 
@@ -134,6 +139,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->whereNumber('user')
         ->name('pengguna.destroy');
 });
+
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/wilayah', [\App\Http\Controllers\AdminWilayahController::class, 'index'])
         ->name('wilayah.index');
@@ -156,6 +162,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         ->whereNumber('wilayah')
         ->name('wilayah.destroy');
 });
+
 
 use App\Http\Controllers\AdminTpsController;
 
@@ -183,6 +190,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('admin.tps.destroy');
 });
 
+
 // Edit Landing Page
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/landing-page', [
@@ -195,6 +203,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
         'update'
     ])->name('landing.update');
 });
+
 
 // Data Laporan Admin
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
@@ -209,6 +218,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     ])->whereNumber('laporan')->name('laporan.show');
 });
 
+
 // Aksi UPTD (verifikasi, tugaskan, tolak)
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::post('/laporan/{laporan}/verifikasi', [UptdLaporanController::class, 'verifikasi'])->whereNumber('laporan')->name('laporan.verifikasi');
@@ -217,11 +227,13 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::post('/laporan/{laporan}/tolak', [UptdLaporanController::class, 'tolak'])->whereNumber('laporan')->name('laporan.tolak');
 });
 
+
 // Pengaturan akun UPTD
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 
 
 });
+
 
 
 
@@ -237,6 +249,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/peta/supir', [\App\Http\Controllers\LokasiSupirController::class, 'daftar'])
         ->name('peta.supir');
 });
+
 // Verifikasi email
 Route::middleware('auth')->group(function () {
     Route::get('/email/verify', [\App\Http\Controllers\VerifikasiEmailController::class, 'notice'])
@@ -250,6 +263,7 @@ Route::middleware('auth')->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 });
+
 // Pengaturan akun terpadu (semua role)
 Route::middleware('auth')->prefix('pengaturan')->name('pengaturan.')->group(function () {
     Route::get('/', [\App\Http\Controllers\PengaturanController::class, 'edit'])
@@ -260,4 +274,16 @@ Route::middleware('auth')->prefix('pengaturan')->name('pengaturan.')->group(func
 
     Route::put('/kata-sandi', [\App\Http\Controllers\PengaturanController::class, 'updatePassword'])
         ->name('password');
+});
+
+
+// Manajemen deteksi spam (khusus admin)
+Route::middleware('auth')->group(function () {
+    Route::get('/admin/spam', [AdminSpamController::class, 'index'])
+        ->name('admin.spam.index');
+
+    Route::post('/admin/spam/{deteksiSpam}/review', [AdminSpamController::class, 'review'])
+        ->name('admin.spam.review');
+    Route::post('/admin/spam/{user}/reset', [AdminSpamController::class, 'reset'])
+        ->name('admin.spam.reset');
 });

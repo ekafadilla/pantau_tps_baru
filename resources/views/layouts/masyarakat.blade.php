@@ -627,6 +627,7 @@
     }
 }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
 </head>
 
 <body>

@@ -37,5 +37,12 @@ class AppServiceProvider extends ServiceProvider
             $email = (string) $request->input('email');
             return Limit::perMinute(3)->by($email . '|' . $request->ip());
         });
+
+        // Custom rate limiter for report submissions
+        RateLimiter::for('user-reports', function (Request $request) {
+            $identifier = $request->user() ? $request->user()->id : $request->ip();
+            // Example: max 3 reports per 10 minutes
+            return Limit::perMinutes(10, 3)->by($identifier);
+        });
     }
 }

@@ -47,10 +47,12 @@
             .content { padding: 20px 15px; }
         }
     </style>
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
 </head>
 <body>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <a href="{{ route('admin.dashboard') }}" class="brand">
             <i class="bi bi-recycle"></i><span>SI PANTAU TPS</span>
         </a>
@@ -79,6 +81,11 @@
            class="menu {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
             <i class="bi bi-file-earmark-text"></i><span>Data Laporan</span>
         </a>
+
+        <a href="{{ route('admin.spam.index') }}"
+           class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
+            <i class="bi bi-shield-exclamation"></i><span>Deteksi Spam</span>
+        </a>
         <a href="{{ route('pengaturan.edit') }}" class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
             <i class="bi bi-gear"></i> Pengaturan
         </a>
@@ -95,6 +102,7 @@
 
     <div class="main">
         <header class="topbar">
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu"><i class="bi bi-list"></i></button>
             <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
             <div class="user-info">
                 <div>
@@ -114,5 +122,44 @@
         </footer>
     </div>
 </div>
+<script>
+(function () {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('sidebarToggle');
+
+    if (!sidebar || !overlay || !toggle) return;
+
+    function closeSidebar() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+        document.body.classList.remove('sidebar-open');
+    }
+
+    function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+        document.body.classList.toggle('sidebar-open');
+    }
+
+    toggle.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', closeSidebar);
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') closeSidebar();
+    });
+
+    sidebar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.innerWidth <= 991) closeSidebar();
+        });
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.innerWidth > 991) closeSidebar();
+    });
+})();
+</script>
 </body>
 </html>
+

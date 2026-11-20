@@ -35,7 +35,11 @@ class UptdLaporanController extends Controller
     public function index(Request $request)
     {
         $query = $this->laporanWilayah()
-            ->with(['tps', 'pengguna', 'supir']);
+            ->with([
+                'tps:id,nama_tps,status,last_reported_at,last_cleaned_at',
+                'pengguna',
+                'supir',
+            ]);
 
         if ($request->filled('cari')) {
             $cari = $request->cari;

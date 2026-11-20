@@ -1,10 +1,10 @@
-@extends('layouts.uptd')
+﻿@extends('layouts.uptd')
 
 @section('title', 'Data Laporan UPTD')
 @section('page-title', 'Data Laporan')
 
 @section('content')
-<div class="container-fluid py-2">
+<div class="container-fluid py-2 uptd-laporan-page">
 
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
         <div>
@@ -52,7 +52,7 @@
             <form method="GET" action="{{ route('uptd.laporan.index') }}" class="row g-2 mb-4">
                 <div class="col-md-5">
                     <input type="text" name="cari" class="form-control"
-                           placeholder="Cari kategori, lokasi, TPS, atau pelapor…"
+                           placeholder="Cari kategori, lokasi, TPS, atau pelaporâ€¦"
                            value="{{ request('cari') }}">
                 </div>
                 <div class="col-md-3">
@@ -89,6 +89,9 @@
                         <tr>
                             <th style="width:40px">No.</th>
                             <th>TPS</th>
+<th>Status TPS</th>
+<th>Laporan Terakhir</th>
+<th>Terbersih</th>
                             <th>Pelapor</th>
                             <th>Kategori</th>
                             <th>Waktu</th>
@@ -113,6 +116,17 @@
                             <tr>
                                 <td>{{ $laporan->firstItem() + $loop->index }}</td>
                                 <td class="fw-semibold">{{ $item->tps->nama_tps ?? '-' }}</td>
+<td>
+    @if($item->tps->status)
+        <span class="badge bg-{{ $item->tps->status == 'potensi_spam' ? 'danger' : 'secondary' }}" style="font-size:12px;">
+            {{ $item->tps->status }}
+        </span>
+    @else
+        -
+    @endif
+</td>
+<td>{{ $item->tps->last_reported_at ? $item->tps->last_reported_at->format('d M Y H:i') : '-' }}</td>
+<td>{{ $item->tps->last_cleaned_at ? $item->tps->last_cleaned_at->format('d M Y') : '-' }}</td>
                                 <td>{{ $item->pengguna->name ?? '-' }}</td>
                                 <td>{{ $item->kategori_kondisi }}</td>
                                 <td class="text-nowrap" style="font-size:12.5px;color:#6b7f74">
@@ -166,3 +180,4 @@
     </div>
 </div>
 @endsection
+

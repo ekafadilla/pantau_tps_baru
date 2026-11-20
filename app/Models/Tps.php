@@ -19,6 +19,14 @@ class Tps extends Model
         'keterangan',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'last_reported_at' => 'datetime',
+            'last_cleaned_at' => 'datetime',
+        ];
+    }
+
     public function wilayah(): BelongsTo
     {
         return $this->belongsTo(Wilayah::class, 'id_wilayah');

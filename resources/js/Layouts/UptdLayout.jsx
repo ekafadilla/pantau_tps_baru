@@ -8,8 +8,8 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
     const user = auth?.user;
 
     const menu = [
-        { label: 'Dashboard', href: '/dashboard/uptd', icon: 'bi-grid-1x2' },
-        { label: 'Data Laporan', href: '/uptd/laporan', icon: 'bi-clipboard-data' },
+        { label: 'Dashboard', href: '/dashboard/uptd', icon: 'bi-grid' },
+        { label: 'Data Laporan', href: '/uptd/laporan', icon: 'bi-file-earmark-text' },
         { label: 'Data TPS Wilayah', href: '/uptd/tps', icon: 'bi-geo-alt' },
     ];
 
@@ -17,7 +17,9 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
         if (href === '/dashboard/uptd') {
             return currentUrl.startsWith(href);
         }
-        return currentUrl === href || currentUrl.startsWith(href + '?') ||
+
+        return currentUrl === href ||
+            currentUrl.startsWith(href + '?') ||
             currentUrl.startsWith(href + '/');
     };
 
@@ -27,6 +29,7 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
 
             {sidebarOpen && (
                 <button
+                    type="button"
                     className="uptd-overlay"
                     onClick={() => setSidebarOpen(false)}
                     aria-label="Tutup menu"
@@ -35,17 +38,12 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
 
             <aside className={`uptd-sidebar ${sidebarOpen ? 'open' : ''}`}>
                 <div className="uptd-brand">
-                    <div className="uptd-brand-icon">
-                        <i className="bi bi-recycle" />
-                    </div>
-                    <div>
-                        <strong>SI PANTAU TPS</strong>
-                        <small>Portal UPTD</small>
-                    </div>
+                    <i className="bi bi-recycle" />
+                    <span>SI PANTAU TPS</span>
                 </div>
 
                 <nav className="uptd-nav">
-                    <span className="uptd-nav-label">MENU UTAMA</span>
+                    <div className="uptd-nav-label">Menu Utama</div>
 
                     {menu.map((item) => (
                         <a
@@ -58,33 +56,16 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
                             <span>{item.label}</span>
                         </a>
                     ))}
-
-                    <span className="uptd-nav-label account-label">AKUN</span>
-
-                    <a
-                        href="/uptd/pengaturan"
-                        className={`uptd-nav-link ${isActive('/uptd/pengaturan') ? 'active' : ''}`}
-                        onClick={() => setSidebarOpen(false)}
-                    >
-                        <i className="bi bi-gear" />
-                        <span>Pengaturan</span>
-                    </a>
                 </nav>
 
                 <div className="uptd-sidebar-footer">
-                    <div className="uptd-user-avatar">
-                        {(user?.name || 'U').charAt(0).toUpperCase()}
-                    </div>
-                    <div className="uptd-user-info">
-                        <strong>{user?.name || 'Pengguna'}</strong>
-                        <small>UPTD</small>
-                    </div>
                     <button
+                        type="button"
                         className="uptd-logout"
-                        title="Keluar"
                         onClick={() => router.post('/logout')}
                     >
                         <i className="bi bi-box-arrow-right" />
+                        <span>Keluar</span>
                     </button>
                 </div>
             </aside>
@@ -92,16 +73,30 @@ export default function UptdLayout({ children, title = 'Dashboard' }) {
             <div className="uptd-main">
                 <header className="uptd-topbar">
                     <button
+                        type="button"
                         className="uptd-menu-toggle"
                         onClick={() => setSidebarOpen(true)}
                         aria-label="Buka menu"
                     >
                         <i className="bi bi-list" />
                     </button>
+
                     <div className="uptd-topbar-title">{title}</div>
-                    <div className="uptd-topbar-badge">
-                        <i className="bi bi-patch-check" /> UPTD
-                    </div>
+
+                    <a
+                        href="/pengaturan"
+                        className="uptd-profile-link"
+                        title="Pengaturan Akun"
+                        aria-label="Buka pengaturan akun"
+                    >
+                        <div className="uptd-profile-avatar">
+                            {(user?.name || 'U').charAt(0).toUpperCase()}
+                        </div>
+                        <div className="uptd-profile-info">
+                            <strong>{user?.name || 'Pengguna'}</strong>
+                            <span>UPTD</span>
+                        </div>
+                    </a>
                 </header>
 
                 <main className="uptd-content">

@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('tps', function (Blueprint $table) {
+            $table->id();
+            // foreign key to wilayahs (existing table)
+            $table->foreignId('id_wilayah')->constrained('wilayahs')->cascadeOnUpdate()->restrictOnDelete();
+            $table->string('nama_tps');
+            $table->string('lokasi');
+            $table->text('alamat')->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable();
+            $table->text('keterangan')->nullable();
+            // status columns for spam/clean handling
+            $table->string('status')->default('bersih');
+            $table->timestamp('last_cleaned_at')->nullable();
+            $table->timestamp('last_reported_at')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('tps');
+    }
+};
+?>
