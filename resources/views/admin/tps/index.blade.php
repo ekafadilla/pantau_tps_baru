@@ -101,14 +101,22 @@
                                 <td>{{ $item->keterangan ?: '-' }}</td>
                                 <td>
                                     <div class="d-flex gap-2">
+                                        <a href="{{ route('admin.tps.show', $item->id) }}"
+                                            class="btn btn-sm btn-outline-info" title="Detail TPS">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
                                         <a href="{{ route('admin.tps.edit', $item->id) }}"
-                                            class="btn btn-sm btn-outline-success">Edit</a>
+                                            class="btn btn-sm btn-outline-success" title="Edit TPS">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
                                         <form action="{{ route('admin.tps.destroy', $item->id) }}"
                                             method="POST"
                                             onsubmit="return confirm('Yakin ingin menghapus TPS ini?')">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-outline-danger" title="Hapus TPS">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
                                         </form>
                                     </div>
                                 </td>

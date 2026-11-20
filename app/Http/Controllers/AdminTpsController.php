@@ -138,7 +138,10 @@ class AdminTpsController extends Controller
             403
         );
 
-        $tps->load('wilayah');
+        $tps->load([
+            'wilayah',
+            'laporans' => fn($q) => $q->with('pengguna')->latest()->take(10),
+        ]);
 
         return view('admin.tps.show', compact('tps'));
     }}

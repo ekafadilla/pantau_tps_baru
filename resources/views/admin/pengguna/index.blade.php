@@ -141,7 +141,15 @@
                             <td class="fw-semibold">{{ $item->name }}</td>
                             <td>{{ $item->email }}</td>
                             <td>
-                                <span class="badge text-bg-light border">
+                                @php
+                                    $badgeRole = match($item->role) {
+                                        'admin' => 'bg-success text-white',
+                                        'uptd' => 'bg-primary text-white',
+                                        'supir' => 'bg-warning text-dark',
+                                        default => 'bg-secondary text-white',
+                                    };
+                                @endphp
+                                <span class="badge {{ $badgeRole }}">
                                     {{ strtoupper($item->role) }}
                                 </span>
                             </td>

@@ -35,10 +35,14 @@
         .panel-heading { padding: 18px 20px; border-bottom: 1px solid #e8eee9; font-size: 16px; font-weight: bold; }
         .table th { background: #f8faf8; color: #647168; font-size: 12px; }
         .table td, .table th { padding: 13px 16px; vertical-align: middle; }
-        .status { display: inline-block; padding: 5px 9px; border-radius: 20px; background: #fff2d8; color: #946200; font-size: 11px; }
+        .status { display: inline-block; padding: 5px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .status.menunggu { background: #fff2d8; color: #946200; }
+        .status.diverifikasi { background: #e0f2fe; color: #0369a1; }
+        .status.diproses, .status.ditangani, .status.ditugaskan, .status.sedang_dikerjakan { background: #e5efff; color: #245ab1; }
         .status.selesai { background: #e2f5e8; color: #176b43; }
         .status.ditolak { background: #fde8e7; color: #ad302b; }
-        .status.diproses { background: #e5efff; color: #245ab1; }
+        .stat-card.clickable { transition: transform 0.15s ease, box-shadow 0.15s ease; cursor: pointer; text-decoration: none; color: inherit; display: block; }
+        .stat-card.clickable:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(23,107,67,0.1); border-color: #c7e2d2; }
         @media(max-width: 768px) {
             .layout { display: block; }
             .sidebar { width: 100%; padding: 15px; }
@@ -80,7 +84,15 @@
             <i class="bi bi-file-earmark-text"></i><span>Data Laporan</span>
         </a>
 
+        <a href="{{ route('admin.landing.edit') }}"
+           class="menu {{ request()->routeIs('admin.landing.*') ? 'active' : '' }}">
+            <i class="bi bi-layout-text-window-reverse"></i><span>Edit Landing Page</span>
+        </a>
+
         <div class="sidebar-bottom">
+            <a href="{{ route('landing') }}" target="_blank" class="menu mb-2" style="background: rgba(255,255,255,0.08);">
+                <i class="bi bi-box-arrow-up-right"></i><span>Lihat Website</span>
+            </a>
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button class="logout" type="submit">

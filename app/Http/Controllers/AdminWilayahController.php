@@ -16,7 +16,7 @@ class AdminWilayahController extends Controller
     {
         $this->pastikanAdmin();
 
-        $query = Wilayah::query();
+        $query = Wilayah::withCount(['tps', 'users']);
 
         if ($request->filled('cari')) {
             $cari = $request->cari;

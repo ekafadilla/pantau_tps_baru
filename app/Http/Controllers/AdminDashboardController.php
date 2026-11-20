@@ -34,8 +34,8 @@ class AdminDashboardController extends Controller
         $laporanSelesai = Laporan::where('status_laporan', 'selesai')->count();
         $laporanDitolak = Laporan::where('status_laporan', 'ditolak')->count();
 
-        $laporanTerbaru = Laporan::with(['pengguna', 'tps'])
-            ->latest()
+        $laporanTerbaru = Laporan::with(['pengguna', 'tps.wilayah'])
+            ->latest('waktu_pelaporan')
             ->take(5)
             ->get();
 

@@ -85,6 +85,7 @@
                     <tr>
                         <th style="width:70px">No.</th>
                         <th>Nama Wilayah</th>
+                        <th>Cakupan & Statistik</th>
                         <th>Keterangan</th>
                         <th style="width:130px">Aksi</th>
                     </tr>
@@ -94,6 +95,16 @@
                         <tr>
                             <td>{{ $wilayah->firstItem() + $loop->index }}</td>
                             <td class="fw-semibold">{{ $item->nama_wilayah }}</td>
+                            <td>
+                                <div class="d-flex flex-wrap gap-2">
+                                    <a href="{{ route('admin.tps.index', ['id_wilayah' => $item->id]) }}" class="badge text-bg-light border text-decoration-none" title="Klik untuk lihat TPS di wilayah ini">
+                                        <i class="bi bi-trash me-1 text-success"></i> {{ $item->tps_count ?? 0 }} TPS
+                                    </a>
+                                    <a href="{{ route('admin.pengguna.index', ['role' => 'uptd']) }}" class="badge text-bg-light border text-decoration-none" title="Petugas UPTD terdaftar">
+                                        <i class="bi bi-person-badge me-1 text-primary"></i> {{ $item->users_count ?? 0 }} Petugas
+                                    </a>
+                                </div>
+                            </td>
                             <td>{{ $item->keterangan ?: '-' }}</td>
                             <td>
                                 <div class="d-flex gap-2">
@@ -125,7 +136,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center text-secondary py-5">
+                            <td colspan="5" class="text-center text-secondary py-5">
                                 <i class="bi bi-geo-alt fs-3 d-block mb-2"></i>
                                 Belum ada data wilayah yang sesuai.
                             </td>

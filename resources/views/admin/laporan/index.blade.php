@@ -17,28 +17,32 @@
 
 <div class="row g-3 mb-4">
     <div class="col-6 col-xl-3">
-        <div class="stat-card">
+        <a href="{{ route('admin.laporan.index') }}" class="stat-card clickable text-decoration-none text-dark" title="Lihat semua laporan">
             <div class="stat-label">Total Laporan</div>
             <div class="stat-number">{{ $totalLaporan }}</div>
-        </div>
+            <div class="text-secondary small mt-1">Semua status &rarr;</div>
+        </a>
     </div>
     <div class="col-6 col-xl-3">
-        <div class="stat-card">
+        <a href="{{ route('admin.laporan.index', ['status' => 'menunggu']) }}" class="stat-card clickable text-decoration-none text-dark" title="Filter laporan menunggu">
             <div class="stat-label">Menunggu</div>
-            <div class="stat-number">{{ $totalMenunggu }}</div>
-        </div>
+            <div class="stat-number text-warning">{{ $totalMenunggu }}</div>
+            <div class="text-secondary small mt-1">Perlu verifikasi &rarr;</div>
+        </a>
     </div>
     <div class="col-6 col-xl-3">
-        <div class="stat-card">
+        <a href="{{ route('admin.laporan.index', ['status' => 'diproses']) }}" class="stat-card clickable text-decoration-none text-dark" title="Filter laporan dalam penanganan">
             <div class="stat-label">Dalam Penanganan</div>
-            <div class="stat-number">{{ $totalDiproses }}</div>
-        </div>
+            <div class="stat-number text-primary">{{ $totalDiproses }}</div>
+            <div class="text-secondary small mt-1">Sedang ditindaklanjuti &rarr;</div>
+        </a>
     </div>
     <div class="col-6 col-xl-3">
-        <div class="stat-card">
+        <a href="{{ route('admin.laporan.index', ['status' => 'selesai']) }}" class="stat-card clickable text-decoration-none text-dark" title="Filter laporan selesai">
             <div class="stat-label">Selesai</div>
-            <div class="stat-number">{{ $totalSelesai }}</div>
-        </div>
+            <div class="stat-number text-success">{{ $totalSelesai }}</div>
+            <div class="text-secondary small mt-1">Telah tuntas &rarr;</div>
+        </a>
     </div>
 </div>
 
@@ -146,17 +150,16 @@
                         </td>
                         <td>
                             @php
-                                $kelasStatus = [
-                                    'menunggu' => '',
-                                    'diverifikasi' => '',
-                                    'diproses' => 'diproses',
-                                    'ditangani' => 'diproses',
+                                $kelasStatus = match ($item->status_laporan) {
                                     'selesai' => 'selesai',
                                     'ditolak' => 'ditolak',
-                                ][$item->status_laporan] ?? '';
+                                    'diproses', 'ditangani', 'ditugaskan', 'sedang_dikerjakan' => 'diproses',
+                                    'diverifikasi' => 'diverifikasi',
+                                    default => 'menunggu',
+                                };
                             @endphp
                             <span class="status {{ $kelasStatus }}">
-                                {{ ucfirst($item->status_laporan) }}
+                                {{ ucfirst(str_replace('_', ' ', $item->status_laporan)) }}
                             </span>
                         </td>
                         <td>

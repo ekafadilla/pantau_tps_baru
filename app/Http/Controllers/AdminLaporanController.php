@@ -104,7 +104,10 @@ class AdminLaporanController extends Controller
             'pengguna',
             'tps.wilayah',
             'fotoLaporans',
-            'riwayatStatuses',
+            'riwayatStatuses.pengguna',
+            'supir',
+            'armada',
+            'buktiPenanganans.supir',
         ]);
 
         return view('admin.laporan.show', compact('laporan'));
