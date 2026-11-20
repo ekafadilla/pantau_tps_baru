@@ -412,10 +412,18 @@
             </a>
 
             <a href="{{ route('uptd.laporan.index') }}"
-               class="menu {{ request()->routeIs('uptd.laporan.*') ? 'active' : '' }}">
+               class="menu {{ request()->routeIs('uptd.laporan.*') && !request()->has('tab') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>Data Laporan</span>
             </a>
+
+            {{-- PENUGASAN SUPIR --}}
+            <a href="{{ route('uptd.laporan.index', ['tab' => 'penugasan']) }}"
+               class="menu {{ request()->get('tab') === 'penugasan' ? 'active' : '' }}">
+                <i class="bi bi-truck"></i>
+                <span>Penugasan Supir</span>
+            </a>
+            {{-- END PENUGASAN SUPIR --}}
 
             <a href="{{ route('uptd.tps.index') }}"
                class="menu {{ request()->routeIs('uptd.tps.*') ? 'active' : '' }}">
