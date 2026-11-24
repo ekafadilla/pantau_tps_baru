@@ -65,8 +65,8 @@ class UptdLaporanController extends Controller
             'ditolak',
         ];
 
-        if ($request->filled('status') &&
-            in_array($request->status, $statusValid, true)) {
+        if ($request->filled('status')
+            && in_array($request->status, $statusValid, true)) {
             $query->where('status_laporan', $request->status);
         }
 
@@ -80,7 +80,7 @@ class UptdLaporanController extends Controller
         $totalLaporan = (clone $dasar)->count();
         $menunggu = (clone $dasar)->where('status_laporan', 'menunggu')->count();
         $diproses = (clone $dasar)->whereIn('status_laporan', [
-            'diverifikasi', 'diproses', 'ditangani'
+            'diverifikasi', 'diproses', 'ditangani',
         ])->count();
         $selesai = (clone $dasar)->where('status_laporan', 'selesai')->count();
 
@@ -169,11 +169,11 @@ class UptdLaporanController extends Controller
         $daftarCatatan = [];
 
         if (!empty(trim($validated['alasan_perubahan'] ?? ''))) {
-            $daftarCatatan[] = 'Alasan perubahan keputusan: ' . $validated['alasan_perubahan'];
+            $daftarCatatan[] = 'Alasan perubahan keputusan: '.$validated['alasan_perubahan'];
         }
 
         if (!empty(trim($validated['catatan'] ?? ''))) {
-            $daftarCatatan[] = 'Catatan pemeriksaan: ' . $validated['catatan'];
+            $daftarCatatan[] = 'Catatan pemeriksaan: '.$validated['catatan'];
         }
 
         $catatan = count($daftarCatatan) > 0
@@ -223,21 +223,7 @@ class UptdLaporanController extends Controller
                 422,
                 'Laporan tidak dalam status menunggu.'
             );
-
-            $statusLama = $terkunci->status_laporan;
-            $terkunci->update(['status_laporan' => 'diverifikasi']);
-
-            RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
-                'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'diverifikasi',
-                'catatan'           => 'Laporan telah diverifikasi oleh UPTD.',
-                'waktu_perubahan'   => now(),
-            ]);
         });
-
-        return back()->with('success', 'Laporan berhasil diverifikasi.');
     }
 
     // Tahap 3: penugasan, hanya dari status diverifikasi dan sudah ada urgensi akhir
@@ -248,9 +234,9 @@ class UptdLaporanController extends Controller
         $this->pastikanDiWilayah($laporan);
 
         $validated = $request->validate([
-            'id_supir'             => ['required', 'exists:users,id'],
-            'id_armada'            => ['nullable', 'exists:armadas,id'],
-            'target_waktu'         => ['nullable', 'date'],
+            'id_supir' => ['required', 'exists:users,id'],
+            'id_armada' => ['nullable', 'exists:armadas,id'],
+            'target_waktu' => ['nullable', 'date'],
             'instruksi_penanganan' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -297,25 +283,25 @@ class UptdLaporanController extends Controller
             $statusLama = $terkunci->status_laporan;
 
             $terkunci->update([
-                'id_supir'             => $validated['id_supir'],
-                'id_armada'            => $validated['id_armada'] ?? null,
-                'target_waktu'         => $validated['target_waktu'] ?? null,
+                'id_supir' => $validated['id_supir'],
+                'id_armada' => $validated['id_armada'] ?? null,
+                'target_waktu' => $validated['target_waktu'] ?? null,
                 'instruksi_penanganan' => $validated['instruksi_penanganan'] ?? null,
-                'status_laporan'       => 'diproses',
-                'waktu_mulai'          => now(),
+                'status_laporan' => 'diproses',
+                'waktu_mulai' => now(),
             ]);
 
             RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
                 'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'diproses',
-                'catatan'           => 'Laporan ditugaskan kepada supir: ' . $supir->name . '. ' . ($validated['instruksi_penanganan'] ?? ''),
-                'waktu_perubahan'   => now(),
+                'status_baru' => 'diproses',
+                'catatan' => 'Laporan ditugaskan kepada supir: '.$supir->name.'. '.($validated['instruksi_penanganan'] ?? ''),
+                'waktu_perubahan' => now(),
             ]);
         });
 
-        return back()->with('success', 'Laporan berhasil ditugaskan kepada ' . $supir->name . '.');
+        return back()->with('success', 'Laporan berhasil ditugaskan kepada '.$supir->name.'.');
     }
 
     public function tolak(Request $request, Laporan $laporan)
@@ -339,15 +325,37 @@ class UptdLaporanController extends Controller
             $terkunci->update(['status_laporan' => 'ditolak']);
 
             RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
                 'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'ditolak',
-                'catatan'           => $validated['catatan_tolak'],
-                'waktu_perubahan'   => now(),
+                'status_baru' => 'ditolak',
+                'catatan' => $validated['catatan_tolak'],
+                'waktu_perubahan' => now(),
             ]);
         });
 
         return back()->with('success', 'Laporan telah ditolak.');
+    }
+
+    // 2. Proses Pembatalan / Penolakan Laporan (Spam / Urgensi)
+    public function batalkan(Request $request, $id)
+    {
+        $request->validate([
+            'alasan_batal' => 'required|string|max:255',
+        ]);
+
+        $laporan = Laporan::findOrFail($id);
+        $laporan->update([
+            'status_laporan' => 'ditolak', // sesuaikan dengan enum/nilai status di DB Anda
+            'catatan_uptd' => $request->alasan_batal,
+        ]);
+
+        // Opsional: Jika ditandai spam, tambah spam_score pelapor
+        if (str_contains(strtolower($request->alasan_batal), 'spam') && $laporan->user) {
+            $laporan->user->increment('spam_score');
+        }
+
+        return redirect()->route('uptd.laporan.index')
+            ->with('success', 'Laporan berhasil dibatalkan.');
     }
 }
