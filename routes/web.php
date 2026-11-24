@@ -18,14 +18,6 @@ Route::get('/api/landing/tps', [LandingController::class, 'data'])
     ->name('landing.data');
 
 
-<<<<<<< HEAD
-// Pengaturan akun Masyarakat
-Route::get('/masyarakat/pengaturan', [
-    PengaturanMasyarakatController::class,
-    'edit'
-])->name('masyarakat.pengaturan.edit');
-=======
->>>>>>> fitur-peta
 
 
 // Login dan register
@@ -244,11 +236,6 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 
 
-<<<<<<< HEAD
-    Route::put('/pengaturan/kata-sandi', [\App\Http\Controllers\UptdPengaturanController::class, 'updatePassword'])
-        ->name('pengaturan.password');
-});
-=======
 });
 
 
@@ -304,4 +291,3 @@ Route::middleware('auth')->group(function () {
     Route::post('/admin/spam/{user}/reset', [AdminSpamController::class, 'reset'])
         ->name('admin.spam.reset');
 });
->>>>>>> fitur-peta
