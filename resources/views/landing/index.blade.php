@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -307,26 +307,98 @@ button, input {
     padding: 12px 18px;
 }
 
-.hero-image {
-    display: block;
-    width: 100%;
-    height: 335px;
-    object-fit: cover;
-    border: 5px solid rgba(255,255,255,.8);
-    border-radius: 21px;
-    box-shadow: 0 22px 48px rgba(18,61,43,.17);
-    transition: transform .6s cubic-bezier(.2,.8,.2,1);
+.hero-visual {
+    position: relative;
+    min-height: 335px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding: 34px;
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 24px;
+    color: white;
+    background:
+        radial-gradient(circle at 85% 20%, rgba(199,239,101,.3), transparent 30%),
+        linear-gradient(145deg, #174d35, #0d3025);
+    box-shadow: 0 24px 55px rgba(18,61,43,.18);
 }
 
-.hero-image:hover {
-    transform: translateY(-6px) scale(1.012);
+.hero-visual::after {
+    content: "";
+    position: absolute;
+    width: 240px;
+    height: 240px;
+    right: -85px;
+    bottom: -105px;
+    border: 1px solid rgba(255,255,255,.16);
+    border-radius: 50%;
+    box-shadow: 0 0 0 25px rgba(255,255,255,.035),
+                0 0 0 55px rgba(255,255,255,.025);
 }
 
-.hero-caption {
-    margin-top: 12px;
-    color: #7c8a80;
-    font-size: 11px;
-    text-align: center;
+.visual-topline {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: #d5e9d5;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.4px;
+}
+
+.visual-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 5px rgba(199,239,101,.12);
+}
+
+.visual-symbol {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 94px;
+    height: 94px;
+    margin: 35px 0 23px;
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 27px;
+    color: var(--lime);
+    background: rgba(255,255,255,.09);
+    font-size: 48px;
+}
+
+.visual-title {
+    position: relative;
+    z-index: 1;
+    font-size: clamp(25px, 3vw, 36px);
+    font-weight: 850;
+    letter-spacing: -1px;
+}
+
+.hero-visual p {
+    position: relative;
+    z-index: 1;
+    max-width: 340px;
+    margin-top: 10px;
+    color: #d5e4d8;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.visual-bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 30px;
+    padding-top: 17px;
+    border-top: 1px solid rgba(255,255,255,.17);
+    color: #d5e4d8;
+    font-size: 10px;
+    font-weight: 700;
 }
 
 /* STATISTIK */
@@ -785,7 +857,7 @@ button, input {
     }
 
     .hero-image {
-        height: 270px;
+        min-height: 270px;
     }
 
     .tps-grid {
@@ -851,7 +923,7 @@ button, input {
     }
 
     .hero-image {
-        height: 225px;
+        min-height: 225px;
         border-radius: 15px;
     }
 
@@ -1112,11 +1184,1410 @@ body footer.landing-footer .footer-bottom {
         gap: 25px;
     }
 }
-    </style>
+    
+/* ==================================================
+   SI PANTAU TPS - REDESIGN STAGE 1
+   Modern editorial / emerald and lime
+================================================== */
+
+:root {
+    --forest: #123d2b;
+    --forest-2: #204b38;
+    --green: #176b49;
+    --lime: #b8f500;
+    --paper: #ffffff;
+    --ink: #14291f;
+    --muted: #78837c;
+    --line: #e8ece8;
+}
+
+body {
+    background: #fff;
+    color: var(--ink);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.container {
+    width: min(90%, 1320px);
+}
+
+/* TOPBAR */
+
+.topbar {
+    position: relative;
+    z-index: 1001;
+    background: var(--forest);
+    color: #fff;
+    font-size: 11px;
+}
+
+.topbar-inner {
+    min-height: 37px;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+.topbar-inner span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.topbar-inner i {
+    color: var(--lime);
+}
+
+.topbar-highlight {
+    margin-left: auto;
+    padding: 0 20px;
+    min-height: 37px;
+    align-items: center;
+    background: var(--lime);
+    color: var(--forest);
+    font-weight: 800;
+}
+
+/* NAVIGATION */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    background: rgba(255,255,255,.97);
+    border-bottom: 1px solid #edf0ed;
+    box-shadow: 0 4px 18px rgba(18,61,43,.035);
+}
+
+.navbar-content {
+    min-height: 82px;
+}
+
+.brand-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    color: var(--forest);
+    background: var(--lime);
+    box-shadow: none;
+}
+
+.brand h2 {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    letter-spacing: .2px;
+    color: var(--forest);
+}
+
+.brand p {
+    font-size: 10px;
+    letter-spacing: .5px;
+}
+
+.nav-links {
+    gap: 32px;
+}
+
+.nav-links a {
+    color: #34483c;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.nav-links a::after {
+    background: var(--lime);
+    height: 3px;
+}
+
+.btn {
+    border-radius: 5px;
+    font-size: 12px;
+    padding: 12px 19px;
+}
+
+.btn-primary {
+    color: var(--forest);
+    background: var(--lime);
+    box-shadow: none;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background: var(--forest);
+    box-shadow: none;
+}
+
+.btn-outline {
+    border-color: #cbd5cd;
+    color: var(--forest);
+}
+
+.btn-outline:hover {
+    color: var(--forest);
+    background: #f2f7ed;
+}
+
+/* HERO */
+
+.hero {
+    padding: 72px 0 75px;
+    background: #f7f8f5;
+    overflow: hidden;
+}
+
+.hero-content {
+    grid-template-columns: 1fr 1fr;
+    gap: 65px;
+    min-height: 440px;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    border: 0;
+    border-radius: 3px;
+    padding: 0;
+    margin-bottom: 23px;
+    color: var(--green);
+    background: transparent;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+}
+
+.eyebrow::before {
+    width: 9px;
+    height: 9px;
+    background: var(--lime);
+    box-shadow: 4px 0 0 var(--forest);
+}
+
+.hero h1 {
+    max-width: 610px;
+    margin-bottom: 20px;
+    color: #14291f;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: clamp(40px, 5vw, 65px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -2.5px;
+}
+
+.hero-description {
+    max-width: 490px;
+    color: #77817a;
+    font-size: 14px;
+    line-height: 1.9;
+}
+
+.hero-buttons {
+    gap: 13px;
+}
+
+.hero-buttons .btn {
+    min-height: 46px;
+    padding: 12px 20px;
+}
+
+.hero-note {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 27px;
+    color: #6d7c72;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.hero-note-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 0 4px rgba(184,245,0,.17);
+}
+
+/* PHOTO COLLAGE */
+
+.hero-collage {
+    position: relative;
+    min-height: 405px;
+    isolation: isolate;
+}
+
+.collage-main {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 75%;
+    height: 88%;
+    overflow: hidden;
+    border-radius: 8px 48px 8px 48px;
+    background: #dce5dc;
+}
+
+.collage-main img,
+.collage-secondary img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    filter: grayscale(100%);
+    transition: filter .5s ease, transform .7s ease;
+}
+
+.hero-collage:hover img {
+    filter: grayscale(25%);
+}
+
+.hero-collage:hover .collage-main img {
+    transform: scale(1.04);
+}
+
+.collage-secondary {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 49%;
+    height: 48%;
+    overflow: hidden;
+    border: 8px solid #f7f8f5;
+    border-radius: 8px 35px 8px 35px;
+    background: #dce5dc;
+}
+
+.collage-label {
+    position: absolute;
+    z-index: 3;
+    left: 5%;
+    top: 14%;
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px 17px;
+    border-radius: 6px;
+    color: #fff;
+    background: var(--forest);
+    box-shadow: 0 12px 30px rgba(18,61,43,.2);
+}
+
+.collage-label-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    color: var(--forest);
+    background: var(--lime);
+    font-size: 19px;
+}
+
+.collage-label strong,
+.collage-label small {
+    display: block;
+}
+
+.collage-label strong {
+    font-size: 11px;
+    letter-spacing: .5px;
+}
+
+.collage-label small {
+    margin-top: 2px;
+    color: #d5e3d9;
+    font-size: 10px;
+}
+
+.collage-orbit {
+    position: absolute;
+    z-index: -1;
+    right: -40px;
+    bottom: 10px;
+    width: 145px;
+    height: 145px;
+    border: 1px solid rgba(18,61,43,.16);
+    border-radius: 50%;
+    box-shadow: 0 0 0 18px rgba(18,61,43,.025),
+                0 0 0 36px rgba(18,61,43,.02);
+}
+
+.collage-spark {
+    position: absolute;
+    z-index: 3;
+    right: 4%;
+    bottom: 5%;
+    color: var(--lime);
+    font-size: 55px;
+    line-height: 1;
+}
+
+/* RUNNING TEXT */
+
+.ticker-section {
+    overflow: hidden;
+    background: var(--forest);
+    color: #fff;
+}
+
+.ticker-track {
+    display: flex;
+    width: max-content;
+    animation: pantauTicker 32s linear infinite;
+}
+
+.ticker-section:hover .ticker-track {
+    animation-play-state: paused;
+}
+
+.ticker-content {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    padding: 16px 18px;
+    white-space: nowrap;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.ticker-content b {
+    color: var(--lime);
+    font-size: 23px;
+}
+
+@keyframes pantauTicker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* STATISTICS */
+
+.stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 0;
+    padding-top: 55px;
+    padding-bottom: 55px;
+}
+
+.stat-card {
+    position: relative;
+    padding: 10px 28px;
+    border: 0;
+    border-right: 1px solid #dce3dd;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+
+.stat-card:last-child {
+    border-right: 0;
+}
+
+.stat-card:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.stat-label {
+    color: #77817a;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stat-value {
+    margin: 4px 0;
+    color: var(--forest);
+    font-size: clamp(31px, 3.5vw, 45px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -1.5px;
+}
+
+.stat-note {
+    color: #8a938c;
+    font-size: 11px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+    .hero-content {
+        gap: 35px;
+    }
+
+    .hero h1 {
+        font-size: clamp(36px, 5vw, 52px);
+    }
+
+    .hero-collage {
+        min-height: 340px;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 25px;
+    }
+
+    .stat-card:nth-child(2) {
+        border-right: 0;
+    }
+}
+
+@media (max-width: 650px) {
+    .topbar-inner {
+        min-height: 34px;
+        justify-content: center;
+        gap: 12px;
+        font-size: 9px;
+    }
+
+    .topbar-inner span:nth-child(2) {
+        display: none;
+    }
+
+    .topbar-highlight {
+        display: none !important;
+    }
+
+    .navbar-content {
+        min-height: 68px;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 24px;
+        padding: 8px 0;
+    }
+
+    .nav-links a {
+        font-size: 11px;
+    }
+
+    .brand h2 {
+        font-size: 15px;
+    }
+
+    .brand-icon {
+        width: 39px;
+        height: 39px;
+    }
+
+    .nav-actions .btn {
+        padding: 9px 12px;
+        font-size: 10px;
+    }
+
+    .hero {
+        padding: 48px 0 45px;
+    }
+
+    .hero-content {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .hero h1 {
+        font-size: clamp(37px, 10vw, 50px);
+        letter-spacing: -1.7px;
+    }
+
+    .hero-description {
+        font-size: 13px;
+    }
+
+    .hero-collage {
+        min-height: 310px;
+    }
+
+    .collage-main {
+        width: 82%;
+    }
+
+    .collage-secondary {
+        width: 53%;
+        height: 43%;
+    }
+
+    .ticker-content {
+        gap: 20px;
+        padding: 13px;
+        font-size: 13px;
+    }
+
+    .stats-grid {
+        padding-top: 35px;
+        padding-bottom: 35px;
+    }
+
+    .stat-card {
+        padding: 8px 15px;
+    }
+
+    .stat-value {
+        font-size: 34px;
+    }
+}
+
+@media (max-width: 380px) {
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-collage {
+        min-height: 260px;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .stat-card {
+        border-right: 0;
+        border-bottom: 1px solid #e5eae5;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ticker-track {
+        animation: none;
+    }
+
+    .hero-collage img {
+        transition: none;
+    }
+}
+
+/* =====================================================
+   PENYEMPURNAAN VISUAL SI PANTAU TPS
+   ===================================================== */
+
+:root {
+    --accent-lime: #c7f000;
+    --accent-green: #238653;
+    --deep-green: #103d2c;
+    --soft-green: #e7f1e6;
+    --warm-paper: #f5f4ed;
+}
+
+/* NAVBAR */
+
+.navbar {
+    background: rgba(255,255,255,.94);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 28px rgba(20,48,34,.07);
+    border-bottom: 1px solid rgba(16,61,44,.08);
+}
+
+.navbar-content {
+    min-height: 86px;
+}
+
+.brand {
+    gap: 13px;
+}
+
+.brand-icon {
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.brand:hover .brand-icon {
+    transform: rotate(-12deg) scale(1.08);
+    box-shadow: 0 9px 24px rgba(166,210,0,.25);
+}
+
+.brand h2 {
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: 900;
+    letter-spacing: -.7px;
+}
+
+.nav-links {
+    gap: 35px;
+}
+
+.nav-links a {
+    font-size: 13px;
+    font-weight: 800;
+    transition: color .25s ease;
+}
+
+.nav-links a:hover {
+    color: #6a9900;
+}
+
+.nav-links a::after {
+    bottom: -11px;
+    height: 3px;
+    border-radius: 10px;
+    background: var(--accent-lime);
+}
+
+.nav-actions {
+    gap: 11px;
+}
+
+.nav-actions .btn {
+    min-height: 43px;
+    padding: 11px 21px;
+    border-radius: 9px;
+    font-weight: 800;
+    transition: all .3s ease;
+}
+
+.nav-actions .btn-primary {
+    background: var(--accent-lime);
+    color: #18351f;
+    box-shadow: 0 6px 16px rgba(166,210,0,.2);
+}
+
+.nav-actions .btn-primary:hover {
+    background: var(--deep-green);
+    color: white;
+    transform: translateY(-3px);
+}
+
+.nav-actions .btn-outline:hover {
+    background: #edf5e8;
+    transform: translateY(-3px);
+}
+
+/* HERO */
+
+.hero {
+    position: relative;
+    padding: 86px 0 92px;
+    background:
+        radial-gradient(ellipse at 8% 90%, rgba(199,240,0,.15), transparent 32%),
+        radial-gradient(ellipse at 92% 12%, rgba(35,134,83,.14), transparent 35%),
+        linear-gradient(120deg, #f7f8f0 0%, #edf4e9 52%, #e2eddf 100%);
+}
+
+.hero::before {
+    width: 520px;
+    height: 520px;
+    right: -220px;
+    top: -260px;
+    border-color: rgba(35,134,83,.12);
+    box-shadow:
+        0 0 0 45px rgba(35,134,83,.035),
+        0 0 0 95px rgba(35,134,83,.025);
+}
+
+.hero-content {
+    gap: 58px;
+}
+
+.hero h1 {
+    color: #153b2b;
+    font-size: clamp(42px, 5.2vw, 68px);
+    font-weight: 900;
+    letter-spacing: -3px;
+    line-height: 1.06;
+}
+
+.hero-description {
+    color: #62746a;
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+.eyebrow {
+    color: #347c42;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.hero-buttons {
+    gap: 14px;
+    margin-top: 29px;
+}
+
+.hero-buttons .btn {
+    min-height: 51px;
+    padding: 14px 22px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: 850;
+}
+
+.hero-buttons .btn-primary {
+    color: #18351f;
+    background: var(--accent-lime);
+    box-shadow: 0 10px 22px rgba(166,210,0,.2);
+}
+
+.hero-buttons .btn-primary:hover {
+    color: white;
+    background: var(--deep-green);
+    transform: translateY(-4px);
+    box-shadow: 0 14px 25px rgba(16,61,44,.2);
+}
+
+.hero-buttons .btn-outline {
+    color: var(--deep-green);
+    border: 1px solid #c5d4c5;
+    background: rgba(255,255,255,.82);
+}
+
+.hero-buttons .btn-outline:hover {
+    color: white;
+    border-color: var(--deep-green);
+    background: var(--deep-green);
+    transform: translateY(-4px);
+}
+
+.hero-note {
+    margin-top: 30px;
+}
+
+/* HERO PHOTO COLLAGE */
+
+.hero-collage {
+    min-height: 430px;
+}
+
+.collage-main {
+    width: 78%;
+    height: 86%;
+    border-radius: 12px 58px 12px 58px;
+    box-shadow: 0 24px 55px rgba(22,58,37,.17);
+    background: #cbd9c9;
+}
+
+.collage-main img {
+    filter: saturate(.78) contrast(1.03);
+}
+
+.hero-collage:hover .collage-main img {
+    filter: saturate(1.05);
+}
+
+.collage-secondary.collage-feature {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 9px;
+    width: 52%;
+    height: 43%;
+    padding: 22px;
+    border: 7px solid #edf4e9;
+    border-radius: 9px 34px 9px 34px;
+    color: #173d2c;
+    background: linear-gradient(145deg, #d8edc9, #b9d8b0);
+    box-shadow: 0 15px 35px rgba(20,60,37,.12);
+    z-index: 2;
+}
+
+.collage-feature-icon {
+    display: grid;
+    place-items: center;
+    width: 43px;
+    height: 43px;
+    border-radius: 13px;
+    color: #173d2c;
+    background: var(--accent-lime);
+    font-size: 22px;
+}
+
+.collage-feature strong {
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.collage-feature small {
+    color: #58725d;
+    font-size: 10px;
+}
+
+.collage-label {
+    border-radius: 13px;
+    box-shadow: 0 15px 35px rgba(12,48,32,.2);
+}
+
+.collage-label-icon {
+    background: var(--accent-lime);
+}
+
+.collage-orbit {
+    border-color: rgba(35,134,83,.18);
+}
+
+.collage-spark {
+    color: #9bc900;
+}
+
+/* RUNNING INFORMATION STRIP */
+
+.ticker-section {
+    overflow: hidden;
+    background: var(--deep-green);
+}
+
+.ticker-content {
+    color: rgba(255,255,255,.9);
+}
+
+.ticker-content b {
+    color: var(--accent-lime);
+}
+
+/* STATISTICS */
+
+.stats-grid {
+    position: relative;
+    margin-top: -1px;
+    padding: 47px 0;
+    grid-template-columns: repeat(4, minmax(0,1fr));
+    gap: 13px;
+}
+
+.stat-card {
+    min-height: 145px;
+    padding: 23px 25px;
+    overflow: hidden;
+    border: 1px solid #e3eadf;
+    border-radius: 17px;
+    background: linear-gradient(145deg, #fff, #f3f7ee);
+    box-shadow: 0 9px 25px rgba(23,60,38,.055);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.stat-card::before {
+    width: 5px;
+    border-radius: 0 5px 5px 0;
+}
+
+.stat-card:hover {
+    transform: translateY(-7px);
+    box-shadow: 0 17px 35px rgba(23,60,38,.12);
+}
+
+.stat-card:last-child {
+    border-right: 1px solid #e3eadf;
+}
+
+.stat-label {
+    color: #65776a;
+    font-weight: 800;
+}
+
+.stat-value {
+    color: #174b32;
+    font-size: clamp(34px, 3.6vw, 47px);
+    font-weight: 900;
+}
+
+.stat-note {
+    color: #829086;
+}
+
+/* SECTION HEADINGS */
+
+.section {
+    position: relative;
+}
+
+.section-heading {
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.section-heading h2 {
+    color: #173d2c;
+    font-size: clamp(25px, 3vw, 36px);
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+.section-heading p {
+    margin-top: 8px;
+    color: #758379;
+    font-size: 14px;
+}
+
+.live-badge {
+    padding: 10px 15px;
+    border: 1px solid #d8e9d6;
+    border-radius: 30px;
+    color: #277343;
+    background: #eff8e9;
+    font-weight: 800;
+}
+
+/* TPS SEARCH */
+
+.search-box {
+    max-width: 720px;
+    margin: 0 auto 30px;
+    padding: 8px;
+    border: 1px solid #dce8d9;
+    border-radius: 14px;
+    background: white;
+    box-shadow: 0 12px 30px rgba(20,60,37,.07);
+}
+
+.search-input {
+    padding: 13px 16px;
+    font-size: 14px;
+}
+
+.search-box .btn {
+    min-height: 45px;
+    border-radius: 10px;
+}
+
+.tps-grid {
+    gap: 21px;
+}
+
+.tps-card {
+    border: 1px solid #e0e9dd;
+    border-radius: 17px;
+    box-shadow: 0 9px 24px rgba(20,60,37,.055);
+}
+
+.tps-card:hover {
+    transform: translateY(-8px);
+    border-color: #b8d6a9;
+    box-shadow: 0 20px 35px rgba(20,60,37,.12);
+}
+
+.tps-visual {
+    position: relative;
+    display: flex;
+    min-height: 150px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    color: #1b4b32;
+    background:
+        radial-gradient(circle at 80% 15%, rgba(199,240,0,.35), transparent 35%),
+        linear-gradient(145deg, #e3f0dc, #c6dfc2);
+}
+
+.tps-visual::before,
+.tps-visual::after {
+    content: "";
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    border: 1px solid rgba(35,100,55,.14);
+    border-radius: 50%;
+}
+
+.tps-visual::before {
+    top: -65px;
+    left: -35px;
+}
+
+.tps-visual::after {
+    right: -55px;
+    bottom: -80px;
+}
+
+.tps-visual i {
+    position: relative;
+    z-index: 1;
+    font-size: 39px;
+    color: #43834b;
+}
+
+.tps-visual span {
+    position: relative;
+    z-index: 1;
+    font-size: 10px;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+}
+
+.tps-content {
+    padding: 19px;
+}
+
+.tps-content h3 {
+    font-size: 15px;
+    font-weight: 850;
+}
+
+/* COMPLAINT BANNER */
+
+.complaint-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 43px 48px;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 23px;
+    background:
+        radial-gradient(circle at 88% 15%, rgba(199,240,0,.22), transparent 28%),
+        linear-gradient(120deg, #123d2b, #216e45);
+    box-shadow: 0 18px 40px rgba(16,61,44,.15);
+}
+
+.complaint-banner h2 {
+    color: white;
+    font-size: clamp(25px, 3vw, 36px);
+    font-weight: 900;
+}
+
+.complaint-banner p {
+    max-width: 650px;
+    color: #d7e8d9;
+    line-height: 1.8;
+}
+
+.complaint-banner .btn-white {
+    padding: 14px 22px;
+    border-radius: 10px;
+    color: #18351f;
+    background: var(--accent-lime);
+    font-weight: 850;
+    transition: all .3s ease;
+}
+
+.complaint-banner .btn-white:hover {
+    color: white;
+    background: #2b8b52;
+    transform: translateY(-4px);
+}
+
+/* SERVICE CARDS */
+
+.information-grid {
+    gap: 20px;
+}
+
+.information-card {
+    position: relative;
+    overflow: hidden;
+    padding: 29px 25px;
+    border: 1px solid #e1eadc;
+    border-radius: 18px;
+    background: linear-gradient(150deg, #fff, #f0f6eb);
+    box-shadow: 0 9px 24px rgba(20,60,37,.05);
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.information-card::after {
+    content: "";
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    right: -55px;
+    bottom: -60px;
+    border: 17px solid rgba(126,180,85,.10);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.information-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 35px rgba(20,60,37,.11);
+}
+
+.information-card .icon {
+    display: grid;
+    place-items: center;
+    width: 57px;
+    height: 57px;
+    margin-bottom: 21px;
+    border-radius: 16px;
+    color: #214f31;
+    background: var(--accent-lime);
+    font-size: 25px;
+}
+
+.information-card h3 {
+    color: #173d2c;
+    font-size: 17px;
+    font-weight: 850;
+}
+
+.information-card p {
+    color: #718076;
+    line-height: 1.8;
+}
+
+/* FOOTER */
+
+body footer.landing-footer {
+    position: relative;
+    overflow: hidden;
+    margin-top: 70px;
+    padding-top: 65px;
+    color: #e7f0e8;
+    background:
+        radial-gradient(circle at 90% 0%, rgba(199,240,0,.12), transparent 25%),
+        linear-gradient(145deg, #0c3023, #164b32);
+}
+
+body footer.landing-footer .footer-container {
+    gap: 38px;
+}
+
+body footer.landing-footer .footer-title {
+    color: var(--accent-lime);
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: .3px;
+}
+
+body footer.landing-footer p,
+body footer.landing-footer li,
+body footer.landing-footer a {
+    color: #d1dfd4;
+    line-height: 1.9;
+}
+
+body footer.landing-footer a:hover {
+    color: var(--accent-lime);
+}
+
+body footer.landing-footer .footer-brand {
+    color: white;
+    font-size: 19px;
+    font-weight: 900;
+}
+
+body footer.landing-footer .footer-brand i {
+    color: #173d2c;
+    background: var(--accent-lime);
+}
+
+body footer.landing-footer .social-icon {
+    border: 1px solid rgba(255,255,255,.2);
+    background: rgba(255,255,255,.08);
+    transition: all .3s ease;
+}
+
+body footer.landing-footer .social-icon:hover {
+    transform: translateY(-5px);
+    color: #173d2c;
+    background: var(--accent-lime);
+}
+
+body footer.landing-footer .footer-bottom {
+    margin-top: 45px;
+    border-top: 1px solid rgba(255,255,255,.13);
+    color: #bdcfc1;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 950px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr));
+    }
+
+    .stat-card:nth-child(2) {
+        border-right: 1px solid #e3eadf;
+    }
+
+    .stat-card:nth-child(even) {
+        border-right: 1px solid #e3eadf;
+    }
+
+    .hero-collage {
+        min-height: 350px;
+    }
+}
+
+@media (max-width: 650px) {
+    .navbar-content {
+        min-height: 70px;
+    }
+
+    .nav-links {
+        gap: 20px;
+    }
+
+    .nav-links a {
+        font-size: 11px;
+    }
+
+    .hero {
+        padding: 52px 0 55px;
+    }
+
+    .hero h1 {
+        font-size: clamp(38px, 10vw, 49px);
+        letter-spacing: -1.8px;
+    }
+
+    .hero-collage {
+        min-height: 300px;
+    }
+
+    .stats-grid {
+        padding: 30px 0;
+        gap: 10px;
+    }
+
+    .stat-card {
+        min-height: 125px;
+        padding: 17px 14px;
+        border: 1px solid #e3eadf;
+        border-radius: 13px;
+    }
+
+    .stat-value {
+        font-size: 32px;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .complaint-banner {
+        padding: 30px 23px;
+        gap: 20px;
+    }
+
+    body footer.landing-footer {
+        margin-top: 45px;
+        padding-top: 45px;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-links {
+        gap: 13px;
+    }
+
+    .nav-actions .btn {
+        padding: 8px 10px;
+    }
+
+    .collage-label {
+        left: 0;
+        max-width: 190px;
+    }
+}
+
+.peta-sebaran-section {
+    margin: 34px 0 38px;
+}
+
+.peta-sebaran-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.peta-sebaran-eyebrow {
+    display: inline-block;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    margin-bottom: 7px;
+}
+
+.peta-sebaran-heading h3 {
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+}
+
+.peta-sebaran-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.peta-sebaran-count {
+    flex-shrink: 0;
+    padding: 8px 13px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--forest);
+    background: var(--mint);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.peta-sebaran-card {
+    padding: 12px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+}
+
+.peta-sebaran .peta-kanvas {
+    min-height: 300px;
+    border: 0;
+    border-radius: 13px;
+}
+
+.peta-sebaran-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.peta-sebaran-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.legend-dot {
+    width: 10px;
+    height: 10px;
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.legend-tps {
+    background: var(--forest-2);
+}
+
+.peta-sebaran-note {
+    color: var(--muted);
+}
+
+@media (max-width: 600px) {
+    .peta-sebaran-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .peta-sebaran-card {
+        padding: 7px;
+        border-radius: 14px;
+    }
+
+    .peta-sebaran .peta-kanvas {
+        min-height: 280px;
+    }
+}
+</style>
 </head>
 
 <body>
 
+    
     <!-- NAVBAR -->
     <header class="navbar">
         <div class="container navbar-content">
@@ -1157,72 +2628,114 @@ body footer.landing-footer .footer-bottom {
         <section class="hero" id="beranda">
             <div class="container hero-content">
 
-                <div>
-                    <span class="eyebrow">DINAS LINGKUNGAN HIDUP</span>
+                <div class="hero-copy">
+                    <span class="eyebrow">SISTEM INFORMASI LINGKUNGAN INDRAMAYU</span>
 
-                    <h1>Pantau TPS, Wujudkan Lingkungan yang Bersih</h1>
+                    <h1>{{ $pengaturanLanding['judul_hero'] }}</h1>
 
                     <p class="hero-description">
-                        Akses informasi tempat penampungan sementara (TPS)
-                        dan sampaikan laporan kondisi TPS di Kabupaten
-                        Indramayu melalui satu layanan berbasis web.
+                        {{ $pengaturanLanding['deskripsi_hero'] }}
                     </p>
 
                     <div class="hero-buttons">
                         <a href="#data-tps" class="btn btn-primary">
                             <i class="bi bi-geo-alt"></i>
-                            Lihat Data TPS
+                            {{ $pengaturanLanding['judul_tombol_tps'] }}
+                            <i class="bi bi-arrow-up-right"></i>
                         </a>
 
                         <a href="{{ route('login') }}" class="btn btn-outline">
                             <i class="bi bi-file-earmark-text"></i>
-                            Buat Pengaduan
+                            {{ $pengaturanLanding['judul_tombol_laporan'] }}
                         </a>
+                    </div>
+
+                    <div class="hero-note">
+                        <span class="hero-note-dot"></span>
+                        Informasi TPS Kabupaten Indramayu
                     </div>
                 </div>
 
-                <div>
-                    <img
-                        class="hero-image"
-                        src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=80"
-                        alt="Ilustrasi pengelolaan sampah"
-                    >
+                <div class="hero-collage">
+                    <div class="collage-main">
+                        <img
+                            src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=1000&q=85"
+                            alt="Ilustrasi pengelolaan sampah"
+                        >
+                    </div>
 
-                    <p class="hero-caption">
-                        Informasi TPS dan pengaduan lingkungan dalam satu layanan
-                    </p>
+                                        <div class="collage-secondary collage-feature">
+                        <span class="collage-feature-icon">
+                            <i class="bi bi-recycle"></i>
+                        </span>
+                        <strong>Lingkungan lebih terpantau</strong>
+                        <small>Informasi TPS Kabupaten Indramayu</small>
+                    </div>
+
+                    <div class="collage-label">
+                        <span class="collage-label-icon">
+                            <i class="bi bi-recycle"></i>
+                        </span>
+                        <span>
+                            <strong>SI PANTAU TPS</strong>
+                            <small>Indramayu Bersih</small>
+                        </span>
+                    </div>
+
+                    <div class="collage-orbit"></div>
+                    <div class="collage-spark">✳</div>
                 </div>
 
             </div>
         </section>
-
+        <!-- RUNNING TEXT -->
+        <section class="ticker-section" aria-label="Informasi layanan">
+            <div class="ticker-track">
+                <div class="ticker-content">
+                    <span>INFORMASI TPS</span><b>✳</b>
+                    <span>LINGKUNGAN BERSIH</span><b>✳</b>
+                    <span>PANTAU WILAYAH</span><b>✳</b>
+                    <span>LAPORAN MASYARAKAT</span><b>✳</b>
+                    <span>INDRAMAYU BERSIH</span><b>✳</b>
+                </div>
+                <div class="ticker-content" aria-hidden="true">
+                    <span>INFORMASI TPS</span><b>✳</b>
+                    <span>LINGKUNGAN BERSIH</span><b>✳</b>
+                    <span>PANTAU WILAYAH</span><b>✳</b>
+                    <span>LAPORAN MASYARAKAT</span><b>✳</b>
+                    <span>INDRAMAYU BERSIH</span><b>✳</b>
+                </div>
+            </div>
+        </section>
         <!-- STATISTIK -->
         <section class="container">
             <div class="stats-grid">
+    <div class="stat-card">
+        <p class="stat-label">Total TPS</p>
+        <div class="stat-value" id="statTotal">--</div>
+        <p class="stat-note">TPS terdaftar dalam sistem</p>
+    </div>
 
-                <div class="stat-card">
-                    <p class="stat-label">Total TPS</p>
-                    <div class="stat-value" id="statTotal">--</div>
-                    <p class="stat-note">Data TPS terdaftar</p>
-                </div>
+    <div class="stat-card">
+        <p class="stat-label">TPS Bersih</p>
+        <div class="stat-value" id="statBersih">--</div>
+        <p class="stat-note">TPS dengan status bersih</p>
+    </div>
 
-                <div class="stat-card">
-                    <p class="stat-label">TPS Aktif</p>
-                    <div class="stat-value" id="statAktif">--</div>
-                    <p class="stat-note">TPS dengan status aktif</p>
-                </div>
+    <div class="stat-card">
+        <p class="stat-label">TPS Terlapor</p>
+        <div class="stat-value" id="statTerlapor">--</div>
+        <p class="stat-note">TPS yang perlu perhatian</p>
+    </div>
 
-                <div class="stat-card">
-                    <p class="stat-label">Pengaduan Selesai</p>
-                    <div class="stat-value" id="statSelesai">--</div>
-                    <p class="stat-note">Laporan yang telah ditangani</p>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- DATA TPS -->
-        <section class="section" id="data-tps">
+    <div class="stat-card">
+        <p class="stat-label">Pengaduan Selesai</p>
+        <div class="stat-value" id="statSelesai">--</div>
+        <p class="stat-note">Laporan berstatus selesai</p>
+    </div>
+</div>
+</section>
+<section class="section" id="data-tps">
             <div class="container">
 
                 <div class="section-heading">
@@ -1254,6 +2767,36 @@ body footer.landing-footer .footer-bottom {
                         <i class="bi bi-search"></i>
                         Cari TPS
                     </button>
+                </div>
+
+                <div class="peta-sebaran-section">
+                    <div class="peta-sebaran-heading">
+                        <div>
+                            <span class="peta-sebaran-eyebrow">PETA INTERAKTIF</span>
+                            <h3>Sebaran Lokasi TPS</h3>
+                            <p>Lihat lokasi tempat penampungan sementara di Kabupaten Indramayu.</p>
+                        </div>
+                        <span class="peta-sebaran-count" id="jumlahMarkerTPS">
+                            0 lokasi terpetakan
+                        </span>
+                    </div>
+
+                    <div class="peta-sebaran-card">
+                        <x-peta
+                            :markers="$landing['map_markers'] ?? []"
+                            mode="view"
+                            filterable
+                            height="460"
+                            class="peta-sebaran"
+                        />
+                    </div>
+
+                    <div class="peta-sebaran-legend">
+                        <span><i class="legend-dot legend-tps"></i> Lokasi TPS</span>
+                        <span class="peta-sebaran-note">
+                            Titik hanya ditampilkan jika koordinat TPS tersedia.
+                        </span>
+                    </div>
                 </div>
 
                 <div class="tps-grid" id="tpsGrid"></div>
@@ -1299,11 +2842,8 @@ body footer.landing-footer .footer-bottom {
 
                 <div class="section-heading">
                     <div>
-                        <h2>Layanan SI Pantau TPS</h2>
-                        <p>
-                            Fitur untuk membantu masyarakat memperoleh informasi
-                            dan menyampaikan laporan kondisi TPS.
-                        </p>
+                        <h2>{{ $pengaturanLanding['judul_layanan'] }}</h2>
+                        <p>{{ $pengaturanLanding['deskripsi_layanan'] }}</p>
                     </div>
                 </div>
 
@@ -1365,17 +2905,7 @@ body footer.landing-footer .footer-bottom {
                 <i class="bi bi-recycle"></i>
                 <span>SI PANTAU TPS</span>
             </div>
-            <p>Sistem Pengaduan dan Monitoring TPS Sampah Berbasis Web untuk mendukung pengelolaan lingkungan di Kabupaten Indramayu.</p>
-
-            {{-- peta lokasi --}}
-            <div class="col-map-box">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.513476251214!2d108.3243!3d-6.3314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6eb94df5555555%3A0x123456789abcdef!2sDinas%20Lingkungan%20Hidup%20Kabupaten%20Indramayu!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid" 
-                    allowfullscreen="" 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
-            </div>
+            <p>{{ $pengaturanLanding['teks_footer'] }}</p>
         </div>
 
         <!-- Kolom 2: Menu Navigasi -->
@@ -1383,9 +2913,9 @@ body footer.landing-footer .footer-bottom {
             <h4 class="footer-title">Menu</h4>
             <ul class="footer-links">
                 <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#tps">Data TPS</a></li>
+                <li><a href="#data-tps">Data TPS</a></li>
                 <li><a href="#informasi">Informasi</a></li>
-                <li><a href="#alur">Alur Pengaduan</a></li>
+
                 <li><a href="{{ route('login') }}">Masuk</a></li>
                 <li><a href="{{ route('register') }}">Daftar</a></li>
             </ul>
@@ -1406,18 +2936,31 @@ body footer.landing-footer .footer-bottom {
             <!-- Kontak Lainnya (WhatsApp & Email) -->
             <ul class="contact-info" style="margin-top: 12px;">
                 <li>
-                    <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer">
-                        <i class="bi bi-whatsapp"></i>
-                        <span>+62 812-3456-7890</span>
-                    </a>
-                </li>
-                <li>
                     <a href="mailto:dlh@indramayukab.go.id">
                         <i class="bi bi-envelope-fill"></i>
                         <span>dlh@indramayukab.go.id</span>
                     </a>
                 </li>
             </ul>
+            <div class="col-map-box">
+                <iframe
+                    src="https://www.google.com/maps?q=-6.3261452,108.3204815&z=17&output=embed"
+                    title="Peta lokasi Dinas Lingkungan Hidup Kabupaten Indramayu"
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+            <a
+                href="https://www.google.com/maps/dir/?api=1&destination=-6.3261452%2C108.3204815"
+                target="_blank"
+                rel="noopener noreferrer"
+                style="margin-top: 12px;"
+            >
+                <i class="bi bi-sign-turn-right-fill"></i>
+                Lihat Rute ke Kantor DLH
+            </a>
         </div>
 
         <!-- Kolom 4: Ikon Sosial Media Interaktif -->
@@ -1457,12 +3000,7 @@ body footer.landing-footer .footer-bottom {
             const INTERVAL_MS = 10000;   // ambil data baru tiap 10 detik
             const BATAS_AWAL = 8;        // jumlah kartu yang tampil awal
 
-            const IMAGES = [
-                'https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=600&q=80',
-                'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=80'
-            ];
-
-            const grid = document.getElementById('tpsGrid');
+const grid = document.getElementById('tpsGrid');
             const emptyResult = document.getElementById('emptyResult');
             const searchInput = document.getElementById('searchTPS');
             const searchButton = document.getElementById('searchButton');
@@ -1495,8 +3033,15 @@ body footer.landing-footer .footer-bottom {
 
             function renderStats() {
                 setStat('statTotal', data.stats.total_tps);
-                setStat('statAktif', data.stats.tps_aktif);
+                setStat('statBersih', data.stats.tps_bersih);
+                setStat('statTerlapor', data.stats.tps_terlapor);
                 setStat('statSelesai', data.stats.pengaduan_selesai);
+
+                const jumlahPeta = document.getElementById('jumlahMarkerTPS');
+                if (jumlahPeta) {
+                    const jumlah = Array.isArray(data.map_markers) ? data.map_markers.length : 0;
+                    jumlahPeta.textContent = nf.format(jumlah) + ' lokasi terpetakan';
+                }
             }
 
             function el(tag, className, text) {
@@ -1509,44 +3054,53 @@ body footer.landing-footer .footer-bottom {
             function buatKartu(t, index) {
                 const card = el('article', 'tps-card');
 
-                const imgWrap = el('div', 'tps-image');
-                const img = document.createElement('img');
-                img.src = IMAGES[index % IMAGES.length];
-                img.alt = 'Foto ilustrasi ' + t.nama;
-                img.loading = 'lazy';
-                imgWrap.appendChild(img);
+                const visual = el('div', 'tps-visual');
+                const symbol = el('i', 'bi bi-recycle');
+                const number = el('span', 'tps-index',
+                    'TPS ' + String(index + 1).padStart(2, '0'));
+
+                visual.appendChild(symbol);
+                visual.appendChild(number);
 
                 const body = el('div', 'tps-content');
 
-                const berjalan = t.laporan_berjalan > 0;
+                const terlapor = t.status === 'terlapor';
+
                 body.appendChild(el(
                     'span',
-                    'status ' + (berjalan ? 'status-process' : 'status-active'),
-                    berjalan ? 'Dalam Penanganan' : 'Normal'
+                    'status ' + (terlapor ? 'status-alert' : 'status-active'),
+                    terlapor ? 'Perlu Perhatian' : 'Kondisi Bersih'
                 ));
 
                 body.appendChild(el('h3', '', t.nama));
 
                 const loc = el('p', 'tps-location');
                 loc.title = t.alamat || '';
+
                 const icon = el('i', 'bi bi-geo-alt');
                 loc.appendChild(icon);
-                loc.appendChild(document.createTextNode(t.wilayah || t.alamat || '-'));
+                loc.appendChild(document.createTextNode(
+                    t.wilayah || t.alamat || '-'
+                ));
                 body.appendChild(loc);
 
-                if (berjalan) {
-                    body.appendChild(el('p', 'tps-meta', t.laporan_berjalan + ' laporan sedang berjalan'));
+                if (t.laporan_berjalan > 0) {
+                    body.appendChild(el(
+                        'p',
+                        'tps-meta',
+                        t.laporan_berjalan + ' laporan masih berjalan'
+                    ));
                 }
 
                 const link = el('a', 'tps-detail', 'Informasi TPS');
                 link.href = loginUrl;
                 body.appendChild(link);
 
-                card.appendChild(imgWrap);
+                card.appendChild(visual);
                 card.appendChild(body);
+
                 return card;
             }
-
             function render() {
                 const keyword = searchInput.value.toLowerCase().trim();
 
@@ -1591,6 +3145,11 @@ body footer.landing-footer .footer-bottom {
 
             function terapkan(baru) {
                 data = baru;
+
+                window.dispatchEvent(new CustomEvent('landing:tps-updated', {
+                    detail: Array.isArray(data.map_markers) ? data.map_markers : []
+                }));
+
                 renderStats();
 
                 // Gambar ulang kartu hanya jika datanya berubah

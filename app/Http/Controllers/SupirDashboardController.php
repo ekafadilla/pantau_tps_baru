@@ -13,8 +13,7 @@ class SupirDashboardController extends Controller
 
         $tugasAktif = (clone $dasar)
             ->whereIn('status_laporan', [
-                'ditugaskan',
-                'sedang_dikerjakan',
+                'diproses',
                 'perlu_perbaikan',
             ])
             ->count();

@@ -16,6 +16,7 @@ class Armada extends Model
         'jenis_armada',
         'nomor_polisi',
         'status_armada',
+        'keterangan',
     ];
 
     public function wilayah(): BelongsTo

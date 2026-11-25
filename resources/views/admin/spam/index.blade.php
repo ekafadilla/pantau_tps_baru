@@ -145,6 +145,23 @@
                         </td>
 
                         <td style="min-width: 230px;">
+                            @if ($item->catatan_uptd)
+                                <div class="alert alert-light border small mb-2">
+                                    <strong>
+                                        <i class="bi bi-chat-left-text me-1"></i>
+                                        Catatan UPTD
+                                    </strong>
+                                    <div class="mt-1 text-secondary">
+                                        {{ $item->catatan_uptd }}
+                                    </div>
+                                </div>
+                            @else
+                                <div class="small text-secondary mb-2">
+                                    <i class="bi bi-info-circle me-1"></i>
+                                    Belum ada catatan dari UPTD.
+                                </div>
+                            @endif
+
                             <form method="POST"
                                   action="{{ route('admin.spam.review', $item->id) }}">
                                 @csrf

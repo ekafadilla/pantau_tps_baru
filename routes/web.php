@@ -11,7 +11,6 @@ use App\Http\Controllers\UptdLaporanController;
 use App\Http\Controllers\LaporanMasyarakatController;
 use App\Http\Controllers\LokasiSupirController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UptdPengaturanController;
 
 Route::get('/admin/dashboard', [AdminController::class, 'index']);
 
@@ -22,13 +21,6 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 Route::get('/api/landing/tps', [LandingController::class, 'data'])
     ->middleware('throttle:60,1')
     ->name('landing.data');
-
-
-<<<<<<< HEAD
-=======
-// Pengaturan akun Masyarakat
-
->>>>>>> 3a04c5e2d27b41d4b4213e8714453d759228da5c
 
 
 // Login dan register
@@ -44,11 +36,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('/register', [AuthController::class, 'register'])
         ->middleware('throttle:daftar')->name('register.store');
-});
-    // Data lokasi supir untuk peta Admin dan UPTD
-Route::middleware('auth')->group(function () {
-    Route::get('/peta-supir', [LokasiSupirController::class, 'daftar'])
-        ->name('peta.supir');
 });
 
 
@@ -88,6 +75,18 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
 });
 
 
+// Status kehadiran khusus akun supir
+Route::middleware('auth')->group(function () {
+    Route::get('/supir/kehadiran', [
+        \App\Http\Controllers\SupirKehadiranController::class,
+        'edit'
+    ])->name('supir.kehadiran.edit');
+
+    Route::post('/supir/kehadiran', [
+        \App\Http\Controllers\SupirKehadiranController::class,
+        'update'
+    ])->name('supir.kehadiran.update');
+});
 // Pemulihan kata sandi
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [
@@ -115,7 +114,7 @@ Route::middleware('guest')->group(function () {
 
 
 // UPTD
-Route::get('/uptd/pengaturan', [UptdPengaturanController::class, 'edit'])->name('uptd.pengaturan.edit');
+Route::get('/uptd/pengaturan', [\App\Http\Controllers\PengaturanController::class, 'edit'])->name('uptd.pengaturan.edit');
 
 Route::middleware('auth')->get('/uptd/tps', [\App\Http\Controllers\UptdTpsController::class, 'index'])
     ->name('uptd.tps.index');
@@ -128,6 +127,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/supir/tugas/{id}', [SupirTugasController::class, 'show'])
         ->name('supir.tugas.show');
+    Route::post('/supir/tugas/{id}/bukti', [SupirTugasController::class, 'kirimBukti'])
+        ->whereNumber('id')
+        ->name('supir.tugas.bukti');
 });
 
 
@@ -249,11 +251,12 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::post('/laporan/{laporan}/verifikasi-urgensi', [UptdLaporanController::class, 'verifikasiUrgensi'])->whereNumber('laporan')->name('laporan.verifikasi-urgensi');
     Route::post('/laporan/{laporan}/tugaskan', [UptdLaporanController::class, 'tugaskan'])->whereNumber('laporan')->name('laporan.tugaskan');
     Route::post('/laporan/{laporan}/tolak', [UptdLaporanController::class, 'tolak'])->whereNumber('laporan')->name('laporan.tolak');
+    Route::post('/laporan/{laporan}/setujui-bukti', [UptdLaporanController::class, 'setujuiBukti'])->whereNumber('laporan')->name('laporan.setujui-bukti');
+    Route::post('/laporan/{laporan}/minta-perbaikan-bukti', [UptdLaporanController::class, 'mintaPerbaikanBukti'])->whereNumber('laporan')->name('laporan.minta-perbaikan-bukti');
 });
 
 
 // Pengaturan akun UPTD
-<<<<<<< HEAD
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
 
 
@@ -288,8 +291,6 @@ Route::middleware('auth')->group(function () {
         ->middleware('throttle:6,1')
         ->name('verification.send');
 });
-=======
->>>>>>> 3a04c5e2d27b41d4b4213e8714453d759228da5c
 
 // Pengaturan akun terpadu (semua role)
 Route::middleware('auth')
@@ -314,16 +315,21 @@ Route::middleware('auth')
     });
 
 
+// Manajemen deteksi spam UPTD
+Route::middleware('auth')->group(function () {
+    Route::get('/uptd/spam', [
+        \App\Http\Controllers\UptdSpamController::class,
+        'index'
+    ])->name('uptd.spam.index');
+
+    Route::post('/uptd/spam/{id}/review', [
+        \App\Http\Controllers\UptdSpamController::class,
+        'review'
+    ])->whereNumber('id')->name('uptd.spam.review');
+});
 // Manajemen deteksi spam (khusus admin)
 Route::middleware('auth')->group(function () {
 
-<<<<<<< HEAD
-    Route::post('/admin/spam/{deteksiSpam}/review', [AdminSpamController::class, 'review'])
-        ->name('admin.spam.review');
-    Route::post('/admin/spam/{user}/reset', [AdminSpamController::class, 'reset'])
-        ->name('admin.spam.reset');
-});
-=======
     Route::get('/admin/spam', [
         \App\Http\Controllers\AdminSpamController::class,
         'index'
@@ -340,4 +346,54 @@ Route::middleware('auth')->group(function () {
     ])->name('admin.spam.reset');
 
 });
->>>>>>> 3a04c5e2d27b41d4b4213e8714453d759228da5c
+
+
+// ======================================================
+// DATA ARMADA ADMIN DAN UPTD
+// ======================================================
+
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/armada', [\App\Http\Controllers\ArmadaController::class, 'index'])
+        ->name('armada.index');
+
+    Route::get('/armada/tambah', [\App\Http\Controllers\ArmadaController::class, 'create'])
+        ->name('armada.create');
+
+    Route::post('/armada', [\App\Http\Controllers\ArmadaController::class, 'store'])
+        ->name('armada.store');
+
+    Route::get('/armada/{id}/edit', [\App\Http\Controllers\ArmadaController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('armada.edit');
+
+    Route::put('/armada/{id}', [\App\Http\Controllers\ArmadaController::class, 'update'])
+        ->whereNumber('id')
+        ->name('armada.update');
+
+    Route::delete('/armada/{id}', [\App\Http\Controllers\ArmadaController::class, 'destroy'])
+        ->whereNumber('id')
+        ->name('armada.destroy');
+});
+
+Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
+    Route::get('/armada', [\App\Http\Controllers\ArmadaController::class, 'index'])
+        ->name('armada.index');
+
+    Route::get('/armada/tambah', [\App\Http\Controllers\ArmadaController::class, 'create'])
+        ->name('armada.create');
+
+    Route::post('/armada', [\App\Http\Controllers\ArmadaController::class, 'store'])
+        ->name('armada.store');
+
+    Route::get('/armada/{id}/edit', [\App\Http\Controllers\ArmadaController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('armada.edit');
+
+    Route::put('/armada/{id}', [\App\Http\Controllers\ArmadaController::class, 'update'])
+        ->whereNumber('id')
+        ->name('armada.update');
+
+    Route::delete('/armada/{id}', [\App\Http\Controllers\ArmadaController::class, 'destroy'])
+        ->whereNumber('id')
+        ->name('armada.destroy');
+});

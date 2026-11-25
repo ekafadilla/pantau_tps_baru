@@ -419,18 +419,29 @@
             <x-peta
                 :height="380"
                 :poll-url="route('peta.supir')"
-                :markers="$tps->getCollection()
-                    ->filter(fn ($t) => $t->latitude !== null && $t->longitude !== null)
-                    ->map(fn ($t) => [
-                        'id' => $t->id_tps ?? $t->id,
-                        'type' => 'tps',
-                        'lat' => (float) $t->latitude,
-                        'lng' => (float) $t->longitude,
-                        'title' => $t->nama_tps,
-                        'subtitle' => $t->alamat,
-                    ])
-                    ->values()
-                    ->all()"
+                :markers="collect()
+                ->merge($tpsPeta->map(fn ($t) => [
+                    'id' => 'tps-' . ($t->id_tps ?? $t->id),
+                    'type' => 'tps',
+                    'lat' => (float) $t->latitude,
+                    'lng' => (float) $t->longitude,
+                    'title' => $t->nama_tps,
+                    'subtitle' => $t->alamat,
+                ]))
+                ->merge($laporanPeta->map(fn ($l) => [
+                    'id' => 'laporan-' . $l->id,
+                    'type' => 'laporan',
+                    'lat' => (float) $l->latitude,
+                    'lng' => (float) $l->longitude,
+                    'title' => 'Laporan #' . $l->id,
+                    'subtitle' => 'TPS: ' . ($l->tps->nama_tps ?? '-') .
+                        ' | Kondisi: ' . ($l->kategori_kondisi ?? '-') .
+                        ' | Status: ' . ($l->status_laporan ?? '-') .
+                        ' | Urgensi: ' . ($l->tingkat_urgensi ?? 'Belum ditetapkan'),
+                    'url' => route('uptd.laporan.show', $l->id),
+                ]))
+                ->values()
+                ->all()"
             />
         </div>
     </div>

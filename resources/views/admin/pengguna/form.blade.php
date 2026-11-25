@@ -124,7 +124,7 @@
 
                     <div class="col-12 col-md-6" id="wilayah-wrapper">
                         <label for="id_wilayah" class="form-label fw-semibold">
-                            Wilayah Kerja UPTD
+                            Wilayah Kerja
                         </label>
                         <select
                             id="id_wilayah"
@@ -145,7 +145,7 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <small class="text-secondary">
-                            Wajib dipilih jika role pengguna adalah UPTD.
+                            Wajib dipilih untuk akun UPTD dan Supir.
                         </small>
                     </div>
 
@@ -224,7 +224,7 @@
             const wilayah = document.getElementById('id_wilayah');
 
             function aturWilayah() {
-                const wajibWilayah = role.value === 'uptd';
+                const wajibWilayah = ['uptd', 'supir'].includes(role.value);
                 wilayahWrapper.style.display = wajibWilayah ? '' : 'none';
                 wilayah.required = wajibWilayah;
 

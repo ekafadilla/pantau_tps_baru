@@ -3,24 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\PengaturanLandingPage;
 use App\Models\Tps;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 
 class LandingController extends Controller
 {
-    
-    private const STATUS_BERJALAN = ['menunggu', 'diverifikasi', 'diproses', 'ditangani'];
+    private const STATUS_BERJALAN = [
+        'menunggu',
+        'diverifikasi',
+        'diproses',
+        'ditangani',
+        'menunggu_pemeriksaan',
+        'perlu_perbaikan',
+    ];
 
-    
     public function index(): View
     {
+        $default = [
+            'judul_hero' => 'Pantau TPS, Wujudkan Lingkungan yang Bersih',
+            'deskripsi_hero' => 'Akses informasi tempat penampungan sementara (TPS) dan sampaikan laporan kondisi TPS di Kabupaten Indramayu melalui satu layanan berbasis web.',
+            'judul_tombol_tps' => 'Lihat Data TPS',
+            'judul_tombol_laporan' => 'Laporkan Kondisi TPS',
+            'judul_layanan' => 'Layanan SI Pantau TPS',
+            'deskripsi_layanan' => 'Akses informasi TPS dan sampaikan laporan kondisi TPS di Kabupaten Indramayu.',
+            'teks_footer' => 'Sistem informasi untuk mendukung pemantauan dan pelaporan kondisi TPS di Kabupaten Indramayu.',
+        ];
+
+        $pengaturanLanding = array_merge(
+            $default,
+            PengaturanLandingPage::pluck('nilai', 'kunci')->toArray()
+        );
+
         return view('landing.index', [
             'landing' => $this->payload(),
+            'pengaturanLanding' => $pengaturanLanding,
         ]);
     }
 
-    
     public function data(): JsonResponse
     {
         return response()
@@ -30,9 +51,6 @@ class LandingController extends Controller
 
     private function payload(): array
     {
-
-    // ini bagian ngambil data dari DB, biar ada data" tpd d landing pagenya
-    
         $daftarTps = Tps::query()
             ->with('wilayah:id,nama_wilayah')
             ->withCount([
@@ -43,10 +61,13 @@ class LandingController extends Controller
             ->limit(200)
             ->get()
             ->map(fn (Tps $tps) => [
-                'id'               => $tps->id,
-                'nama'             => $tps->nama_tps,
-                'alamat'           => $tps->alamat,
-                'wilayah'          => $tps->wilayah?->nama_wilayah,
+                'id' => $tps->id,
+                'nama' => $tps->nama_tps,
+                'alamat' => $tps->alamat,
+                'wilayah' => $tps->wilayah?->nama_wilayah,
+                'status' => $tps->status,
+                'latitude' => $tps->latitude,
+                'longitude' => $tps->longitude,
                 'laporan_berjalan' => (int) $tps->laporan_berjalan,
             ])
             ->values();
@@ -55,12 +76,34 @@ class LandingController extends Controller
 
         return [
             'stats' => [
-                'total_tps'         => $totalTps,
-                
-                'tps_aktif'         => $totalTps,
+                'total_tps' => $totalTps,
+                'tps_bersih' => Tps::where('status', 'bersih')->count(),
+                'tps_terlapor' => Tps::where('status', 'terlapor')->count(),
                 'pengaduan_selesai' => Laporan::where('status_laporan', 'selesai')->count(),
             ],
-            'tps'        => $daftarTps,
+            'tps' => $daftarTps,
+            'map_markers' => $daftarTps
+                ->filter(fn ($tps) =>
+                    $tps['latitude'] !== null &&
+                    $tps['longitude'] !== null &&
+                    is_numeric($tps['latitude']) &&
+                    is_numeric($tps['longitude']) &&
+                    abs((float) $tps['latitude']) <= 90 &&
+                    abs((float) $tps['longitude']) <= 180
+                )
+                ->map(fn ($tps) => [
+                    'id' => $tps['id'],
+                    'type' => 'tps',
+                    'lat' => (float) $tps['latitude'],
+                    'lng' => (float) $tps['longitude'],
+                    'title' => $tps['nama'],
+                    'wilayah' => $tps['wilayah'],
+                    'status' => $tps['status'],
+                    'subtitle' => ($tps['alamat'] ?: 'Alamat belum tersedia')
+                        . ' | ' . ($tps['wilayah'] ?: 'Wilayah belum tersedia')
+                        . ' | Status: ' . $tps['status'],
+                ])
+                ->values(),
             'updated_at' => now()->toIso8601String(),
         ];
     }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -429,6 +429,17 @@
                class="menu {{ request()->routeIs('uptd.tps.*') ? 'active' : '' }}">
                 <i class="bi bi-geo-alt-fill"></i>
                 <span>Data TPS Wilayah</span>
+            </a>
+
+            <a href="{{ route('uptd.armada.index') }}"
+               class="menu {{ request()->routeIs('uptd.armada.*') ? 'active' : '' }}">
+                <i class="bi bi-truck"></i>
+                <span>Data Armada</span>
+            </a>
+            <a href="{{ route('uptd.spam.index') }}"
+               class="menu {{ request()->routeIs('uptd.spam.*') ? 'active' : '' }}">
+                <i class="bi bi-shield-exclamation"></i>
+                <span>Deteksi Spam</span>
             </a>
         </div>
 

@@ -86,13 +86,13 @@ public function create()
             'id_wilayah' => ['nullable', 'exists:wilayahs,id'],
         ]);
 
-        if ($data['role'] === 'uptd' && empty($data['id_wilayah'])) {
+        if (in_array($data['role'], ['uptd', 'supir'], true) && empty($data['id_wilayah'])) {
             return back()->withErrors([
                 'id_wilayah' => 'Akun UPTD wajib memiliki wilayah kerja.',
             ])->withInput();
         }
 
-        if ($data['role'] !== 'uptd') {
+        if (!in_array($data['role'], ['uptd', 'supir'], true)) {
             $data['id_wilayah'] = null;
         }
 
@@ -139,13 +139,13 @@ public function create()
             ])->withInput();
         }
 
-        if ($data['role'] === 'uptd' && empty($data['id_wilayah'])) {
+        if (in_array($data['role'], ['uptd', 'supir'], true) && empty($data['id_wilayah'])) {
             return back()->withErrors([
                 'id_wilayah' => 'Akun UPTD wajib memiliki wilayah kerja.',
             ])->withInput();
         }
 
-        if ($data['role'] !== 'uptd') {
+        if (!in_array($data['role'], ['uptd', 'supir'], true)) {
             $data['id_wilayah'] = null;
         }
 

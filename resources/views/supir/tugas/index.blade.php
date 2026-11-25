@@ -36,7 +36,24 @@
                                 {{ $item->tps->nama_tps ?? $item->lokasi ?? '-' }}
                             </td>
                             <td>{{ $item->kategori_kondisi }}</td>
-                            <td>{{ ucfirst(str_replace('_', ' ', $item->status_laporan)) }}</td>
+                            <td>
+                                @php
+                                    $statusMap = [
+                                        'diproses' => ['primary', 'Diproses'],
+                                        'menunggu_pemeriksaan' => ['info', 'Menunggu Pemeriksaan'],
+                                        'perlu_perbaikan' => ['warning', 'Perlu Perbaikan'],
+                                        'selesai' => ['success', 'Selesai'],
+                                        'ditolak' => ['danger', 'Ditolak'],
+                                    ];
+
+                                    [$warnaStatus, $labelStatus] = $statusMap[$item->status_laporan]
+                                        ?? ['secondary', ucfirst(str_replace('_', ' ', $item->status_laporan))];
+                                @endphp
+
+                                <span class="badge bg-{{ $warnaStatus }}">
+                                    {{ $labelStatus }}
+                                </span>
+                            </td>
                             <td>
                                 {{ $item->target_waktu
                                     ? \Carbon\Carbon::parse($item->target_waktu)->format('d-m-Y H:i')

@@ -1,4 +1,4 @@
-﻿@extends($role === 'uptd' ? 'layouts.uptd' : 'layouts.app')
+@extends($role === 'uptd' ? 'layouts.uptd' : 'layouts.app')
 
 @section('title', 'Dashboard ' . $roleLabel . ' | SI Pantau TPS')
 @section('page-title', 'Dashboard ' . $roleLabel)
@@ -283,9 +283,21 @@
                         @foreach ($laporanTerbaru as $laporan)
                             @php
                                 $status = $laporan->status_laporan;
+                                $statusLabel = [
+                                    'menunggu' => 'Menunggu',
+                                    'diverifikasi' => 'Diverifikasi',
+                                    'diproses' => 'Diproses',
+                                    'ditangani' => 'Ditangani',
+                                    'menunggu_pemeriksaan' => 'Menunggu Pemeriksaan',
+                                    'perlu_perbaikan' => 'Perlu Perbaikan',
+                                    'selesai' => 'Selesai',
+                                    'ditolak' => 'Ditolak',
+                                ][$status] ?? ucfirst(str_replace('_', ' ', $status));
+
                                 $statusClass = match ($status) {
                                     'selesai' => 'status-selesai',
-                                    'diproses', 'ditangani' => 'status-diproses',
+                                    'diverifikasi', 'diproses', 'ditangani',
+                                    'menunggu_pemeriksaan', 'perlu_perbaikan' => 'status-diproses',
                                     'ditolak' => 'status-ditolak',
                                     default => '',
                                 };
@@ -295,7 +307,7 @@
                                 <td>{{ $laporan->tps->nama_tps ?? 'TPS tidak tersedia' }}</td>
                                 <td>{{ $laporan->kategori_kondisi }}</td>
                                 <td>{{ $laporan->waktu_pelaporan?->format('d-m-Y') ?? '-' }}</td>
-                                <td><span class="status {{ $statusClass }}">{{ ucfirst($status) }}</span></td>
+                                <td><span class="status {{ $statusClass }}">{{ $statusLabel }}</span></td>
                             </tr>
                         @endforeach
                         </tbody>

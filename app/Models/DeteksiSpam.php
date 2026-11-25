@@ -20,6 +20,7 @@ class DeteksiSpam extends Model
         'periode_selesai',
         'status_peninjauan',
         'catatan_admin',
+        'catatan_uptd',
     ];
 
     protected function casts(): array

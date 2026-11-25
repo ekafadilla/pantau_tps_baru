@@ -305,6 +305,11 @@
                 <span>Data TPS</span>
             </a>
 
+            <a href="{{ route('admin.armada.index') }}"
+               class="menu {{ request()->routeIs('admin.armada.*') ? 'active' : '' }}">
+                <i class="bi bi-truck"></i>
+                <span>Data Armada</span>
+            </a>
             <a href="{{ route('admin.laporan.index') }}"
                class="menu {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text-fill"></i>
