@@ -219,9 +219,8 @@ class UptdLaporanController extends Controller
             $terkunci = Laporan::whereKey($laporan->id)->lockForUpdate()->firstOrFail();
 
             abort_unless(
-                $terkunci->status_laporan === 'diverifikasi',
-                422,
-                'Penilaian urgensi hanya dapat dilakukan setelah laporan diverifikasi.'
+                in_array($terkunci->status_laporan, ['menunggu', 'diverifikasi'], true),
+                422, 'Penilaian urgensi tidak dapat dilakukan pada status laporan ini.'
             );
 
             $terkunci->penilaianUrgensis()->create(array_merge(
@@ -267,7 +266,6 @@ class UptdLaporanController extends Controller
                 'status_laporan' => 'diverifikasi',
             ]);
 
-
             RiwayatStatus::create([
                 'id_laporan' => $terkunci->id,
                 'id_pengguna' => auth()->id(),
@@ -278,7 +276,7 @@ class UptdLaporanController extends Controller
             ]);
         });
 
-        return back()->with('success', 'Laporan berhasil diverifikasi.');
+        return back()->with('success', 'Laporan berhasil diverifikasi. Silakan lanjutkan penilaian urgensi.');
     }
 
     // Tahap 3: penugasan, hanya dari status diverifikasi dan sudah ada urgensi akhir
@@ -348,7 +346,6 @@ class UptdLaporanController extends Controller
                 422,
                 'Tetapkan urgensi akhir melalui penilaian UPTD sebelum menugaskan supir.'
             );
-
 
             // Kunci dan periksa ulang supir agar tidak menerima tugas bersamaan
             $supir = User::whereKey($validated['id_supir'])
@@ -437,10 +434,8 @@ class UptdLaporanController extends Controller
                 'Laporan tidak dapat ditolak pada status ini.'
             );
 
-
             $statusLama = $terkunci->status_laporan;
             $terkunci->update(['status_laporan' => 'ditolak']);
-
 
             RiwayatStatus::create([
                 'id_laporan' => $terkunci->id,
@@ -498,7 +493,6 @@ class UptdLaporanController extends Controller
             $terkunci->update([
                 'status_laporan' => 'selesai',
             ]);
-
 
             // Kembalikan armada jika tidak ada tugas aktif lain
             if ($terkunci->id_armada) {
@@ -561,7 +555,6 @@ class UptdLaporanController extends Controller
                 'status_laporan' => 'perlu_perbaikan',
             ]);
 
-
             RiwayatStatus::create([
                 'id_laporan' => $terkunci->id,
                 'id_pengguna' => auth()->id(),
@@ -574,5 +567,4 @@ class UptdLaporanController extends Controller
 
         return back()->with('success', 'Permintaan perbaikan bukti berhasil dikirim kepada supir.');
     }
-
 }

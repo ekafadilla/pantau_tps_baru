@@ -1,16 +1,20 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AdminSpamController;
-use App\Http\Controllers\SupirTugasController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\UptdLaporanController;
-use App\Http\Controllers\LaporanMasyarakatController;
 use App\Http\Controllers\LokasiSupirController;
+<<<<<<< Updated upstream
 use App\Http\Controllers\AdminController;
+=======
+use App\Http\Controllers\SupirTugasController;
+use App\Http\Controllers\UptdLaporanController;
+use App\Http\Controllers\UptdPengaturanController;
+use Illuminate\Support\Facades\Route;
+>>>>>>> Stashed changes
 
 Route::get('/admin/dashboard', [AdminController::class, 'index']);
 
@@ -22,7 +26,19 @@ Route::get('/api/landing/tps', [LandingController::class, 'data'])
     ->middleware('throttle:60,1')
     ->name('landing.data');
 
+// SOPIRR
+Route::middleware('auth')->group(function () {
+    Route::get('/peta-supir', [LokasiSupirController::class, 'daftar'])
+        ->name('peta.supir');
 
+<<<<<<< Updated upstream
+=======
+    // INI BUAT GPS
+    Route::post('/supir/lokasi', [LokasiSupirController::class, 'simpan'])
+        ->name('supir.lokasi.simpan');
+});
+
+>>>>>>> Stashed changes
 // Login dan register
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])
@@ -37,15 +53,22 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])
         ->middleware('throttle:daftar')->name('register.store');
 });
-
+<<<<<<< Updated upstream
+=======
+// Data lokasi supir untuk peta Admin dan UPTD
+Route::middleware('auth')->group(function () {
+    Route::get('/peta-supir', [LokasiSupirController::class, 'daftar'])
+        ->name('peta.supir');
+});
+>>>>>>> Stashed changes
 
 // Dashboard dan fitur setelah login
 Route::middleware('auth')->group(function () {
-Route::get('/uptd/laporan', [UptdLaporanController::class, 'index'])
-    ->name('uptd.laporan.index');
-Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
-    ->whereNumber('laporan')
-    ->name('uptd.laporan.show');
+    Route::get('/uptd/laporan', [UptdLaporanController::class, 'index'])
+        ->name('uptd.laporan.index');
+    Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
+        ->whereNumber('laporan')
+        ->name('uptd.laporan.show');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
@@ -62,18 +85,17 @@ Route::get('/uptd/laporan/{laporan}', [UptdLaporanController::class, 'show'])
         ->middleware('verified')->name('masyarakat.laporan.create');
 
     Route::post('/masyarakat/laporan', [LaporanController::class, 'store'])
-        ->middleware(['verified','throttle:user-reports'])->name('masyarakat.laporan.store');
+        ->middleware(['verified', 'throttle:user-reports'])->name('masyarakat.laporan.store');
 
-     Route::get('/masyarakat/laporan/{laporan}', [LaporanController::class, 'show'])
+    Route::get('/masyarakat/laporan/{laporan}', [LaporanController::class, 'show'])
     ->whereNumber('laporan')
     ->name('masyarakat.laporan.show');
 
     Route::get('/masyarakat/laporan/saya', [LaporanController::class, 'index'])
         ->name('masyarakat.laporan.index');
-
-   
 });
 
+<<<<<<< Updated upstream
 
 // Status kehadiran khusus akun supir
 Route::middleware('auth')->group(function () {
@@ -87,39 +109,36 @@ Route::middleware('auth')->group(function () {
         'update'
     ])->name('supir.kehadiran.update');
 });
+=======
+>>>>>>> Stashed changes
 // Pemulihan kata sandi
 Route::middleware('guest')->group(function () {
     Route::get('/forgot-password', [
-        \App\Http\Controllers\PasswordResetController::class,
-        'create'
+        App\Http\Controllers\PasswordResetController::class,
+        'create',
     ])->name('password.request');
 
     Route::post('/forgot-password', [
-        \App\Http\Controllers\PasswordResetController::class,
-        'sendLink'
+        App\Http\Controllers\PasswordResetController::class,
+        'sendLink',
     ])->middleware('throttle:reset')->name('password.email');
 
     Route::get('/reset-password/{token}', [
-        \App\Http\Controllers\PasswordResetController::class,
-        'showResetForm'
+        App\Http\Controllers\PasswordResetController::class,
+        'showResetForm',
     ])->name('password.reset');
 
     Route::post('/reset-password', [
-        \App\Http\Controllers\PasswordResetController::class,
-        'reset'
+        App\Http\Controllers\PasswordResetController::class,
+        'reset',
     ])->middleware('throttle:reset')->name('password.update');
 });
-
-
-
 
 // UPTD
 Route::get('/uptd/pengaturan', [\App\Http\Controllers\PengaturanController::class, 'edit'])->name('uptd.pengaturan.edit');
 
-Route::middleware('auth')->get('/uptd/tps', [\App\Http\Controllers\UptdTpsController::class, 'index'])
+Route::middleware('auth')->get('/uptd/tps', [App\Http\Controllers\UptdTpsController::class, 'index'])
     ->name('uptd.tps.index');
-
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/supir/tugas', [SupirTugasController::class, 'index'])
@@ -132,7 +151,6 @@ Route::middleware(['auth'])->group(function () {
         ->name('supir.tugas.bukti');
 });
 
-
 use App\Http\Controllers\SupirDashboardController;
 
 Route::middleware('auth')->get(
@@ -141,58 +159,57 @@ Route::middleware('auth')->get(
 )->name('supir.dashboard');
 Route::middleware('auth')->get(
     '/admin/dashboard',
-    [\App\Http\Controllers\AdminDashboardController::class, 'index']
+    [App\Http\Controllers\AdminDashboardController::class, 'index']
 )->name('admin.dashboard');
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/pengguna', [\App\Http\Controllers\AdminPenggunaController::class, 'index'])
+    Route::get('/pengguna', [App\Http\Controllers\AdminPenggunaController::class, 'index'])
         ->name('pengguna.index');
 
-    Route::get('/pengguna/tambah', [\App\Http\Controllers\AdminPenggunaController::class, 'create'])
+    Route::get('/pengguna/tambah', [App\Http\Controllers\AdminPenggunaController::class, 'create'])
         ->name('pengguna.create');
 
-    Route::post('/pengguna', [\App\Http\Controllers\AdminPenggunaController::class, 'store'])
+    Route::post('/pengguna', [App\Http\Controllers\AdminPenggunaController::class, 'store'])
         ->name('pengguna.store');
 
-    Route::get('/pengguna/{user}/edit', [\App\Http\Controllers\AdminPenggunaController::class, 'edit'])
+    Route::get('/pengguna/{user}/edit', [App\Http\Controllers\AdminPenggunaController::class, 'edit'])
         ->whereNumber('user')
         ->name('pengguna.edit');
 
-    Route::put('/pengguna/{user}', [\App\Http\Controllers\AdminPenggunaController::class, 'update'])
+    Route::put('/pengguna/{user}', [App\Http\Controllers\AdminPenggunaController::class, 'update'])
         ->whereNumber('user')
         ->name('pengguna.update');
 
-    Route::delete('/pengguna/{user}', [\App\Http\Controllers\AdminPenggunaController::class, 'destroy'])
+    Route::delete('/pengguna/{user}', [App\Http\Controllers\AdminPenggunaController::class, 'destroy'])
         ->whereNumber('user')
         ->name('pengguna.destroy');
 });
 
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/wilayah', [\App\Http\Controllers\AdminWilayahController::class, 'index'])
+    Route::get('/wilayah', [App\Http\Controllers\AdminWilayahController::class, 'index'])
         ->name('wilayah.index');
 
-    Route::get('/wilayah/tambah', [\App\Http\Controllers\AdminWilayahController::class, 'create'])
+    Route::get('/wilayah/tambah', [App\Http\Controllers\AdminWilayahController::class, 'create'])
         ->name('wilayah.create');
 
-    Route::post('/wilayah', [\App\Http\Controllers\AdminWilayahController::class, 'store'])
+    Route::post('/wilayah', [App\Http\Controllers\AdminWilayahController::class, 'store'])
         ->name('wilayah.store');
 
-    Route::get('/wilayah/{wilayah}/edit', [\App\Http\Controllers\AdminWilayahController::class, 'edit'])
+    Route::get('/wilayah/{wilayah}/edit', [App\Http\Controllers\AdminWilayahController::class, 'edit'])
         ->whereNumber('wilayah')
         ->name('wilayah.edit');
 
-    Route::put('/wilayah/{wilayah}', [\App\Http\Controllers\AdminWilayahController::class, 'update'])
+    Route::put('/wilayah/{wilayah}', [App\Http\Controllers\AdminWilayahController::class, 'update'])
         ->whereNumber('wilayah')
         ->name('wilayah.update');
 
-    Route::delete('/wilayah/{wilayah}', [\App\Http\Controllers\AdminWilayahController::class, 'destroy'])
+    Route::delete('/wilayah/{wilayah}', [App\Http\Controllers\AdminWilayahController::class, 'destroy'])
         ->whereNumber('wilayah')
         ->name('wilayah.destroy');
 });
 
-
 use App\Http\Controllers\AdminTpsController;
 
-Route::middleware(['auth'])->group(function (){
+Route::middleware(['auth'])->group(function () {
     Route::get('/admin/tps', [AdminTpsController::class, 'index'])
         ->name('admin.tps.index');
 
@@ -216,34 +233,31 @@ Route::middleware(['auth'])->group(function (){
         ->name('admin.tps.destroy');
 });
 
-
 // Edit Landing Page
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/landing-page', [
-        \App\Http\Controllers\AdminLandingPageController::class,
-        'edit'
+        App\Http\Controllers\AdminLandingPageController::class,
+        'edit',
     ])->name('landing.edit');
 
     Route::put('/landing-page', [
-        \App\Http\Controllers\AdminLandingPageController::class,
-        'update'
+        App\Http\Controllers\AdminLandingPageController::class,
+        'update',
     ])->name('landing.update');
 });
-
 
 // Data Laporan Admin
 Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/laporan', [
-        \App\Http\Controllers\AdminLaporanController::class,
-        'index'
+        App\Http\Controllers\AdminLaporanController::class,
+        'index',
     ])->name('laporan.index');
 
     Route::get('/laporan/{laporan}', [
-        \App\Http\Controllers\AdminLaporanController::class,
-        'show'
+        App\Http\Controllers\AdminLaporanController::class,
+        'show',
     ])->whereNumber('laporan')->name('laporan.show');
 });
-
 
 // Aksi UPTD (verifikasi, tugaskan, tolak)
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
@@ -254,7 +268,6 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::post('/laporan/{laporan}/setujui-bukti', [UptdLaporanController::class, 'setujuiBukti'])->whereNumber('laporan')->name('laporan.setujui-bukti');
     Route::post('/laporan/{laporan}/minta-perbaikan-bukti', [UptdLaporanController::class, 'mintaPerbaikanBukti'])->whereNumber('laporan')->name('laporan.minta-perbaikan-bukti');
 });
-
 
 // Pengaturan akun UPTD
 Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
@@ -297,23 +310,23 @@ Route::middleware('auth')
     ->prefix('pengaturan')
     ->name('pengaturan.')
     ->group(function () {
-
         Route::get('/', [
-            \App\Http\Controllers\PengaturanController::class,
-            'edit'
+            App\Http\Controllers\PengaturanController::class,
+            'edit',
         ])->name('edit');
 
         Route::put('/profil', [
-            \App\Http\Controllers\PengaturanController::class,
-            'updateProfil'
+            App\Http\Controllers\PengaturanController::class,
+            'updateProfil',
         ])->name('profil');
 
         Route::put('/kata-sandi', [
-            \App\Http\Controllers\PengaturanController::class,
-            'updatePassword'
+            App\Http\Controllers\PengaturanController::class,
+            'updatePassword',
         ])->name('password');
     });
 
+<<<<<<< Updated upstream
 
 // Manajemen deteksi spam UPTD
 Route::middleware('auth')->group(function () {
@@ -327,23 +340,25 @@ Route::middleware('auth')->group(function () {
         'review'
     ])->whereNumber('id')->name('uptd.spam.review');
 });
+=======
+>>>>>>> Stashed changes
 // Manajemen deteksi spam (khusus admin)
 Route::middleware('auth')->group(function () {
-
     Route::get('/admin/spam', [
-        \App\Http\Controllers\AdminSpamController::class,
-        'index'
+        AdminSpamController::class,
+        'index',
     ])->name('admin.spam.index');
 
     Route::post('/admin/spam/{deteksiSpam}/review', [
-        \App\Http\Controllers\AdminSpamController::class,
-        'review'
+        AdminSpamController::class,
+        'review',
     ])->name('admin.spam.review');
 
     Route::post('/admin/spam/{user}/reset', [
-        \App\Http\Controllers\AdminSpamController::class,
-        'reset'
+        AdminSpamController::class,
+        'reset',
     ])->name('admin.spam.reset');
+<<<<<<< Updated upstream
 
 });
 
@@ -396,4 +411,6 @@ Route::middleware('auth')->prefix('uptd')->name('uptd.')->group(function () {
     Route::delete('/armada/{id}', [\App\Http\Controllers\ArmadaController::class, 'destroy'])
         ->whereNumber('id')
         ->name('armada.destroy');
+=======
+>>>>>>> Stashed changes
 });
