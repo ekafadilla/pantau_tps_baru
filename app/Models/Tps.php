@@ -19,11 +19,28 @@ class Tps extends Model
         'keterangan',
     ];
 
+    protected function casts(): array
+    {
+        return [
+            'last_reported_at' => 'datetime',
+            'last_cleaned_at' => 'datetime',
+        ];
+    }
+
     public function wilayah(): BelongsTo
     {
         return $this->belongsTo(Wilayah::class, 'id_wilayah');
     }
 
+    public function supirs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(
+            User::class,
+            'supir_tps',
+            'id_tps',
+            'id_supir'
+        )->withPivot(['rute', 'status'])->withTimestamps();
+    }
     public function laporans(): HasMany
     {
         return $this->hasMany(Laporan::class, 'id_tps');

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -25,7 +27,7 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'confirmed', PasswordRule::defaults()],
         ]);
 
         $user = User::create([
@@ -35,10 +37,13 @@ class AuthController extends Controller
             'role' => 'masyarakat',
         ]);
 
+        // Memicu pengiriman email verifikasi (User implements MustVerifyEmail).
+        event(new Registered($user));
+
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard');
+        return redirect()->route('verification.notice');
     }
 
     public function login(Request $request)
@@ -65,7 +70,7 @@ class AuthController extends Controller
             default => route('dashboard.role', ['role' => 'masyarakat']),
         };
 
-        return redirect()->intended($tujuan);
+        return redirect()->to($tujuan);
     }
 
     public function logout(Request $request)

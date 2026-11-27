@@ -68,9 +68,9 @@
 
                         @foreach ($tps as $item)
                             <option value="{{ $item->id_tps ?? $item->id }}"
-                            @selected(old('id_tps') == ($item->id_tps ?? $item->id))>
-                            {{ $item->nama_tps }} 
-                        </option>   
+                                @selected(old('id_tps') == ($item->id_tps ?? $item->id))>
+                                {{ $item->nama_tps }}
+                            </option>
                         @endforeach
                     </select>
 
@@ -131,6 +131,35 @@
                     @error('lokasi')
                         <small class="field-error">{{ $message }}</small>
                     @enderror
+
+                    <input
+                        type="hidden"
+                        name="latitude"
+                        id="latitude"
+                        value="{{ old('latitude') }}"
+                    >
+
+                    <input
+                        type="hidden"
+                        name="longitude"
+                        id="longitude"
+                        value="{{ old('longitude') }}"
+                    >
+
+                    <x-peta
+                    mode="picker"
+                    :height="320"
+                    lat-input="latitude"
+                    lng-input="longitude"
+                />
+
+                    @error('latitude')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+
+                    @error('longitude')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -156,6 +185,88 @@
             </div>
 
             <div class="form-section">
+                <h4 class="form-section-title">Penilaian Awal Kondisi TPS</h4>
+                <p class="form-section-description">
+                    Pilih kondisi yang paling sesuai dengan keadaan TPS saat Anda membuat laporan.
+                    Penilaian ini digunakan sistem untuk memberikan rekomendasi tingkat urgensi awal.
+                </p>
+
+                <div class="form-group">
+                    <label for="kepenuhan_tps">1. Tingkat Kepenuhan TPS <span class="required-mark">*</span></label>
+                    <select name="kepenuhan_tps" id="kepenuhan_tps" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('kepenuhan_tps') == '1')>1 - Masih banyak ruang kosong</option>
+                        <option value="2" @selected(old('kepenuhan_tps') == '2')>2 - Mulai terisi</option>
+                        <option value="3" @selected(old('kepenuhan_tps') == '3')>3 - Hampir penuh</option>
+                        <option value="4" @selected(old('kepenuhan_tps') == '4')>4 - Penuh atau melebihi kapasitas</option>
+                    </select>
+                    @error('kepenuhan_tps')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="sampah_meluber">2. Kondisi Sampah Meluber <span class="required-mark">*</span></label>
+                    <select name="sampah_meluber" id="sampah_meluber" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('sampah_meluber') == '1')>1 - Tidak ada sampah di luar TPS</option>
+                        <option value="2" @selected(old('sampah_meluber') == '2')>2 - Sedikit sampah di sekitar TPS</option>
+                        <option value="3" @selected(old('sampah_meluber') == '3')>3 - Cukup banyak sampah di luar TPS</option>
+                        <option value="4" @selected(old('sampah_meluber') == '4')>4 - Sampah meluber secara luas</option>
+                    </select>
+                    @error('sampah_meluber')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="dampak_lingkungan">3. Dampak terhadap Lingkungan <span class="required-mark">*</span></label>
+                    <select name="dampak_lingkungan" id="dampak_lingkungan" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('dampak_lingkungan') == '1')>1 - Belum terlihat dampak lingkungan</option>
+                        <option value="2" @selected(old('dampak_lingkungan') == '2')>2 - Mulai mengganggu lingkungan sekitar</option>
+                        <option value="3" @selected(old('dampak_lingkungan') == '3')>3 - Mengganggu saluran air atau akses sekitar</option>
+                        <option value="4" @selected(old('dampak_lingkungan') == '4')>4 - Menimbulkan dampak lingkungan serius</option>
+                    </select>
+                    @error('dampak_lingkungan')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="bau_hama">4. Bau Tidak Sedap dan Hama <span class="required-mark">*</span></label>
+                    <select name="bau_hama" id="bau_hama" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('bau_hama') == '1')>1 - Tidak ada bau atau hama</option>
+                        <option value="2" @selected(old('bau_hama') == '2')>2 - Bau ringan atau sedikit hama</option>
+                        <option value="3" @selected(old('bau_hama') == '3')>3 - Bau cukup menyengat atau terdapat hama</option>
+                        <option value="4" @selected(old('bau_hama') == '4')>4 - Bau sangat menyengat atau banyak hama</option>
+                    </select>
+                    @error('bau_hama')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="gangguan_masyarakat">5. Gangguan terhadap Aktivitas Masyarakat <span class="required-mark">*</span></label>
+                    <select name="gangguan_masyarakat" id="gangguan_masyarakat" required>
+                        <option value="">-- Pilih kondisi --</option>
+                        <option value="1" @selected(old('gangguan_masyarakat') == '1')>1 - Tidak mengganggu aktivitas</option>
+                        <option value="2" @selected(old('gangguan_masyarakat') == '2')>2 - Sedikit mengganggu aktivitas</option>
+                        <option value="3" @selected(old('gangguan_masyarakat') == '3')>3 - Mengganggu aktivitas masyarakat</option>
+                        <option value="4" @selected(old('gangguan_masyarakat') == '4')>4 - Sangat mengganggu aktivitas masyarakat</option>
+                    </select>
+                    @error('gangguan_masyarakat')
+                        <small class="field-error">{{ $message }}</small>
+                    @enderror
+                </div>
+
+                <small class="field-hint">
+                    Keterangan: semakin tinggi angka yang dipilih, semakin berat kondisi yang dilaporkan.
+                    Pilih berdasarkan keadaan yang benar-benar terlihat.
+                </small>
+            </div>
+            <div class="form-section">
                 <h4 class="form-section-title">Foto Pendukung</h4>
                 <p class="form-section-description">
                     Tambahkan foto sebagai bukti kondisi di lokasi.
@@ -167,7 +278,7 @@
                     </label>
 
                     <div class="upload-box">
-                        <div class="upload-icon">＋</div>
+                        <div class="upload-icon">+</div>
 
                         <strong>Pilih foto dari perangkat</strong>
 
@@ -577,6 +688,55 @@
             width: 100%;
         }
     }
+
+    .report-location-picker {
+        margin-top: 12px;
+    }
+
+    .report-location-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 40px;
+        padding: 0 15px;
+        border: 1px solid #176b43;
+        border-radius: 7px;
+        background: #176b43;
+        color: #fff;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .report-location-button:hover {
+        background: #125735;
+    }
+
+    .report-location-button:disabled {
+        opacity: .6;
+        cursor: wait;
+    }
+
+    .report-location-status {
+        margin-top: 9px;
+        padding: 10px 12px;
+        border: 1px solid #dce8df;
+        border-radius: 7px;
+        background: #f4f9f5;
+        color: #52685a;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+
+    .report-location-map {
+        width: 100%;
+        height: 320px;
+        margin-top: 12px;
+        border: 1px solid #dce5de;
+        border-radius: 8px;
+        overflow: hidden;
+    }
 </style>
 
 <script>
@@ -611,3 +771,5 @@
     });
 </script>
 @endsection
+
+

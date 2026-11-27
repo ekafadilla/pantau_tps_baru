@@ -1,0 +1,408 @@
+﻿@extends('layouts.uptd')
+
+@section('title', 'Dashboard UPTD')
+@section('page-title', 'Dashboard')
+
+@section('styles')
+    .uptd-dashboard {
+        color: #26382f;
+    }
+
+    .uptd-dashboard .page-heading {
+        margin-bottom: 22px;
+    }
+
+    .uptd-dashboard .page-heading h4 {
+        margin-bottom: 5px;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .uptd-dashboard .page-heading p {
+        margin: 0;
+        color: #78857c;
+        font-size: 12px;
+    }
+
+    .uptd-dashboard .summary-card {
+        height: 100%;
+        border: 1px solid #e5ece7;
+        border-radius: 10px;
+        box-shadow: 0 2px 9px rgba(30,60,40,.025);
+        transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .uptd-dashboard .summary-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(30,60,40,.07);
+    }
+
+    .uptd-dashboard .summary-label {
+        color: #78857c;
+        font-size: 11px;
+    }
+
+    .uptd-dashboard .summary-number {
+        margin-top: 4px;
+        color: #26382f;
+        font-size: 25px;
+        font-weight: 700;
+    }
+
+    .uptd-dashboard .summary-note {
+        margin-top: 3px;
+        color: #89958e;
+        font-size: 10px;
+    }
+
+    .uptd-dashboard .summary-icon {
+        display: flex;
+        width: 39px;
+        height: 39px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        font-size: 17px;
+    }
+
+    .uptd-dashboard .dashboard-panel {
+        height: 100%;
+        overflow: hidden;
+        border: 1px solid #e5ece7;
+        border-radius: 10px;
+        background: #fff;
+        box-shadow: 0 2px 9px rgba(30,60,40,.025);
+    }
+
+    .uptd-dashboard .panel-heading {
+        padding: 16px 18px;
+        border-bottom: 1px solid #edf1ee;
+    }
+
+    .uptd-dashboard .panel-heading h5 {
+        margin: 0 0 4px;
+        color: #26382f;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .uptd-dashboard .panel-heading p {
+        margin: 0;
+        color: #89958e;
+        font-size: 11px;
+    }
+
+    .uptd-dashboard .chart-area {
+        position: relative;
+        height: 245px;
+        padding: 16px;
+    }
+
+    .uptd-dashboard .table-responsive {
+        padding: 0 16px 12px;
+    }
+
+    .uptd-dashboard .table {
+        margin-bottom: 0;
+    }
+
+    .uptd-dashboard .table th {
+        padding: 12px 10px;
+        font-size: 10px;
+    }
+
+    .uptd-dashboard .table td {
+        padding: 12px 10px;
+        font-size: 11px;
+    }
+
+    .uptd-dashboard .status-label {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .uptd-dashboard .status-menunggu {
+        color: #946200;
+        background: #fff4dc;
+    }
+
+    .uptd-dashboard .status-diproses {
+        color: #245da5;
+        background: #e8f1ff;
+    }
+
+    .uptd-dashboard .status-selesai {
+        color: #15803d;
+        background: #dcfce7;
+    }
+
+    .uptd-dashboard .status-ditolak {
+        color: #b42318;
+        background: #fee4e2;
+    }
+
+    .uptd-dashboard .info-panel {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 18px;
+        padding: 15px 17px;
+        border: 1px solid #dcebe1;
+        border-radius: 9px;
+        background: #f0f7f2;
+    }
+
+    .uptd-dashboard .info-panel i {
+        color: #176b43;
+        font-size: 17px;
+    }
+
+    .uptd-dashboard .info-panel strong {
+        display: block;
+        margin-bottom: 3px;
+        color: #28563c;
+        font-size: 12px;
+    }
+
+    .uptd-dashboard .info-panel p {
+        margin: 0;
+        color: #62756a;
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .uptd-dashboard .empty-state {
+        padding: 35px 15px;
+        color: #78857c;
+        text-align: center;
+        font-size: 12px;
+    }
+
+    .uptd-dashboard .empty-state i {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 25px;
+    }
+
+    @media (max-width: 767px) {
+        .uptd-dashboard .chart-area {
+            height: 220px;
+        }
+
+        .uptd-dashboard .summary-number {
+            font-size: 22px;
+        }
+    }
+@endsection
+
+@section('content')
+<div class="container-fluid py-2 uptd-dashboard">
+
+    <div class="page-heading">
+        <h4>Selamat Datang, {{ auth()->user()->name }}!</h4>
+        <p>
+            Ringkasan laporan dan kondisi TPS wilayah
+            {{ auth()->user()->wilayah->nama_wilayah ?? 'belum ditentukan' }}.
+        </p>
+    </div>
+
+    <div class="row g-3 mb-4">
+        @foreach([
+            ['Total Laporan', $totalLaporan, 'bi-file-text', '#e2f1e7', '#176b43', 'Laporan di wilayah kerja'],
+            ['Menunggu', $laporanMenunggu, 'bi-clock-history', '#fff4dc', '#b7791f', 'Menunggu pemeriksaan'],
+            ['Diproses', $laporanDiproses, 'bi-arrow-repeat', '#e8f1ff', '#3569b7', 'Sedang ditindaklanjuti'],
+            ['Selesai', $laporanSelesai, 'bi-check-circle', '#dcfce7', '#15803d', 'Laporan selesai'],
+        ] as [$judul, $jumlah, $ikon, $latarIkon, $warnaIkon, $catatan])
+            <div class="col-6 col-xl-3">
+                <div class="card summary-card">
+                    <div class="card-body d-flex align-items-center justify-content-between p-3">
+                        <div>
+                            <div class="summary-label">{{ $judul }}</div>
+                            <div class="summary-number">{{ $jumlah }}</div>
+                            <div class="summary-note">{{ $catatan }}</div>
+                        </div>
+                        <div class="summary-icon" style="background:{{ $latarIkon }};color:{{ $warnaIkon }}">
+                            <i class="bi {{ $ikon }}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-lg-7">
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <h5>Tren Laporan</h5>
+                    <p>Jumlah laporan selama 7 hari terakhir</p>
+                </div>
+                <div class="chart-area">
+                    <canvas id="grafikTren"></canvas>
+                </div>
+            </section>
+        </div>
+
+        <div class="col-lg-5">
+            <section class="dashboard-panel">
+                <div class="panel-heading">
+                    <h5>Status Laporan</h5>
+                    <p>Perbandingan status laporan wilayah</p>
+                </div>
+                <div class="chart-area">
+                    <canvas id="grafikStatus"></canvas>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <section class="dashboard-panel">
+        <div class="panel-heading d-flex flex-wrap align-items-center justify-content-between gap-2">
+            <div>
+                <h5>Laporan Terbaru di Wilayah</h5>
+                <p>Daftar lima laporan terbaru yang masuk</p>
+            </div>
+            <a href="{{ route('uptd.laporan.index') }}" class="btn btn-sm btn-outline-success">
+                Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+        </div>
+
+        @if ($laporanTerbaru->isEmpty())
+            <div class="empty-state">
+                <i class="bi bi-inbox"></i>
+                <strong>Belum ada laporan</strong>
+                <p class="mb-0 mt-1">Belum ada laporan pada TPS di wilayah kerja ini.</p>
+            </div>
+        @else
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Nama TPS</th>
+                            <th>Kategori</th>
+                            <th>Tanggal</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($laporanTerbaru as $laporan)
+                            @php
+                                $status = $laporan->status_laporan;
+                                $statusClass = match ($status) {
+                                    'menunggu', 'diverifikasi' => 'status-menunggu',
+                                    'diproses', 'ditangani' => 'status-diproses',
+                                    'selesai' => 'status-selesai',
+                                    'ditolak' => 'status-ditolak',
+                                    default => 'status-menunggu',
+                                };
+                            @endphp
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td class="fw-semibold">{{ $laporan->tps->nama_tps ?? 'TPS tidak tersedia' }}</td>
+                                <td>{{ $laporan->kategori_kondisi }}</td>
+                                <td class="text-nowrap">
+                                    {{ $laporan->waktu_pelaporan?->format('d M Y') ?? '-' }}
+                                </td>
+                                <td>
+                                    <span class="status-label {{ $statusClass }}">
+                                        {{ ucfirst($status) }}
+                                    </span>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @endif
+    </section>
+
+    <div class="info-panel">
+        <i class="bi bi-info-circle"></i>
+        <div>
+            <strong>Informasi Wilayah Kerja</strong>
+            <p>Data pada dashboard ini dibatasi berdasarkan wilayah yang terhubung dengan akun UPTD Anda.</p>
+        </div>
+    </div>
+
+</div>
+@endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const trenCanvas = document.getElementById('grafikTren');
+    const statusCanvas = document.getElementById('grafikStatus');
+
+    if (typeof Chart === 'undefined') return;
+
+    if (trenCanvas) {
+        new Chart(trenCanvas, {
+            type: 'bar',
+            data: {
+                labels: @json($grafikTrenLabel),
+                datasets: [{
+                    label: 'Jumlah Laporan',
+                    data: @json($grafikTrenData),
+                    backgroundColor: '#2c8058',
+                    borderRadius: 5,
+                    maxBarThickness: 35
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { precision: 0 },
+                        grid: { color: '#edf1ee' }
+                    },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+    }
+
+    if (statusCanvas) {
+        new Chart(statusCanvas, {
+            type: 'doughnut',
+            data: {
+                labels: ['Menunggu', 'Diproses', 'Selesai'],
+                datasets: [{
+                    data: @json($grafikStatus),
+                    backgroundColor: ['#b7d9c3', '#2c8058', '#176b43'],
+                    borderWidth: 2,
+                    borderColor: '#ffffff',
+                    hoverOffset: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '68%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 7,
+                            padding: 15,
+                            font: { size: 11 }
+                        }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
+@endpush

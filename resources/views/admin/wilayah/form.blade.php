@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', isset($wilayah) ? 'Edit Wilayah' : 'Tambah Wilayah')
+@section('title', isset($wilayah->id) ? 'Edit Wilayah' : 'Tambah Wilayah')
 @section('page-title', 'Data Wilayah')
 
 @section('content')
@@ -10,10 +10,10 @@
             <i class="bi bi-arrow-left me-1"></i> Kembali ke Data Wilayah
         </a>
         <h2 class="fw-bold mt-3 mb-1" style="font-size:23px">
-            {{ isset($wilayah) ? 'Edit Wilayah' : 'Tambah Wilayah' }}
+            {{ isset($wilayah->id) ? 'Edit Wilayah' : 'Tambah Wilayah' }}
         </h2>
         <p class="text-secondary mb-0">
-            {{ isset($wilayah) ? 'Perbarui informasi wilayah.' : 'Masukkan informasi wilayah baru.' }}
+            {{ isset($wilayah->id) ? 'Perbarui informasi wilayah.' : 'Masukkan informasi wilayah baru.' }}
         </p>
     </div>
 
@@ -34,12 +34,12 @@
         </div>
 
         <form
-            action="{{ isset($wilayah) ? route('admin.wilayah.update', $wilayah->id) : route('admin.wilayah.store') }}"
+            action="{{ isset($wilayah->id) ? route('admin.wilayah.update', $wilayah->id) : route('admin.wilayah.store') }}"
             method="POST"
         >
             @csrf
 
-            @if (isset($wilayah))
+            @if (isset($wilayah->id))
                 @method('PUT')
             @endif
 
@@ -95,7 +95,7 @@
 
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-check-circle me-1"></i>
-                        {{ isset($wilayah) ? 'Simpan Perubahan' : 'Simpan Wilayah' }}
+                        {{ isset($wilayah->id) ? 'Simpan Perubahan' : 'Simpan Wilayah' }}
                     </button>
                 </div>
             </div>

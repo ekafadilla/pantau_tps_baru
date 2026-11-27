@@ -13,16 +13,30 @@ class Laporan extends Model
     protected $fillable = [
         'id_pengguna',
         'id_tps',
+        'id_supir',
+        'id_armada',
         'kategori_kondisi',
         'lokasi',
+        'latitude',
+        'longitude',
         'keterangan',
         'waktu_pelaporan',
         'status_laporan',
+        'tingkat_urgensi',
+        'target_waktu',
+        'instruksi_penanganan',
+        'waktu_mulai',
+        'waktu_kirim_pemeriksaan',
     ];
 
     protected function casts(): array
     {
-        return ['waktu_pelaporan' => 'datetime'];
+        return [
+            'waktu_pelaporan' => 'datetime',
+            'target_waktu' => 'datetime',
+            'waktu_mulai' => 'datetime',
+            'waktu_kirim_pemeriksaan' => 'datetime',
+        ];
     }
 
     public function pengguna(): BelongsTo
@@ -58,4 +72,9 @@ class Laporan extends Model
     {
         return $this->hasMany(RiwayatStatus::class, 'id_laporan');
     }
+    public function penilaianUrgensis(): HasMany
+    {
+        return $this->hasMany(PenilaianUrgensi::class, 'id_laporan');
+    }
 }
+

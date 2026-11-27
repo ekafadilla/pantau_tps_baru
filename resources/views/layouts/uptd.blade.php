@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -9,35 +9,23 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --green-main: #176b43;
-            --green-active: #2c8058;
-            --green-dark: #125735;
-            --green-light: #e2f1e7;
-            --green-soft: #f4f7f5;
-            --text-main: #26382f;
-            --text-muted: #718078;
-            --border-color: #e1e9e3;
-            --white: #ffffff;
-            --sidebar-width: 250px;
-        }
-
+<<<<<<< HEAD
         * {
             box-sizing: border-box;
         }
 
         html, body {
             margin: 0;
-            min-height: 100%;
-        }
-
-        body {
-            font-family: Arial, Helvetica, sans-serif;
+            width: 100%;
+            height: 100%;
+            font-family: 'Inter', Arial, Helvetica, sans-serif;
             font-size: 14px;
-            color: var(--text-main);
-            background: var(--green-soft);
+            color: #26382f;
+            background: #f4f7f5;
+            overflow: hidden;
         }
 
         a {
@@ -48,151 +36,248 @@
             font-family: inherit;
         }
 
-        /* ===== LAYOUT UTAMA ===== */
-
         .layout {
             display: flex;
             width: 100%;
-            min-height: 100vh;
+            height: 100vh;
+            min-height: 0;
+            overflow: hidden;
         }
 
+        /* ===== SIDEBAR ===== */
         .sidebar {
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            z-index: 1050;
             display: flex;
             flex-direction: column;
-            width: var(--sidebar-width);
-            min-width: var(--sidebar-width);
+            flex: 0 0 255px;
+            width: 255px;
+            min-width: 255px;
             height: 100vh;
-            padding: 25px 16px 18px;
-            overflow-y: auto;
-            color: var(--white);
-            background: linear-gradient(
-                160deg,
-                var(--green-main) 0%,
-                var(--green-dark) 100%
-            );
+            padding: 24px 18px;
+            color: #ffffff;
+            background: #135331;
+            box-shadow: 3px 0 18px rgba(20, 70, 43, .08);
+            transition: transform .28s ease;
+=======
+        * { box-sizing: border-box; }
+
+        html, body {
+            width: 100%;
+            min-height: 100%;
+            margin: 0;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 14px;
+            color: #26382f;
+            background: #f4f7f5;
+        }
+
+        a { text-decoration: none; }
+
+        /* Layout utama */
+        .layout {
+            display: flex;
+            min-height: 100vh;
+            background: #f4f7f5;
+        }
+
+        /* Sidebar — mengikuti Dashboard UPTD */
+        .sidebar {
+            position: fixed;
             z-index: 1050;
+            inset: 0 auto 0 0;
+            width: 235px;
+            min-width: 235px;
+            height: 100vh;
+            padding: 22px 15px;
+            overflow-y: auto;
+            color: #fff;
+            background: linear-gradient(180deg, #125735 0%, #0e432c 100%);
+            box-shadow: 3px 0 18px rgba(15, 55, 35, .12);
+            transition: transform .25s ease;
+>>>>>>> fitur-peta
         }
 
         .brand {
             display: flex;
             align-items: center;
-            gap: 11px;
-            padding: 5px 10px 30px;
-            color: var(--white);
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: .2px;
+<<<<<<< HEAD
+            gap: 12px;
+            padding: 4px 6px 22px;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            color: #ffffff;
         }
 
         .brand-icon {
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 39px;
-            height: 39px;
-            border-radius: 11px;
-            color: var(--green-main);
-            background: var(--white);
-            font-size: 23px;
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #98e2b8;
+            font-size: 21px;
+        }
+
+        .brand-text {
+            font-size: 15px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+            line-height: 1.25;
+            color: #ffffff;
+        }
+
+        .brand-text span {
+            display: block;
+            margin-top: 2px;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.8px;
+            color: #98e2b8;
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 4px;
+            margin-right: -4px;
+            margin-top: 6px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
         }
 
         .menu-title {
-            margin: 5px 12px 12px;
-            color: #c7e2d2;
-            font-size: 10px;
+            margin: 10px 10px 10px;
+            color: #7cd4a4;
+            font-size: 11px;
             font-weight: 700;
-            letter-spacing: 1.2px;
+            letter-spacing: 1px;
             text-transform: uppercase;
         }
 
         .menu {
+            position: relative;
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-height: 45px;
-            padding: 11px 13px;
+            gap: 14px;
+            padding: 12px 16px;
             margin-bottom: 6px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            color: var(--white);
-            font-size: 13px;
-            font-weight: 500;
-            transition: background .2s ease, transform .2s ease;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #e6f4ec;
+            transition: all 0.2s ease;
         }
 
         .menu i {
             width: 20px;
-            font-size: 17px;
+            font-size: 18px;
             text-align: center;
+            color: #98e2b8;
         }
 
         .menu:hover {
-            color: var(--white);
-            background: rgba(255, 255, 255, .12);
-            transform: translateX(2px);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
         }
 
         .menu.active {
-            color: var(--white);
-            background: linear-gradient(
-                100deg,
-                var(--green-active),
-                var(--green-main)
-            );
-            border-color: rgba(255, 255, 255, .13);
-            box-shadow: 0 3px 10px rgba(0, 0, 0, .10);
-            font-weight: 600;
+            background: #278855;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .menu.active i {
+            color: #a9f0c7;
+        }
+
+        .menu.active::before {
+            content: '';
+            position: absolute;
+            left: -18px;
+            top: 22%;
+            height: 56%;
+            width: 4px;
+            background: #a9f0c7;
+            border-radius: 0 4px 4px 0;
         }
 
         .sidebar-bottom {
-            margin-top: auto;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, .20);
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
         }
 
         .logout {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 11px;
-            width: 100%;
-            padding: 11px 13px;
-            border: 1px solid transparent;
-            border-radius: 8px;
-            color: var(--green-main);
-            background: var(--white);
-            font-size: 13px;
-            font-weight: 600;
-            text-align: left;
-            transition: .2s ease;
-            cursor: pointer;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 14px;
+            transition: all 0.25s ease;
+        }
+
+        .logout i {
+            font-size: 18px;
+            color: #ff8a80;
+            transition: color 0.25s ease;
         }
 
         .logout:hover {
-            color: var(--green-dark);
-            background: var(--green-light);
+            background: #dc3545;
+            border-color: #dc3545;
+            color: #ffffff;
         }
 
-        /* ===== AREA KONTEN ===== */
+        .logout:hover i {
+            color: #ffffff;
+        }
 
+        /* ===== MAIN & TOPBAR ===== */
         .main {
-            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 255px);
+            height: 100vh;
             min-width: 0;
+            margin-left: 255px;
+            overflow: hidden;
         }
 
         .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            position: relative;
+            z-index: 100;
             display: flex;
+            flex: 0 0 72px;
             align-items: center;
             justify-content: space-between;
-            gap: 15px;
+            width: 100%;
+            height: 72px;
             min-height: 72px;
             padding: 0 30px;
-            background: var(--white);
-            border-bottom: 1px solid var(--border-color);
+            gap: 15px;
+            background: #ffffff;
+            border-bottom: 1px solid #e4ebe6;
+            box-shadow: 0 2px 10px rgba(30, 60, 40, .025);
         }
 
         .topbar-left {
@@ -203,1261 +288,516 @@
 
         .topbar-title {
             margin: 0;
-            color: var(--text-main);
-            font-size: 17px;
+            color: #26382f;
+            font-size: 18px;
             font-weight: 700;
         }
 
-        .sidebar-toggle {
+        .menu-toggle {
             display: none;
             align-items: center;
             justify-content: center;
             width: 38px;
             height: 38px;
-            border: 1px solid var(--border-color);
+            border: 1px solid #e1e9e3;
             border-radius: 8px;
-            color: var(--green-main);
-            background: var(--white);
+            background: #ffffff;
+            color: #176b43;
             font-size: 19px;
             cursor: pointer;
+            transition: background .2s, transform .2s;
+        }
+
+        .menu-toggle:hover {
+            background: #e8f4eb;
+            transform: scale(1.04);
         }
 
         .user-info {
             display: flex;
             align-items: center;
-            gap: 11px;
+            gap: 10px;
+            padding: 6px 10px;
+            border-radius: 10px;
+            color: inherit;
+            font-size: 13px;
             white-space: nowrap;
+            transition: background .2s ease;
+        }
+
+        .user-info:hover {
+            background: #f4f8f5;
         }
 
         .user-info strong {
-            display: block;
-            color: var(--text-main);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 700;
+            color: #26382f;
         }
 
         .user-info span {
-            display: block;
-            margin-top: 2px;
-            color: var(--text-muted);
-            font-size: 12px;
+            color: #718078;
+            font-size: 11px;
         }
 
         .avatar {
             display: flex;
-            flex: 0 0 40px;
+            flex: 0 0 38px;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
-            border: 1px solid #d3e8da;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
-            color: var(--green-main);
-            background: var(--green-light);
-            font-size: 15px;
+            background: #e2f1e7;
+            color: #176b43;
             font-weight: 700;
-        }
-
-        .content {
-            width: 100%;
-            max-width: 1600px;
-            min-height: calc(100vh - 72px);
-            margin: 0 auto;
-            padding: 26px 30px;
-        }
-
-        .content > .container-fluid {
-            padding: 0 !important;
-        }
-
-        /* ===== KOMPONEN UMUM ===== */
-
-        .card {
-            overflow: hidden;
-            border: 1px solid var(--border-color) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 2px 8px rgba(23, 107, 67, .045);
-        }
-
-        .btn-success {
-            color: var(--white);
-            background: linear-gradient(
-                100deg,
-                var(--green-main),
-                var(--green-active)
-            );
-            border-color: var(--green-main);
-        }
-
-        .btn-success:hover,
-        .btn-success:focus {
-            color: var(--white);
-            background: var(--green-dark);
-            border-color: var(--green-dark);
-        }
-
-        .form-control:focus,
-        .form-select:focus {
-            border-color: var(--green-active);
-            box-shadow: 0 0 0 .2rem rgba(44, 128, 88, .12);
+            font-size: 14px;
         }
 
         .sidebar-overlay {
             display: none;
         }
 
-        /* ===== RESPONSIVE ===== */
+        .content {
+            flex: 1;
+            width: 100%;
+            max-width: 1500px;
+            min-height: 0;
+            margin: 0 auto;
+            padding: 28px 30px;
+            overflow-y: auto;
+            background: #f4f7f5;
+        }
 
-        @media (max-width: 768px) {
+        .content > .container-fluid {
+            padding: 0 !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 900px) {
             .sidebar {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 250px;
-                min-width: 250px;
-                height: 100vh;
                 transform: translateX(-100%);
-                transition: transform .25s ease;
             }
 
             body.sidebar-open .sidebar {
                 transform: translateX(0);
             }
 
-            .sidebar-toggle {
-                display: flex;
+            .main {
+                width: 100%;
+                margin-left: 0;
+            }
+
+            .menu-toggle {
+                display: inline-flex;
             }
 
             .sidebar-overlay {
+                display: none;
                 position: fixed;
                 inset: 0;
                 z-index: 1040;
-                display: block;
-                visibility: hidden;
-                background: rgba(0, 0, 0, .35);
-                opacity: 0;
-                transition: .25s ease;
+                background: rgba(0, 0, 0, 0.45);
             }
 
             body.sidebar-open .sidebar-overlay {
-                visibility: visible;
-                opacity: 1;
+                display: block;
             }
 
             .topbar {
-                min-height: 65px;
                 padding: 0 15px;
             }
 
-            .topbar-title {
-                font-size: 15px;
-            }
-
             .content {
-                min-height: calc(100vh - 65px);
                 padding: 20px 15px;
             }
         }
 
         @media (max-width: 480px) {
             .user-info strong {
+                display: inline-block;
                 max-width: 115px;
                 overflow: hidden;
                 text-overflow: ellipsis;
-            }
-
-            .user-info {
-                gap: 7px;
-            }
-
-            .avatar {
-                width: 35px;
-                height: 35px;
-                flex-basis: 35px;
+                vertical-align: bottom;
             }
         }
-    /* UPTD-NAV-MODERN-V2 */
-
-/* Layout dan ukuran dasar */
-html, body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    color: #26382f;
-    background: #f4f7f5;
-}
-
-body { overflow: hidden; }
-
-.layout {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    min-height: 0;
-    overflow: hidden;
-}
-
-/* Sidebar */
-.sidebar {
-    position: fixed;
-    z-index: 1000;
-    inset: 0 auto 0 0;
-    display: flex;
-    flex-direction: column;
-    width: 235px;
-    min-width: 235px;
-    height: 100vh;
-    padding: 22px 15px;
-    overflow-y: auto;
-    background: #176b43;
-    color: #fff;
-    box-shadow: 3px 0 18px rgba(20,70,43,.08);
-    transition: transform .28s ease;
-}
-
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 9px 30px;
-    color: white;
-    font-size: 16px;
-    font-weight: 700;
-}
-
-.brand i { font-size: 24px; }
-
-.menu-title {
-    margin: 8px 10px 13px;
-    color: #c6dfd0;
-    font-size: 10px;
-    letter-spacing: 1.2px;
-}
-
-.menu {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    min-height: 42px;
-    padding: 11px 12px;
-    margin-bottom: 6px;
-    border-radius: 8px;
-    color: #fff;
-    font-size: 12px;
-    transition: background .2s ease, transform .2s ease;
-}
-
-.menu i {
-    width: 18px;
-    font-size: 16px;
-    text-align: center;
-}
-
-.menu:hover {
-    color: #fff;
-    background: rgba(255,255,255,.13);
-    transform: translateX(3px);
-}
-
-.menu.active {
-    color: #fff;
-    background: #2c8058;
-    box-shadow: inset 3px 0 #d8f0df;
-}
-
-.sidebar-bottom {
-    margin-top: auto;
-    padding-top: 18px;
-    border-top: 1px solid #438563;
-}
-
-.logout {
-    width: 100%;
-    padding: 10px 12px;
-    border: 0;
-    border-radius: 7px;
-    background: #fff;
-    color: #176b43;
-    font-size: 12px;
-    text-align: left;
-    cursor: pointer;
-    transition: background .2s, transform .2s;
-}
-
-.logout:hover {
-    background: #e8f4eb;
-    transform: translateY(-1px);
-}
-
-/* Area utama */
-.main {
-    display: flex;
-    flex-direction: column;
-    width: calc(100% - 235px);
-    height: 100vh;
-    min-width: 0;
-    margin-left: 235px;
-    overflow: hidden;
-}
-
-/* Navbar tetap di atas */
-.topbar {
-    position: relative;
-    z-index: 100;
-    display: flex;
-    flex: 0 0 66px;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    height: 66px;
-    min-height: 66px;
-    padding: 0 28px;
-    gap: 12px;
-    background: #fff;
-    border-bottom: 1px solid #e8eee9;
-    box-shadow: 0 2px 10px rgba(30,60,40,.025);
-}
-
-.topbar-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.topbar-title {
-    margin: 0;
-    color: #26382f;
-    font-size: 17px;
-    font-weight: 700;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-.user-info strong { font-size: 12px; }
-.user-info span { color: #718078; font-size: 11px; }
-
-.avatar {
-    display: flex;
-    flex: 0 0 34px;
-    align-items: center;
-    justify-content: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    background: #e2f1e7;
-    color: #176b43;
-    font-size: 14px;
-    font-weight: 700;
-}
-
-/* Tombol menu mobile */
-.menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    border: 1px solid #e1e9e3;
-    border-radius: 7px;
-    background: white;
-    color: #176b43;
-    font-size: 19px;
-    cursor: pointer;
-    transition: background .2s, transform .2s;
-}
-
-.menu-toggle:hover {
-    background: #e8f4eb;
-    transform: scale(1.04);
-}
-
-.sidebar-overlay { display: none; }
-
-/* Konten halaman dapat digulir sendiri */
-.content {
-    flex: 1;
-    width: 100%;
-    max-width: 1500px;
-    min-height: 0;
-    margin: 0 auto;
-    padding: 22px 28px;
-    overflow-y: auto;
-    background: #f4f7f5;
-}
-
-.content > .container-fluid {
-    padding: 0 !important;
-}
-
-/* =================================
-   HALAMAN DATA LAPORAN
-================================= */
-
-.uptd-report-page {
-    padding: 0 !important;
-}
-
-.uptd-report-page h3 {
-    margin: 0 0 6px !important;
-    color: #26382f;
-    font-size: 20px !important;
-    font-weight: 700;
-}
-
-.uptd-report-page > .d-flex:first-child {
-    margin-bottom: 20px !important;
-}
-
-.uptd-report-page .text-muted {
-    color: #78857c !important;
-    font-size: 12px;
-}
-
-.uptd-report-page .row.g-3 {
-    --bs-gutter-x: 12px;
-    --bs-gutter-y: 12px;
-    margin-bottom: 18px !important;
-}
-
-.uptd-report-page .card {
-    height: 100%;
-    border: 1px solid #e1e9e3 !important;
-    border-radius: 10px !important;
-    background: #fff;
-    box-shadow: 0 3px 12px rgba(30,60,40,.025) !important;
-    transition: transform .2s ease, box-shadow .2s ease;
-}
-
-.uptd-report-page .card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 7px 16px rgba(30,60,40,.06) !important;
-}
-
-.uptd-report-page .card-body {
-    padding: 16px !important;
-}
-
-.uptd-report-page .card-body .small {
-    font-size: 11px !important;
-}
-
-.uptd-report-page .card-body .fs-3 {
-    margin-top: 5px;
-    color: #176b43;
-    font-size: 23px !important;
-    font-weight: 700;
-}
-
-/* Form pencarian dan filter */
-.uptd-report-page > .card {
-    border: 1px solid #e1e9e3 !important;
-    border-radius: 10px !important;
-    background: #fff;
-    box-shadow: 0 3px 12px rgba(30,60,40,.025) !important;
-}
-
-.uptd-report-page > .card > .card-body {
-    padding: 17px !important;
-}
-
-.uptd-report-page form {
-    align-items: center;
-}
-
-.uptd-report-page .form-control,
-.uptd-report-page .form-select {
-    min-height: 38px;
-    border: 1px solid #dfe8e1;
-    border-radius: 7px;
-    color: #26382f;
-    font-size: 12px;
-    box-shadow: none;
-}
-
-.uptd-report-page .form-control:focus,
-.uptd-report-page .form-select:focus {
-    border-color: #2c8058;
-    box-shadow: 0 0 0 3px rgba(44,128,88,.10);
-}
-
-.uptd-report-page .btn {
-    min-height: 36px;
-    border-radius: 7px;
-    font-size: 11px;
-    transition: all .2s ease;
-}
-
-.uptd-report-page .btn-success {
-    border-color: #176b43;
-    background: #176b43;
-}
-
-.uptd-report-page .btn-success:hover {
-    border-color: #125735;
-    background: #125735;
-    transform: translateY(-1px);
-}
-
-.uptd-report-page .btn-outline-secondary {
-    border-color: #dfe8e1;
-    color: #59685e;
-}
-
-.uptd-report-page .btn-outline-secondary:hover {
-    background: #f0f5f1;
-    color: #176b43;
-}
-
-/* Tabel laporan */
-.uptd-report-page .table-responsive {
-    border: 1px solid #edf1ee;
-    border-radius: 8px;
-}
-
-.uptd-report-page .table {
-    min-width: 760px;
-    margin-bottom: 0;
-    font-size: 11px;
-}
-
-.uptd-report-page .table thead th {
-    padding: 12px 13px;
-    border-bottom: 1px solid #e5ece6;
-    background: #f7faf7;
-    color: #647168;
-    font-size: 10px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.uptd-report-page .table tbody td {
-    padding: 12px 13px;
-    border-color: #edf1ee;
-    color: #35463b;
-    vertical-align: middle;
-}
-
-.uptd-report-page .table tbody tr {
-    transition: background .18s ease;
-}
-
-.uptd-report-page .table-hover tbody tr:hover > * {
-    background: #f5faf6;
-}
-
-.uptd-report-page .badge {
-    padding: 6px 9px;
-    border-radius: 20px;
-    font-size: 10px;
-    font-weight: 600;
-}
-
-.uptd-report-page .btn-outline-success {
-    border-color: #2c8058;
-    color: #176b43;
-}
-
-.uptd-report-page .btn-outline-success:hover {
-    background: #176b43;
-    color: white;
-}
-
-/* Pagination */
-.uptd-report-page .pagination {
-    gap: 4px;
-    margin-bottom: 0;
-}
-
-.uptd-report-page .page-link {
-    min-width: 30px;
-    padding: 6px 10px;
-    border: 1px solid #e1e9e3;
-    border-radius: 6px !important;
-    color: #176b43;
-    font-size: 11px;
-}
-
-.uptd-report-page .page-item.active .page-link {
-    border-color: #176b43;
-    background: #176b43;
-    color: white;
-}
-
-/* Notifikasi */
-.uptd-report-page .alert {
-    padding: 11px 14px;
-    border-radius: 8px;
-    font-size: 12px;
-}
-
-/* Responsif */
-@media (max-width: 900px) {
-    .sidebar {
-        transform: translateX(-100%);
-    }
-
-    .sidebar.show {
-        transform: translateX(0);
-    }
-
-    .main {
-        width: 100%;
-        margin-left: 0;
-    }
-
-    .menu-toggle {
-        display: inline-flex;
-    }
-
-    .sidebar-overlay.show {
-        position: fixed;
-        z-index: 999;
-        inset: 0;
-        display: block;
-        background: rgba(20,35,25,.38);
-        animation: overlayFade .2s ease;
-    }
-
-    .content { padding: 20px 16px; }
-}
-
-@media (max-width: 650px) {
-    .topbar {
-        height: 60px;
-        min-height: 60px;
-        flex-basis: 60px;
-        padding: 0 13px;
-    }
-
-    .topbar-title { font-size: 14px; }
-    .user-info { gap: 6px; }
-    .user-info strong {
-        display: block;
-        max-width: 125px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .avatar {
-        width: 30px;
-        height: 30px;
-        flex-basis: 30px;
-    }
-
-    .content { padding: 16px 12px; }
-    .uptd-report-page h3 { font-size: 18px !important; }
-    .uptd-report-page > .card > .card-body { padding: 12px !important; }
-}
-
-@keyframes overlayFade {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-/* UPTD-FINAL-CONSISTENT */
-
-/* Ukuran layout disamakan dengan dashboard */
-html, body {
-    height: 100%;
-}
-
-body {
-    overflow: hidden !important;
-    background: #f4f7f5 !important;
-}
-
-.layout {
-    display: flex !important;
-    width: 100% !important;
-    height: 100vh !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-}
-
-.sidebar {
-    position: fixed !important;
-    display: flex !important;
-    flex-direction: column !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 235px !important;
-    min-width: 235px !important;
-    height: 100vh !important;
-    padding: 22px 15px !important;
-    transform: translateX(0);
-    transition: transform .28s ease !important;
-}
-
-.main {
-    display: flex !important;
-    flex-direction: column !important;
-    width: calc(100% - 235px) !important;
-    height: 100vh !important;
-    min-width: 0 !important;
-    margin-left: 235px !important;
-    overflow: hidden !important;
-}
-
-.topbar {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-    display: flex !important;
-    flex: 0 0 66px !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    width: 100% !important;
-    height: 66px !important;
-    min-height: 66px !important;
-    padding: 0 28px !important;
-    background: #fff !important;
-    border-bottom: 1px solid #e8eee9 !important;
-    box-shadow: 0 2px 10px rgba(30,60,40,.025) !important;
-}
-
-.topbar-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-}
-
-.topbar-title {
-    margin: 0 !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    color: #26382f !important;
-}
-
-.sidebar-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 35px !important;
-    height: 35px !important;
-    border: 1px solid #e1e9e3 !important;
-    border-radius: 7px !important;
-    background: #fff !important;
-    color: #176b43 !important;
-    transition: background .2s, transform .2s;
-}
-
-.sidebar-toggle:hover {
-    background: #e2f1e7 !important;
-    transform: scale(1.04);
-}
-
-.user-info {
-    display: flex !important;
-    align-items: center !important;
-    gap: 9px !important;
-}
-
-.avatar {
-    width: 34px !important;
-    height: 34px !important;
-    flex: 0 0 34px !important;
-    border-radius: 50% !important;
-    background: #e2f1e7 !important;
-    color: #176b43 !important;
-}
-
-.content {
-    flex: 1 !important;
-    width: 100% !important;
-    max-width: none !important;
-    min-height: 0 !important;
-    padding: 22px 28px !important;
-    overflow-y: auto !important;
-    background: #f4f7f5 !important;
-}
-
-/* Kartu ringkasan */
-.uptd-report-page .summary-card {
-    position: relative;
-    min-height: 116px;
-    overflow: hidden;
-    border: 1px solid #e1e9e3 !important;
-    border-radius: 11px !important;
-    background: #fff !important;
-    box-shadow: 0 3px 12px rgba(30,60,40,.035) !important;
-    transition: transform .22s ease, box-shadow .22s ease;
-}
-
-.uptd-report-page .summary-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(30,60,40,.08) !important;
-}
-
-.uptd-report-page .summary-card .card-body {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 17px 18px !important;
-}
-
-.uptd-report-page .summary-label {
-    margin-bottom: 7px;
-    color: #718078;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.uptd-report-page .summary-number {
-    color: #26382f;
-    font-size: 25px;
-    font-weight: 700;
-    line-height: 1.2;
-}
-
-.uptd-report-page .summary-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 43px;
-    height: 43px;
-    flex: 0 0 43px;
-    border-radius: 12px;
-    font-size: 19px;
-}
-
-.uptd-report-page .summary-card::after {
-    content: "";
-    position: absolute;
-    right: -22px;
-    bottom: -34px;
-    width: 90px;
-    height: 90px;
-    border: 13px solid rgba(23,107,67,.045);
-    border-radius: 50%;
-}
-
-/* Tombol Detail */
-.uptd-report-page .btn-detail {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    min-width: 82px;
-    min-height: 33px;
-    padding: 7px 11px !important;
-    border: 1px solid #176b43 !important;
-    border-radius: 7px !important;
-    background: #f5faf6 !important;
-    color: #176b43 !important;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    text-decoration: none;
-    transition: all .2s ease;
-}
-
-.uptd-report-page .btn-detail:hover {
-    background: #176b43 !important;
-    color: #fff !important;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 9px rgba(23,107,67,.15);
-}
-
-.uptd-report-page .btn-detail i {
-    font-size: 12px;
-}
-
-/* Responsif: gunakan sistem sidebar bawaan layout */
-@media (max-width: 768px) {
-    .sidebar {
-        z-index: 1050 !important;
-        transform: translateX(-100%) !important;
-    }
-
-    body.sidebar-open .sidebar {
-        transform: translateX(0) !important;
-    }
-
-    .main {
-        width: 100% !important;
-        margin-left: 0 !important;
-    }
-
-    .sidebar-toggle {
-        display: inline-flex !important;
-    }
-
-    .topbar {
-        flex-basis: 65px !important;
-        height: 65px !important;
-        min-height: 65px !important;
-        padding: 0 15px !important;
-    }
-
-    .content {
-        padding: 20px 15px !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .topbar {
-        flex-basis: 60px !important;
-        height: 60px !important;
-        min-height: 60px !important;
-    }
-
-    .topbar-title { font-size: 15px !important; }
-    .content { padding: 16px 12px !important; }
-
-    .uptd-report-page .summary-card { min-height: 100px; }
-    .uptd-report-page .summary-card .card-body { padding: 13px !important; }
-    .uptd-report-page .summary-icon {
-        width: 36px;
-        height: 36px;
-        flex-basis: 36px;
-        font-size: 16px;
-    }
-    .uptd-report-page .summary-number { font-size: 21px; }
-}
-</style>
+    </style>
     @stack('styles')
-<style>
-/* Ukuran navbar sama dengan Dashboard */
-.topbar {
-    position: sticky !important;
-    top: 0 !important;
-    z-index: 1000 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 15px !important;
-    width: 100% !important;
-    height: 66px !important;
-    min-height: 66px !important;
-    padding: 0 28px !important;
-    background: #ffffff !important;
-    border-bottom: 1px solid #e8eee9 !important;
-    box-shadow: 0 2px 10px rgba(30,60,40,.025) !important;
-}
+=======
+            gap: 10px;
+            padding: 8px 9px 30px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: .2px;
+        }
 
-.topbar-left {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-}
+        .brand i { font-size: 23px; }
 
-.topbar-title {
-    margin: 0 !important;
-    color: #26382f !important;
-    font-size: 17px !important;
-    font-weight: 700 !important;
-    line-height: normal !important;
-}
+        .menu-title {
+            margin: 8px 10px 13px;
+            color: #c6dfd0;
+            font-size: 10px;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
 
-.menu-toggle {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 35px;
-    height: 35px;
-    padding: 0;
-    border: 1px solid #e1e9e3;
-    border-radius: 7px;
-    color: #176b43;
-    background: #ffffff;
-    font-size: 19px;
-    cursor: pointer;
-    transition: background .2s ease, transform .2s ease;
-}
+        .sidebar .menu {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            min-height: 43px;
+            margin-bottom: 6px;
+            padding: 11px 12px;
+            border-radius: 8px;
+            color: rgba(255,255,255,.88);
+            font-size: 12px;
+            line-height: 1.4;
+            transition: background .18s ease, color .18s ease;
+        }
 
-.menu-toggle:hover {
-    background: #e2f1e7;
-    transform: scale(1.04);
-}
+        .sidebar .menu i {
+            flex: 0 0 18px;
+            width: 18px;
+            font-size: 16px;
+            text-align: center;
+        }
 
-.user-info {
-    display: flex !important;
-    align-items: center !important;
-    gap: 9px !important;
-}
+        .sidebar .menu:hover {
+            color: #fff;
+            background: rgba(255,255,255,.11);
+        }
 
-.user-info strong {
-    display: inline !important;
-    margin: 0 !important;
-    color: #26382f !important;
-    font-size: 12px !important;
-    font-weight: 700 !important;
-}
+        .sidebar .menu.active {
+            color: #fff;
+            background: #246d49;
+            box-shadow: inset 3px 0 #b9dfc6, 0 2px 8px rgba(0,0,0,.08);
+        }
 
-.user-info span {
-    display: inline !important;
-    margin: 0 !important;
-    color: #718078 !important;
-    font-size: 11px !important;
-}
+        .sidebar-bottom {
+            margin-top: auto;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,.18);
+        }
 
-.avatar {
-    display: flex !important;
-    flex: 0 0 34px !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 34px !important;
-    height: 34px !important;
-    border: 0 !important;
-    border-radius: 50% !important;
-    color: #176b43 !important;
-    background: #e2f1e7 !important;
-    font-size: 14px !important;
-    font-weight: 700 !important;
-}
+        .sidebar .logout {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            width: 100%;
+            min-height: 43px;
+            padding: 11px 12px;
+            border: 0;
+            border-radius: 8px;
+            color: #fff;
+            background: transparent;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            transition: background .18s ease;
+        }
 
-@media (max-width: 768px) {
-    .topbar {
-        height: 65px !important;
-        min-height: 65px !important;
-        padding: 0 15px !important;
-    }
+        .sidebar .logout:hover {
+            background: rgba(255,255,255,.11);
+        }
 
-    .menu-toggle {
-        display: inline-flex !important;
-    }
+        /* Area konten dan navbar */
+        .main {
+            display: flex;
+            flex-direction: column;
+            width: calc(100% - 235px);
+            min-width: 0;
+            min-height: 100vh;
+            margin-left: 235px;
+        }
 
-    .topbar-title {
-        font-size: 15px !important;
-    }
-}
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex: 0 0 66px;
+            align-items: center;
+            justify-content: space-between;
+            height: 66px;
+            min-height: 66px;
+            padding: 0 28px;
+            background: #fff;
+            border-bottom: 1px solid #e5ebe6;
+            box-shadow: 0 2px 8px rgba(30,60,40,.025);
+        }
 
-@media (max-width: 480px) {
-    .topbar {
-        height: 60px !important;
-        min-height: 60px !important;
-        padding: 0 13px !important;
-    }
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0;
+        }
 
-    .user-info {
-        gap: 7px !important;
-    }
+        .topbar-title {
+            color: #26382f;
+            font-size: 16px;
+            font-weight: 700;
+        }
 
-    .user-info strong {
-        max-width: 115px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .avatar {
-        width: 35px !important;
-        height: 35px !important;
-        flex-basis: 35px !important;
-    }
-}
-</style>
-<style id="sidebar-dashboard-identical">
-/* Sidebar UPTD disamakan dengan Dashboard */
-.layout {
-    display: flex !important;
-    height: 100vh !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    background: #f4f7f5 !important;
-}
+        .menu-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 35px;
+            height: 35px;
+            border: 1px solid #e3eae4;
+            border-radius: 7px;
+            color: #176b43;
+            background: #fff;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-.sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    z-index: 1050 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    width: 235px !important;
-    min-width: 235px !important;
-    height: 100vh !important;
-    padding: 22px 15px !important;
-    overflow-y: auto !important;
-    background: #176b43 !important;
-    box-shadow: 3px 0 18px rgba(20, 70, 43, .08) !important;
-    transform: translateX(0);
-    transition: transform .28s ease !important;
-}
+        .dashboard-profile-link {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 6px 9px;
+            border-radius: 8px;
+            color: inherit;
+            text-decoration: none;
+            transition: background .18s ease;
+        }
 
-.brand {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 8px 9px 30px !important;
-    color: #fff !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    letter-spacing: .2px !important;
-    text-decoration: none !important;
-}
+        .dashboard-profile-link:hover {
+            color: inherit;
+            background: #f4f7f5;
+        }
 
-.brand i {
-    font-size: 23px !important;
-}
+        .dashboard-profile-link strong {
+            color: #26382f;
+            font-size: 12px;
+            font-weight: 600;
+        }
 
-.menu-title {
-    margin: 8px 10px 13px !important;
-    color: #c6dfd0 !important;
-    font-size: 10px !important;
-    font-weight: 600 !important;
-    letter-spacing: 1.2px !important;
-    text-transform: uppercase !important;
-}
+        .dashboard-profile-link span {
+            color: #78857c;
+            font-size: 10px;
+        }
 
-.sidebar .menu {
-    display: flex !important;
-    align-items: center !important;
-    gap: 11px !important;
-    width: 100% !important;
-    min-height: 43px !important;
-    margin-bottom: 6px !important;
-    padding: 11px 12px !important;
-    border: 0 !important;
-    border-radius: 8px !important;
-    color: #fff !important;
-    background: transparent !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    line-height: 1.4 !important;
-    text-decoration: none !important;
-    transition: all .2s ease !important;
-}
+        .avatar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            color: #176b43;
+            background: #e2f1e7;
+            font-size: 13px;
+            font-weight: 700;
+        }
 
-.sidebar .menu i {
-    flex: 0 0 18px !important;
-    width: 18px !important;
-    font-size: 16px !important;
-    text-align: center !important;
-}
+        /* Area halaman */
+        .content {
+            flex: 1;
+            width: 100%;
+            min-width: 0;
+            padding: 24px 28px;
+            overflow-x: hidden;
+            background: #f4f7f5;
+        }
 
-.sidebar .menu.active {
-    color: #fff !important;
-    background: #2c8058 !important;
-    box-shadow: inset 3px 0 #d8f0df !important;
-}
+        /* Komponen umum */
+        .card {
+            border: 1px solid #e3eae4;
+            border-radius: 10px;
+            box-shadow: 0 2px 9px rgba(30,60,40,.025);
+        }
 
-.sidebar .menu:hover {
-    color: #fff !important;
-    background: rgba(255,255,255,.13) !important;
-    transform: translateX(2px);
-}
+        .card.border-0 { border: 1px solid #e3eae4 !important; }
 
-.sidebar-bottom {
-    margin-top: auto !important;
-    padding-top: 20px !important;
-}
+        .summary-card .card-body {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+        }
 
-.sidebar-bottom form {
-    width: 100% !important;
-}
+        .summary-label {
+            margin-bottom: 5px;
+            color: #78857c;
+            font-size: 11px;
+            font-weight: 500;
+        }
 
-.sidebar .logout {
-    display: flex !important;
-    align-items: center !important;
-    gap: 11px !important;
-    width: 100% !important;
-    min-height: 43px !important;
-    padding: 11px 12px !important;
-    border: 0 !important;
-    border-radius: 8px !important;
-    color: #fff !important;
-    background: transparent !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-align: left !important;
-    cursor: pointer !important;
-    transition: all .2s ease !important;
-}
+        .summary-number {
+            color: #26382f;
+            font-size: 23px;
+            font-weight: 700;
+            line-height: 1.2;
+        }
 
-.sidebar .logout i {
-    width: 18px !important;
-    font-size: 16px !important;
-    text-align: center !important;
-}
+        .summary-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 39px;
+            height: 39px;
+            border-radius: 9px;
+            font-size: 17px;
+        }
 
-.sidebar .logout:hover {
-    background: rgba(255,255,255,.13) !important;
-}
+        .table th {
+            color: #596b60;
+            background: #f7f9f7;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: .4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
 
-/* Tampilan tablet dan HP mengikuti Dashboard */
-@media (max-width: 900px) {
-    .sidebar {
-        position: fixed !important;
-        width: 235px !important;
-        min-width: 235px !important;
-        height: 100vh !important;
-        transform: translateX(-100%) !important;
-    }
+        .table td {
+            color: #435349;
+            font-size: 12px;
+            vertical-align: middle;
+        }
 
-    body.sidebar-open .sidebar {
-        transform: translateX(0) !important;
-    }
+        .btn-success {
+            background: #176b43;
+            border-color: #176b43;
+        }
 
-    .main {
-        width: 100% !important;
-        margin-left: 0 !important;
-    }
+        .btn-success:hover {
+            background: #2c8058;
+            border-color: #2c8058;
+        }
 
-    .sidebar-overlay {
-        display: none !important;
-        position: fixed !important;
-        inset: 0 !important;
-        z-index: 1040 !important;
-        background: rgba(0,0,0,.35) !important;
-    }
+        .btn-outline-success {
+            color: #176b43;
+            border-color: #176b43;
+        }
 
-    body.sidebar-open .sidebar-overlay {
-        display: block !important;
-    }
-}
-</style>
+        .btn-outline-success:hover {
+            color: #fff;
+            background: #176b43;
+        }
+
+        .btn-detail {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 10px;
+            border: 1px solid transparent;
+            border-radius: 7px;
+            color: #176b43;
+            background: #e2f1e7;
+            font-size: 11px;
+            font-weight: 600;
+            transition: background .15s ease;
+        }
+
+        .btn-detail:hover {
+            color: #125735;
+            background: #c8e3d4;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #176b43;
+            box-shadow: 0 0 0 .2rem rgba(23,107,67,.13);
+        }
+
+        .badge {
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .sidebar-overlay { display: none; }
+
+        @yield('styles')
+    </style>
+
+    @stack('head')
+    <link rel="stylesheet" href="{{ asset('css/ui-konsisten.css') }}">
+>>>>>>> fitur-peta
 </head>
 
 <body>
 <div class="layout">
 
-    {{-- SIDEBAR-DASHBOARD-IDENTICAL --}}
+<<<<<<< HEAD
+    {{-- SIDEBAR UPTD --}}
     <aside class="sidebar" id="uptdSidebar">
-        <div class="brand"><i class="bi bi-recycle"></i><span>SI PANTAU TPS</span></div>
-        <div class="menu-title">Menu Utama</div>
-
-        <a class="menu {{ request()->routeIs('dashboard.role') ? 'active' : '' }}"
-           href="{{ route('dashboard.role', ['role' => 'uptd']) }}">
-            <i class="bi bi-grid"></i> Dashboard
+        <a href="{{ route('dashboard.role', ['role' => 'uptd']) }}" class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-recycle"></i>
+            </div>
+            <div class="brand-text">
+                SI PANTAU TPS
+                <span>DLH INDRAMAYU</span>
+            </div>
         </a>
 
-        <a href="{{ route('uptd.laporan.index') }}"
-           class="menu {{ request()->routeIs('uptd.laporan.*') ? 'active' : '' }}">
-            <i class="bi bi-file-earmark-text"></i> Data Laporan
-        </a>
+        <div class="sidebar-menu">
+            <div class="menu-title">Menu Utama</div>
 
-        <a href="{{ route('uptd.tps.index') }}"
-           class="menu {{ request()->routeIs('uptd.tps.*') ? 'active' : '' }}">
-            <i class="bi bi-geo-alt"></i> Data TPS Wilayah
-        </a>
+            <a class="menu {{ request()->routeIs('dashboard.role') && request()->route('role') === 'uptd' ? 'active' : '' }}"
+               href="{{ route('dashboard.role', ['role' => 'uptd']) }}">
+                <i class="bi bi-grid-1x2-fill"></i>
+                <span>Dashboard</span>
+            </a>
+
+            <a href="{{ route('uptd.laporan.index') }}"
+               class="menu {{ request()->routeIs('uptd.laporan.*') ? 'active' : '' }}">
+                <i class="bi bi-file-earmark-text-fill"></i>
+                <span>Data Laporan</span>
+            </a>
+
+            <a href="{{ route('uptd.tps.index') }}"
+               class="menu {{ request()->routeIs('uptd.tps.*') ? 'active' : '' }}">
+                <i class="bi bi-geo-alt-fill"></i>
+                <span>Data TPS Wilayah</span>
+            </a>
+
+            <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
+
+            <a href="{{ route('uptd.pengaturan.edit') }}"
+               class="menu {{ request()->routeIs('uptd.pengaturan.*') ? 'active' : '' }}">
+                <i class="bi bi-gear-fill"></i>
+                <span>Pengaturan Akun</span>
+            </a>
+        </div>
 
         <div class="sidebar-bottom">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="logout">
-                    <i class="bi bi-box-arrow-right"></i> Keluar
+                    <i class="bi bi-box-arrow-right"></i>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
     </aside>
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
+=======
+<div class="layout">
+
+    @include('components.uptd.sidebar')
+>>>>>>> fitur-peta
 
     <div class="main">
-        {{-- NAVBAR-DASHBOARD-IDENTICAL --}}
         <header class="topbar">
             <div class="topbar-left">
+<<<<<<< HEAD
                 <button type="button"
                     class="menu-toggle"
                     id="sidebarToggle"
@@ -1467,19 +807,39 @@ body {
                 </button>
 
                 <div class="topbar-title">@yield('page-title', 'Dashboard UPTD')</div>
+=======
+                <button type="button" class="menu-toggle" id="sidebarToggle" aria-label="Buka menu">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="topbar-title">@yield('page-title', 'Dashboard')</div>
+            </div>
+
+            <div class="topbar-right">
+                <a href="{{ route('pengaturan.edit') }}"
+                   class="dashboard-profile-link"
+                   aria-label="Buka pengaturan akun UPTD"
+                   title="Pengaturan Akun">
+                    <div class="avatar">
+                        {{ strtoupper(substr(auth()->user()->name ?? 'U', 0, 1)) }}
+                    </div>
+                    <div>
+                        <strong>{{ auth()->user()->name ?? 'Pengguna' }}</strong><br>
+                        <span>UPTD</span>
+                    </div>
+                </a>
+>>>>>>> fitur-peta
             </div>
 
             <a href="{{ route('uptd.pengaturan.edit') }}"
-   class="user-info text-decoration-none"
-   aria-label="Buka pengaturan akun UPTD"
-   title="Pengaturan Akun"
-   style="display:flex; align-items:center; gap:9px; color:inherit; text-decoration:none; cursor:pointer; padding:6px 9px; border-radius:10px;">
-    <div class="avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-    <div>
-        <strong>{{ auth()->user()->name }}</strong><br>
-        <span>UPTD</span>
-    </div>
-</a>
+               class="user-info text-decoration-none"
+               aria-label="Buka pengaturan akun UPTD"
+               title="Pengaturan Akun">
+                <div class="avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
+                <div>
+                    <strong>{{ auth()->user()->name }}</strong><br>
+                    <span>UPTD</span>
+                </div>
+            </a>
         </header>
 
         <main class="content">
@@ -1489,15 +849,14 @@ body {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
+<<<<<<< HEAD
     document.addEventListener('DOMContentLoaded', function () {
         const toggle = document.getElementById('sidebarToggle');
         const overlay = document.getElementById('sidebarOverlay');
 
         function closeSidebar() {
             document.body.classList.remove('sidebar-open');
-
             if (toggle) {
                 toggle.setAttribute('aria-expanded', 'false');
             }
@@ -1520,29 +879,36 @@ body {
             }
         });
     });
+=======
+(function () {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    const toggle = document.getElementById('sidebarToggle');
+
+    function openSidebar() {
+        sidebar.classList.add('show');
+        overlay.classList.add('show');
+    }
+
+    function closeSidebar() {
+        sidebar.classList.remove('show');
+        overlay.classList.remove('show');
+    }
+
+    toggle?.addEventListener('click', function () {
+        sidebar.classList.contains('show') ? closeSidebar() : openSidebar();
+    });
+
+    overlay?.addEventListener('click', closeSidebar);
+})();
+>>>>>>> fitur-peta
 </script>
 
 @stack('scripts')
-<script>
-    function toggleUptdSidebar() {
-        document.getElementById('uptdSidebar').classList.toggle('show');
-        document.getElementById('uptdSidebarOverlay').classList.toggle('show');
-    }
-
-    function closeUptdSidebar() {
-        document.getElementById('uptdSidebar').classList.remove('show');
-        document.getElementById('uptdSidebarOverlay').classList.remove('show');
-    }
-
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') closeUptdSidebar();
-    });
-
-    document.querySelectorAll('#uptdSidebar .menu').forEach(function(menu) {
-        menu.addEventListener('click', function() {
-            if (window.innerWidth <= 900) closeUptdSidebar();
-        });
-    });
-</script>
 </body>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+
+>>>>>>> fitur-peta

@@ -1,4 +1,4 @@
-
+﻿
 @extends('layouts.masyarakat')
 
 @section('header', 'Detail Laporan')
@@ -95,7 +95,7 @@
             </div>
 
             <div class="photo-grid">
-                @forelse ($laporan->fotoLaporan as $foto)
+                @forelse ($laporan->fotoLaporans as $foto)
                     <a href="{{ asset('storage/' . $foto->path_foto) }}"
                        target="_blank"
                        rel="noopener noreferrer"
@@ -129,7 +129,7 @@
             </div>
 
             <div class="history-body">
-                @forelse ($laporan->riwayatStatus as $riwayat)
+                @forelse ($laporan->riwayatStatuses as $riwayat)
                     <div class="history-item">
                         <div class="history-dot"></div>
 
@@ -171,7 +171,7 @@
         </div>
 
         <div class="summary-body">
-            <div class="summary-status-icon">✓</div>
+            <div class="summary-status-icon">âœ“</div>
 
             <p class="summary-label">Status Saat Ini</p>
 
@@ -486,3 +486,4 @@
     }
 </style>
 @endsection
+

@@ -1,116 +1,732 @@
-@extends('layouts.uptd')
+﻿@extends('layouts.uptd')
 
-@section('title', 'Detail Laporan UPTD')
+@section('title', 'Detail Laporan #' . $laporan->id . ' - UPTD')
 @section('page-title', 'Detail Laporan')
+
+@section('styles')
+<style>
+    .info-label  { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #6b7f74; margin-bottom: 3px; }
+    .info-value  { font-size: 14.5px; color: #1a2e22; }
+
+    .status-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        padding: 4px 12px; border-radius: 20px;
+        font-size: 12.5px; font-weight: 600;
+    }
+    .sb-menunggu    { background:#fff4dc; color:#b7791f; }
+    .sb-diverifikasi{ background:#dbeafe; color:#1d4ed8; }
+    .sb-diproses    { background:#ede9fe; color:#5b21b6; }
+    .sb-ditangani   { background:#d1fae5; color:#065f46; }
+    .sb-selesai     { background:#dcfce7; color:#15803d; }
+    .sb-ditolak     { background:#fee2e2; color:#991b1b; }
+
+    /* timeline */
+    .timeline { position: relative; padding-left: 24px; }
+    .timeline::before {
+        content: ''; position: absolute; left: 7px; top: 0; bottom: 0;
+        width: 2px; background: #dde8e1; border-radius: 1px;
+    }
+    .tl-item { position: relative; padding-bottom: 20px; }
+    .tl-item:last-child { padding-bottom: 0; }
+    .tl-dot {
+        position: absolute; left: -20px; top: 3px;
+        width: 14px; height: 14px; border-radius: 50%;
+        background: #176b43; border: 2px solid #fff;
+        box-shadow: 0 0 0 2px #c8e3d4;
+    }
+    .tl-time { font-size: 11px; color: #6b7f74; margin-bottom: 2px; }
+    .tl-desc { font-size: 13px; font-weight: 500; color: #1a2e22; }
+    .tl-note { font-size: 12.5px; color: #4b5e54; margin-top: 2px; }
+
+    .panel-aksi { border: 1.5px solid #dde8e1; border-radius: 12px; padding: 20px; background: #fff; }
+    .panel-aksi h6 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #6b7f74; margin-bottom: 14px; }
+    .panel-aksi .form-label { font-size: 12.5px; font-weight: 600; }
+
+    .urgensi-badge {
+        display: inline-block;
+        padding: 2px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;
+    }
+    .urgensi-rendah  { background: #d1fae5; color: #065f46; }
+    .urgensi-sedang  { background: #fef9c3; color: #854d0e; }
+    .urgensi-tinggi  { background: #fee2e2; color: #991b1b; }
+    .urgensi-sangat_tinggi { background: #fce7f3; color: #9d174d; }
+
+    .foto-grid img {
+        width: 100%; height: 160px; object-fit: cover;
+        border-radius: 8px; border: 1px solid #dde8e1;
+        transition: opacity .15s;
+    }
+    .foto-grid img:hover { opacity: .85; }
+</style>
+@endsection
+
 @section('content')
-<div class="container-fluid py-4">
+<div class="container-fluid py-2">
+
+    {{-- Back + header --}}
     <div class="mb-4">
-        <a href="{{ route('uptd.laporan.index') }}" class="text-decoration-none">
-            &larr; Kembali ke Data Laporan
+        <a href="{{ route('uptd.laporan.index') }}" class="d-inline-flex align-items-center gap-1 text-muted small mb-2">
+            <i class="bi bi-arrow-left"></i> Kembali ke Data Laporan
         </a>
-        <h3 class="fw-bold mt-3 mb-1">Detail Laporan</h3>
-        <p class="text-muted mb-0">Informasi laporan pengaduan dari masyarakat.</p>
-    </div>
-
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <div class="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-3">
-                <h5 class="fw-bold mb-0">Laporan #{{ $laporan->id }}</h5>
-                <span class="badge text-bg-secondary">{{ ucfirst($laporan->status_laporan) }}</span>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <div class="text-muted small">Nama TPS</div>
-                    <div class="fw-semibold">{{ $laporan->tps->nama_tps ?? '-' }}</div>
-                </div>
-                <div class="col-md-6">
-                    <div class="text-muted small">Nama Pelapor</div>
-                    <div class="fw-semibold">{{ $laporan->pengguna->name ?? '-' }}</div>
-                </div>
-                <div class="col-md-6">
-                    <div class="text-muted small">Kategori Kondisi</div>
-                    <div>{{ $laporan->kategori_kondisi }}</div>
-                </div>
-                <div class="col-md-6">
-                    <div class="text-muted small">Waktu Pelaporan</div>
-                    <div>
-                        {{ $laporan->waktu_pelaporan
-                            ? $laporan->waktu_pelaporan->format('d-m-Y H:i')
-                            : '-' }}
-                    </div>
-                </div>
-                <div class="col-12">
-                    <div class="text-muted small">Lokasi</div>
-                    <div>{{ $laporan->lokasi ?: ($laporan->tps->alamat ?? '-') }}</div>
-                </div>
-                <div class="col-12">
-                    <div class="text-muted small">Keterangan</div>
-                    <div class="mt-1" style="white-space: pre-line">{{ $laporan->keterangan }}</div>
-                </div>
-            </div>
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <h4 class="fw-bold mb-0">Laporan #{{ $laporan->id }}</h4>
+            @php
+                $sbMap = [
+                    'menunggu'    => ['sb-menunggu',    'bi-clock-history',    'Menunggu'],
+                    'diverifikasi'=> ['sb-diverifikasi','bi-check-circle',     'Diverifikasi'],
+                    'diproses'    => ['sb-diproses',    'bi-arrow-repeat',     'Diproses'],
+                    'ditangani'   => ['sb-ditangani',   'bi-tools',            'Ditangani'],
+                    'selesai'     => ['sb-selesai',     'bi-check2-circle',    'Selesai'],
+                    'ditolak'     => ['sb-ditolak',     'bi-x-circle',         'Ditolak'],
+                ];
+                [$sbClass, $sbIcon, $sbLabel] = $sbMap[$laporan->status_laporan] ?? ['sb-menunggu','bi-circle','Tidak Diketahui'];
+            @endphp
+            <span class="status-badge {{ $sbClass }}">
+                <i class="bi {{ $sbIcon }}"></i> {{ $sbLabel }}
+            </span>
         </div>
     </div>
 
-    <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-            <h5 class="fw-bold mb-3">Foto Laporan</h5>
-            <div class="row g-3">
-                @forelse($laporan->fotoLaporans as $foto)
-                    <div class="col-6 col-md-4 col-xl-3">
-                        <a href="{{ asset('storage/' . $foto->path_foto) }}" target="_blank">
-                            <img
-                                src="{{ asset('storage/' . $foto->path_foto) }}"
-                                alt="{{ $foto->nama_file }}"
-                                class="img-fluid rounded border"
-                                style="width:100%;height:180px;object-fit:cover"
-                            >
+    {{-- Flash messages --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-1"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-circle me-1"></i> {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Terjadi kesalahan:</strong>
+            <ul class="mb-0 mt-1">
+                @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="row g-4">
+
+        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KIRI Ã¢â€â‚¬Ã¢â€â‚¬ --}}
+        <div class="col-lg-7 col-xl-8">
+
+            {{-- Info Laporan --}}
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3" style="color:#176b43"><i class="bi bi-info-circle me-1"></i>Informasi Laporan</h6>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="info-label">Nama TPS</div>
+                            <div class="info-value">{{ $laporan->tps->nama_tps ?? '-' }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-label">Pelapor</div>
+                            <div class="info-value">{{ $laporan->pengguna->name ?? '-' }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-label">Kategori Kondisi</div>
+                            <div class="info-value">{{ $laporan->kategori_kondisi }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-label">Waktu Pelaporan</div>
+                            <div class="info-value">
+                                {{ $laporan->waktu_pelaporan ? $laporan->waktu_pelaporan->format('d M Y, H:i') : '-' }}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="info-label">Lokasi</div>
+                            <div class="info-value">{{ $laporan->lokasi ?: ($laporan->tps->alamat ?? '-') }}</div>
+                        </div>
+                        <div class="col-12">
+                            <div class="info-label">Keterangan</div>
+                            <div class="info-value" style="white-space:pre-line">{{ $laporan->keterangan ?: '-' }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Peta Lokasi Laporan --}}
+            @php
+                $lokasiPeta = $laporan->lokasi
+                    ?: ($laporan->tps->alamat ?? '');
+
+                $latitude = $laporan->tps->latitude ?? null;
+                $longitude = $laporan->tps->longitude ?? null;
+
+                $punyaKoordinat = is_numeric($latitude)
+                    && is_numeric($longitude);
+
+                $queryPeta = $punyaKoordinat
+                    ? $latitude . ',' . $longitude
+                    : $lokasiPeta;
+
+                $urlGoogleMaps = 'https://www.google.com/maps/search/?api=1&query='
+                    . urlencode($queryPeta);
+
+                $urlEmbedMaps = 'https://maps.google.com/maps?q='
+                    . urlencode($queryPeta)
+                    . '&z=16&output=embed';
+            @endphp
+
+            @if($queryPeta)
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                        <div>
+                            <h6 class="fw-bold mb-1" style="color:#176b43">
+                                <i class="bi bi-geo-alt-fill me-1"></i>
+                                Peta Lokasi Laporan
+                            </h6>
+                            <p class="text-muted small mb-0">
+                                Lokasi TPS yang dilaporkan
+                            </p>
+                        </div>
+
+                        <a href="{{ $urlGoogleMaps }}"
+                           target="_blank"
+                           rel="noopener noreferrer"
+                           class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-map me-1"></i>
+                            Buka di Google Maps
                         </a>
-                        <div class="small text-muted mt-1">{{ $foto->nama_file }}</div>
                     </div>
-                @empty
-                    <p class="text-muted mb-0">Tidak ada foto pada laporan ini.</p>
-                @endforelse
-            </div>
-        </div>
-    </div>
 
-    <div class="card border-0 shadow-sm">
-        <div class="card-body">
-            <h5 class="fw-bold mb-3">Riwayat Status</h5>
-            <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th>Waktu</th>
-                            <th>Status Sebelumnya</th>
-                            <th>Status Baru</th>
-                            <th>Catatan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($laporan->riwayatStatuses->sortByDesc('waktu_perubahan') as $riwayat)
-                            <tr>
-                                <td>
-                                    {{ $riwayat->waktu_perubahan
-                                        ? \Carbon\Carbon::parse($riwayat->waktu_perubahan)->format('d-m-Y H:i')
-                                        : '-' }}
-                                </td>
-                                <td>{{ $riwayat->status_sebelumnya ? ucfirst($riwayat->status_sebelumnya) : '-' }}</td>
-                                <td>{{ ucfirst($riwayat->status_baru) }}</td>
-                                <td>{{ $riwayat->catatan ?: '-' }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center text-muted py-3">
-                                    Belum ada riwayat status.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                    <div class="rounded overflow-hidden"
+                         style="border:1px solid #dde8e1;">
+                        <iframe
+                            src="{{ $urlEmbedMaps }}"
+                            width="100%"
+                            height="320"
+                            style="border:0; display:block;"
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            allowfullscreen
+                            title="Peta lokasi laporan">
+                        </iframe>
+                    </div>
+
+                    <div class="small text-muted mt-2">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        {{ $lokasiPeta }}
+                        @if($punyaKoordinat)
+                            <span class="d-block mt-1">
+                                Koordinat: {{ $latitude }}, {{ $longitude }}
+                            </span>
+                        @endif
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
+            @endif
+            {{-- Info Penugasan (jika sudah ditugaskan) --}}
+            @if(in_array($laporan->status_laporan, ['diproses','ditangani','selesai','ditolak']) && $laporan->supir)
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3" style="color:#176b43"><i class="bi bi-person-check me-1"></i>Informasi Penugasan</h6>
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <div class="info-label">Supir Ditugaskan</div>
+                            <div class="info-value fw-semibold">{{ $laporan->supir->name }}</div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="info-label">Armada</div>
+                            <div class="info-value">
+                                @if($laporan->armada)
+                                    {{ $laporan->armada->kode_armada }} Ã¢â‚¬â€œ {{ $laporan->armada->nomor_polisi }}
+                                    <span class="text-muted small">({{ $laporan->armada->jenis_armada }})</span>
+                                @else
+                                    <span class="text-muted">Tidak ada armada</span>
+                                @endif
+                            </div>
+                        </div>
+                        @if($laporan->tingkat_urgensi)
+                        <div class="col-sm-6">
+                            <div class="info-label">Tingkat Urgensi</div>
+                            <div class="info-value">
+                                <span class="urgensi-badge urgensi-{{ $laporan->tingkat_urgensi }}">
+                                    {{ ucfirst($laporan->tingkat_urgensi) }}
+                                </span>
+                            </div>
+                        </div>
+                        @endif
+                        @if($laporan->target_waktu)
+                        <div class="col-sm-6">
+                            <div class="info-label">Target Waktu</div>
+                            <div class="info-value">
+                                {{ \Carbon\Carbon::parse($laporan->target_waktu)->format('d M Y, H:i') }}
+                            </div>
+                        </div>
+                        @endif
+                        @if($laporan->instruksi_penanganan)
+                        <div class="col-12">
+                            <div class="info-label">Instruksi Penanganan</div>
+                            <div class="info-value" style="white-space:pre-line">{{ $laporan->instruksi_penanganan }}</div>
+                        </div>
+                        @endif
+                        @if($laporan->waktu_mulai)
+                        <div class="col-sm-6">
+                            <div class="info-label">Waktu Mulai</div>
+                            <div class="info-value">{{ \Carbon\Carbon::parse($laporan->waktu_mulai)->format('d M Y, H:i') }}</div>
+                        </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+
+            {{-- Foto Laporan --}}
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3" style="color:#176b43"><i class="bi bi-images me-1"></i>Foto Laporan</h6>
+                    @if($laporan->fotoLaporans->isEmpty())
+                        <p class="text-muted mb-0">Tidak ada foto pada laporan ini.</p>
+                    @else
+                        <div class="row g-2 foto-grid">
+                            @foreach($laporan->fotoLaporans as $foto)
+                                <div class="col-6 col-md-4">
+                                    <a href="{{ asset('storage/' . $foto->path_foto) }}" target="_blank">
+                                        <img src="{{ asset('storage/' . $foto->path_foto) }}"
+                                             alt="{{ $foto->nama_file }}">
+                                    </a>
+                                    <div class="small text-muted mt-1 text-truncate">{{ $foto->nama_file }}</div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            {{-- Riwayat Status --}}
+            <div class="card border-0">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-4" style="color:#176b43"><i class="bi bi-clock-history me-1"></i>Riwayat Status</h6>
+                    @php
+                        $riwayats = $laporan->riwayatStatuses->sortByDesc('waktu_perubahan');
+                    @endphp
+                    @if($riwayats->isEmpty())
+                        <p class="text-muted mb-0">Belum ada riwayat status.</p>
+                    @else
+                        <div class="timeline">
+                            @foreach($riwayats as $riwayat)
+                                <div class="tl-item">
+                                    <div class="tl-dot"></div>
+                                    <div class="tl-time">
+                                        {{ $riwayat->waktu_perubahan ? \Carbon\Carbon::parse($riwayat->waktu_perubahan)->format('d M Y, H:i') : '-' }}
+                                        @if($riwayat->pengguna)
+                                            &bull; {{ $riwayat->pengguna->name }}
+                                        @endif
+                                    </div>
+                                    <div class="tl-desc">
+                                        @if($riwayat->status_sebelumnya)
+                                            <span class="text-muted">{{ ucfirst($riwayat->status_sebelumnya) }}</span>
+                                            &rarr;
+                                        @endif
+                                        <strong>{{ ucfirst($riwayat->status_baru) }}</strong>
+                                    </div>
+                                    @if($riwayat->catatan)
+                                        <div class="tl-note">{{ $riwayat->catatan }}</div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+        </div>{{-- /.col-left --}}
+
+        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KANAN (Panel Aksi) Ã¢â€â‚¬Ã¢â€â‚¬ --}}
+        <div class="col-lg-5 col-xl-4">
+            <div class="panel-aksi">
+                <h6><i class="bi bi-shield-check me-1"></i>Panel Aksi UPTD</h6>
+
+                {{-- PENILAIAN URGENSI GABUNGAN --}}
+                @php
+                    $penilaianMasyarakat = $laporan->penilaianUrgensis
+                        ->where('jenis_penilaian', 'masyarakat')
+                        ->sortByDesc('created_at')
+                        ->first();
+
+                    $penilaianUptd = $laporan->penilaianUrgensis
+                        ->where('jenis_penilaian', 'uptd')
+                        ->sortByDesc('created_at')
+                        ->first();
+
+                    $indikatorUrgensi = [
+                        'kepenuhan_tps' => [
+                            'label' => 'Kepenuhan TPS',
+                            'pilihan' => [
+                                1 => 'Masih banyak ruang kosong',
+                                2 => 'Mulai terisi',
+                                3 => 'Hampir penuh',
+                                4 => 'Penuh atau meluap',
+                            ],
+                        ],
+                        'sampah_meluber' => [
+                            'label' => 'Sampah Meluber',
+                            'pilihan' => [
+                                1 => 'Tidak ada sampah di luar TPS',
+                                2 => 'Sedikit sampah di sekitar TPS',
+                                3 => 'Sampah cukup banyak di luar TPS',
+                                4 => 'Sampah meluber secara luas',
+                            ],
+                        ],
+                        'dampak_lingkungan' => [
+                            'label' => 'Dampak Lingkungan',
+                            'pilihan' => [
+                                1 => 'Tidak terlihat dampak',
+                                2 => 'Mulai mengganggu lingkungan',
+                                3 => 'Mengganggu saluran atau akses',
+                                4 => 'Menimbulkan dampak serius',
+                            ],
+                        ],
+                        'bau_hama' => [
+                            'label' => 'Bau dan Hama',
+                            'pilihan' => [
+                                1 => 'Tidak ada bau atau hama',
+                                2 => 'Bau ringan',
+                                3 => 'Bau cukup kuat atau terdapat hama',
+                                4 => 'Bau sangat kuat atau banyak hama',
+                            ],
+                        ],
+                        'gangguan_masyarakat' => [
+                            'label' => 'Gangguan Masyarakat',
+                            'pilihan' => [
+                                1 => 'Tidak mengganggu aktivitas',
+                                2 => 'Sedikit mengganggu',
+                                3 => 'Mengganggu aktivitas masyarakat',
+                                4 => 'Sangat mengganggu aktivitas',
+                            ],
+                        ],
+                    ];
+                @endphp
+
+                {{-- HASIL PENILAIAN MASYARAKAT --}}
+                <div class="card border-0 mb-3">
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold mb-3" style="color:#176b43">
+                            <i class="bi bi-clipboard-data me-1"></i>
+                            Penilaian Awal Masyarakat
+                        </h6>
+
+                        @if($penilaianMasyarakat)
+                            <div class="row g-2 mb-3">
+                                @foreach($indikatorUrgensi as $field => $indikator)
+                                    <div class="col-12 d-flex justify-content-between align-items-start small">
+                                        <span class="text-muted">{{ $indikator['label'] }}</span>
+                                        <strong>{{ data_get($penilaianMasyarakat, $field) }}/4</strong>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="p-2 rounded" style="background:#e2f1e7">
+                                <div class="small text-muted">Skor rekomendasi sistem</div>
+                                <strong style="color:#176b43">
+                                    {{ number_format((float) $penilaianMasyarakat->skor_urgensi, 2) }}/100
+                                </strong>
+                                <div class="small mt-1">
+                                    Rekomendasi:
+                                    <strong>{{ ucfirst(str_replace('_', ' ', $penilaianMasyarakat->rekomendasi_urgensi)) }}</strong>
+                                </div>
+                            </div>
+                        @else
+                            <p class="text-muted small mb-0">
+                                Belum tersedia penilaian awal dari masyarakat.
+                            </p>
+                        @endif
+                    </div>
+                </div>
+
+                {{-- HASIL PENILAIAN TERAKHIR UPTD --}}
+                @if($penilaianUptd)
+                    <div class="card border-0 mb-3">
+                        <div class="card-body p-3">
+                            <h6 class="fw-bold mb-2" style="color:#176b43">
+                                <i class="bi bi-shield-check me-1"></i>
+                                Penilaian Terakhir UPTD
+                            </h6>
+                            <div class="small text-muted">Skor rekomendasi sistem</div>
+                            <strong style="color:#176b43">
+                                {{ number_format((float) $penilaianUptd->skor_urgensi, 2) }}/100
+                            </strong>
+                            <div class="small mt-1">
+                                Rekomendasi:
+                                <strong>{{ ucfirst(str_replace('_', ' ', $penilaianUptd->rekomendasi_urgensi)) }}</strong>
+                            </div>
+                            @if($penilaianUptd->catatan)
+                                <div class="small text-muted mt-2">
+                                    {{ $penilaianUptd->catatan }}
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endif
+
+                {{-- FORM PENILAIAN ULANG UPTD --}}
+                @if(in_array($laporan->status_laporan, ['menunggu', 'diverifikasi']))
+                    <div class="card border-0 mb-3">
+                        <div class="card-body p-3">
+                            <h6 class="fw-bold mb-2" style="color:#176b43">
+                                <i class="bi bi-clipboard-check me-1"></i>
+                                Penilaian Ulang UPTD
+                            </h6>
+
+                            <p class="text-muted small mb-3">
+                                Nilai kembali kondisi TPS berdasarkan pemeriksaan Anda.
+                                Pilih skor 1 sampai 4 untuk setiap indikator.
+                            </p>
+
+                            <form id="formPenilaianUrgensi" method="POST"
+                                  action="{{ route('uptd.laporan.verifikasi-urgensi', $laporan->id) }}">
+                                @csrf
+
+                                @foreach($indikatorUrgensi as $field => $indikator)
+                                    @php
+                                        $nilaiTersimpan = old(
+                                            $field,
+                                            data_get($penilaianUptd, $field, data_get($penilaianMasyarakat, $field))
+                                        );
+                                    @endphp
+
+                                    <div class="mb-3">
+                                        <label class="form-label fw-semibold small">
+                                            {{ $indikator['label'] }}
+                                            <span class="text-danger">*</span>
+                                        </label>
+
+                                        <select name="{{ $field }}"
+                                                class="form-select form-select-sm @error($field) is-invalid @enderror"
+                                                required>
+                                            <option value="">Pilih kondisi</option>
+                                            @foreach($indikator['pilihan'] as $angka => $deskripsi)
+                                                <option value="{{ $angka }}"
+                                                    @selected((string) $nilaiTersimpan === (string) $angka)>
+                                                    {{ $angka }} - {{ $deskripsi }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+
+                                        @error($field)
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                @endforeach
+
+                                <div class="mb-3 p-2 rounded" style="background:#f1f7f3">
+                                    <div class="small fw-semibold mb-1">Rekomendasi Sistem</div>
+                                    <div class="small text-muted">
+                                        Sistem menghitung skor setelah penilaian disimpan.
+                                        UPTD tetap menentukan urgensi akhir.
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold small">
+                                        Urgensi Akhir UPTD <span class="text-danger">*</span>
+                                    </label>
+                                    <select name="tingkat_urgensi"
+                                            class="form-select form-select-sm @error('tingkat_urgensi') is-invalid @enderror"
+                                            required>
+                                        <option value="">Pilih urgensi akhir</option>
+                                        @foreach([
+                                            'rendah' => 'Rendah',
+                                            'sedang' => 'Sedang',
+                                            'tinggi' => 'Tinggi',
+                                            'sangat_tinggi' => 'Sangat Tinggi'
+                                        ] as $val => $label)
+                                            <option value="{{ $val }}"
+                                                @selected(old('tingkat_urgensi', $laporan->tingkat_urgensi) === $val)>
+                                                {{ $label }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('tingkat_urgensi')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold small">
+                                        Alasan Perubahan
+                                        <span class="text-muted fw-normal">(jika berbeda dari rekomendasi)</span>
+                                    </label>
+                                    <textarea name="alasan_perubahan" rows="2"
+                                              maxlength="1000"
+                                              class="form-control form-control-sm @error('alasan_perubahan') is-invalid @enderror"
+                                              placeholder="Jelaskan alasan jika urgensi akhir berbeda dari rekomendasi sistem...">{{ old('alasan_perubahan') }}</textarea>
+                                    @error('alasan_perubahan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label small">
+                                        Catatan Pemeriksaan
+                                        <span class="text-muted fw-normal">(opsional)</span>
+                                    </label>
+                                    <textarea name="catatan" rows="2" maxlength="1000"
+                                              class="form-control form-control-sm"
+                                              placeholder="Tambahkan catatan pemeriksaan...">{{ old('catatan') }}</textarea>
+                                </div>
+
+                                <button type="submit" class="btn btn-success btn-sm w-100"
+                                        onclick="return confirm('Simpan penilaian dan tetapkan urgensi akhir?')">
+                                    <i class="bi bi-check-circle me-1"></i>
+                                    Simpan Penilaian UPTD
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- STATUS: menunggu Ã¢â€ â€™ tombol verifikasi & tolak --}}
+                @if($laporan->status_laporan === 'menunggu')
+
+                    <p class="text-muted small mb-3">Laporan ini menunggu verifikasi dari Anda.</p>
+
+                    {{-- Verifikasi --}}
+                    <form method="POST" action="{{ route('uptd.laporan.verifikasi', $laporan->id) }}" class="mb-2">
+                        @csrf
+                        <button type="submit" class="btn btn-success w-100"
+                                onclick="return confirm('Verifikasi laporan ini?')">
+                            <i class="bi bi-check-circle me-1"></i> Verifikasi Laporan
+                        </button>
+                    </form>
+
+                    {{-- Tolak --}}
+                    <button class="btn btn-outline-danger w-100" data-bs-toggle="collapse"
+                            data-bs-target="#formTolak" aria-expanded="false">
+                        <i class="bi bi-x-circle me-1"></i> Tolak Laporan
+                    </button>
+
+                    <div class="collapse mt-3" id="formTolak">
+                        <form method="POST" action="{{ route('uptd.laporan.tolak', $laporan->id) }}">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
+                                <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
+                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100"
+                                    onclick="return confirm('Yakin menolak laporan ini?')">
+                                Konfirmasi Penolakan
+                            </button>
+                        </form>
+                    </div>
+
+                {{-- STATUS: diverifikasi Ã¢â€ â€™ form tugaskan + tolak --}}
+                @elseif($laporan->status_laporan === 'diverifikasi')
+
+                    <p class="text-muted small mb-3">Laporan telah diverifikasi. Tugaskan supir untuk menanganinya.</p>
+
+                    <form method="POST" action="{{ route('uptd.laporan.tugaskan', $laporan->id) }}">
+                        @csrf
+
+                        {{-- Supir --}}
+                        <div class="mb-3">
+                            <label class="form-label">Supir <span class="text-danger">*</span></label>
+                            <select name="id_supir" class="form-select @error('id_supir') is-invalid @enderror" required>
+    <option value="">â€” Pilih Supir â€”</option>
+    @foreach($supirList as $supir)
+        <option value="{{ $supir->id }}" @selected(old('id_supir') == $supir->id)>
+            {{ $supir->name }}{{ $supir->tpsTugas->first()?->pivot?->rute ? ' â€” ' . $supir->tpsTugas->first()->pivot->rute : '' }}
+        </option>
+    @endforeach
+</select>
+                            @error('id_supir')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            @if($supirList->isEmpty())
+                                <div class="form-text text-warning">Belum ada supir aktif yang ditugaskan pada TPS ini.</div>
+                            @endif
+                        </div>
+
+                        {{-- Armada --}}
+                        <div class="mb-3">
+                            <label class="form-label">Armada <span class="text-muted fw-normal">(opsional)</span></label>
+                            <select name="id_armada" class="form-select @error('id_armada') is-invalid @enderror">
+                                <option value="">Ã¢â‚¬â€ Pilih Armada Ã¢â‚¬â€</option>
+                                @foreach($armadaList as $arm)
+                                    <option value="{{ $arm->id }}" @selected(old('id_armada') == $arm->id)>
+                                        {{ $arm->kode_armada }} Ã¢â‚¬â€œ {{ $arm->nomor_polisi }} ({{ $arm->jenis_armada }})
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('id_armada')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+
+                        {{-- Target Waktu --}}
+                        <div class="mb-3">
+                            <label class="form-label">Target Waktu <span class="text-muted fw-normal">(opsional)</span></label>
+                            <input type="datetime-local" name="target_waktu"
+                                   class="form-control @error('target_waktu') is-invalid @enderror"
+                                   value="{{ old('target_waktu') }}">
+                            @error('target_waktu')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        {{-- Instruksi --}}
+                        <div class="mb-4">
+                            <label class="form-label">Instruksi Penanganan <span class="text-muted fw-normal">(opsional)</span></label>
+                            <textarea name="instruksi_penanganan" rows="3"
+                                      class="form-control @error('instruksi_penanganan') is-invalid @enderror"
+                                      maxlength="1000"
+                                      placeholder="Tambahkan instruksi khusus untuk supirÃ¢â‚¬Â¦">{{ old('instruksi_penanganan') }}</textarea>
+                            @error('instruksi_penanganan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100 mb-2"
+                                onclick="return confirm('Tugaskan supir untuk laporan ini?')">
+                            <i class="bi bi-person-check me-1"></i> Tugaskan Supir
+                        </button>
+                    </form>
+
+                    <hr class="my-3">
+
+                    <button class="btn btn-outline-danger w-100" data-bs-toggle="collapse"
+                            data-bs-target="#formTolak" aria-expanded="false">
+                        <i class="bi bi-x-circle me-1"></i> Tolak Laporan
+                    </button>
+
+                    <div class="collapse mt-3" id="formTolak">
+                        <form method="POST" action="{{ route('uptd.laporan.tolak', $laporan->id) }}">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
+                                <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
+                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <button type="submit" class="btn btn-danger w-100"
+                                    onclick="return confirm('Yakin menolak laporan ini?')">
+                                Konfirmasi Penolakan
+                            </button>
+                        </form>
+                    </div>
+
+                {{-- STATUS: diproses / ditangani / selesai / ditolak --}}
+                @else
+                    <div class="text-center py-3">
+                        @if($laporan->status_laporan === 'ditolak')
+                            <i class="bi bi-x-circle-fill text-danger" style="font-size:2.5rem"></i>
+                            <p class="mt-2 mb-0 text-muted small">Laporan ini telah <strong>ditolak</strong>.</p>
+                        @elseif($laporan->status_laporan === 'selesai')
+                            <i class="bi bi-check2-circle text-success" style="font-size:2.5rem"></i>
+                            <p class="mt-2 mb-0 text-muted small">Laporan ini telah <strong>selesai</strong> ditangani.</p>
+                        @else
+                            <i class="bi bi-arrow-repeat text-primary" style="font-size:2.5rem"></i>
+                            <p class="mt-2 mb-0 text-muted small">Laporan sedang dalam proses penanganan oleh supir.</p>
+                        @endif
+                    </div>
+                @endif
+            </div>
+        </div>{{-- /.col-right --}}
+
+    </div>{{-- /.row --}}
 </div>
 @endsection
+
+

@@ -1,0 +1,121 @@
+@extends('layouts.supir')
+
+@section('page-title', 'Detail Tugas')
+
+@section('content')
+<div class="container py-3">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Detail Tugas Penanganan</h2>
+            <p class="text-muted mb-0">Informasi laporan TPS yang ditugaskan kepada Anda.</p>
+        </div>
+        <a href="{{ route('supir.tugas.index') }}" class="btn btn-outline-secondary">
+            Kembali
+        </a>
+    </div>
+
+        {{-- PETA-SUPIR --}}
+    @php
+        $latTujuan = $tugas->latitude ?? $tugas->tps->latitude ?? null;
+        $lngTujuan = $tugas->longitude ?? $tugas->tps->longitude ?? null;
+    @endphp
+
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+            <h5 class="mb-2">Bagikan Lokasi</h5>
+            <p class="text-muted small mb-3">
+                Bagikan lokasi Anda saat menuju TPS agar UPTD dapat memantau posisi Anda.
+            </p>
+            <x-peta
+                mode="live"
+                :height="320"
+                :share-url="route('supir.lokasi.simpan')"
+                :tujuan="($latTujuan !== null && $lngTujuan !== null)
+                    ? ['lat' => (float) $latTujuan, 'lng' => (float) $lngTujuan, 'label' => 'lokasi laporan']
+                    : null"
+            />
+        </div>
+    </div>
+<div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+            <h5 class="mb-3">Informasi Laporan</h5>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Nomor Laporan</div>
+                <div class="col-md-8">#{{ $tugas->id }}</div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Nama TPS</div>
+                <div class="col-md-8">
+                    {{ $tugas->tps->nama_tps ?? '-' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Lokasi</div>
+                <div class="col-md-8">
+                    {{ $tugas->lokasi ?? '-' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Kategori Kondisi</div>
+                <div class="col-md-8">
+                    {{ ucfirst(str_replace('_', ' ', $tugas->kategori_kondisi ?? '-')) }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Urgensi Akhir</div>
+                <div class="col-md-8">
+                    {{ $tugas->tingkat_urgensi
+                        ? ucfirst(str_replace('_', ' ', $tugas->tingkat_urgensi))
+                        : 'Belum ditetapkan' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Waktu Pelaporan</div>
+                <div class="col-md-8">
+                    {{ $tugas->waktu_pelaporan
+                        ? \Carbon\Carbon::parse($tugas->waktu_pelaporan)->format('d-m-Y H:i')
+                        : '-' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Keterangan</div>
+                <div class="col-md-8">
+                    {{ $tugas->keterangan ?: '-' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Pelapor</div>
+                <div class="col-md-8">
+                    {{ $tugas->pengguna->name ?? '-' }}
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-md-4 text-muted">Armada</div>
+                <div class="col-md-8">
+                    {{ $tugas->armada->nama_armada ?? '-' }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 text-muted">Status Penanganan</div>
+                <div class="col-md-8">
+                    <span class="badge bg-success">
+                        {{ ucfirst(str_replace('_', ' ', $tugas->status_laporan)) }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@endsection

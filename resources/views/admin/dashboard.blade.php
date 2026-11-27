@@ -17,7 +17,7 @@
 
     <div class="row g-3 mb-4">
         <div class="col-12 col-sm-6 col-xl-3">
-            <a href="{{ route('admin.pengguna.index') }}" class="stat-card clickable" title="Lihat semua pengguna terdaftar">
+            <a href="{{ route('admin.pengguna.index')  }}" class="stat-card clickable" title="Lihat semua pengguna terdaftar">
                 <div class="d-flex justify-content-between align-items-center">
                     <span class="stat-label">Total Pengguna</span>
                     <span class="stat-icon"><i class="bi bi-people"></i></span>

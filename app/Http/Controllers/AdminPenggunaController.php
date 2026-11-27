@@ -81,7 +81,7 @@ public function create()
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
             'role' => ['required', Rule::in(['masyarakat', 'uptd', 'supir'])],
             'id_wilayah' => ['nullable', 'exists:wilayahs,id'],
         ]);
@@ -97,6 +97,9 @@ public function create()
         }
 
         $data['password'] = Hash::make($data['password']);
+
+        // Akun yang dibuat admin dianggap sudah terverifikasi.
+        $data['email_verified_at'] = now();
 
         User::create($data);
 
@@ -127,7 +130,7 @@ public function create()
             ],
             'role' => ['required', Rule::in(['masyarakat', 'uptd', 'supir', 'admin'])],
             'id_wilayah' => ['nullable', 'exists:wilayahs,id'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'password' => ['nullable', 'string', 'confirmed', \Illuminate\Validation\Rules\Password::defaults()],
         ]);
 
         if ($user->id === auth()->id() && $data['role'] !== 'admin') {

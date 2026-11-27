@@ -74,33 +74,41 @@ class DashboardController extends Controller
             ->where('status_laporan', 'selesai')
             ->count();
 
+        // hitung data tps
+        $tpsQuery = \App\Models\Tps::query();
+        if ($role === 'uptd') {
+            $tpsQuery->where('id_wilayah', $user->id_wilayah);
+        }
+        $totalTps = (clone $tpsQuery)->count();
+        $tpsAktif = (clone $tpsQuery)->count(); // Sesuaikan jika ada kolom status aktif/tidak di tabel tps
+         //    hitung data tps end
+
         $laporanTerbaru = (clone $query)
             ->with('tps')
             ->latest('waktu_pelaporan')
             ->take(5)
             ->get();
 
-// Data grafik status laporan
-$grafikStatus = [
-    (clone $query)->where('status_laporan', 'menunggu')->count(),
-    (clone $query)->whereIn('status_laporan', ['diproses', 'ditangani'])->count(),
-    (clone $query)->where('status_laporan', 'selesai')->count(),
-];
+        // Data grafik status laporan
+        $grafikStatus = [
+            (clone $query)->where('status_laporan', 'menunggu')->count(),
+            (clone $query)->whereIn('status_laporan', ['diproses', 'ditangani'])->count(),
+            (clone $query)->where('status_laporan', 'selesai')->count(),
+        ];
 
-// Data grafik tren laporan 7 hari terakhir
-$grafikTrenLabel = [];
-$grafikTrenData = [];
+        // Data grafik tren laporan 7 hari terakhir
+        $grafikTrenLabel = [];
+        $grafikTrenData = [];
 
-for ($i = 6; $i >= 0; $i--) {
-    $tanggal = now()->subDays($i);
+        for ($i = 6; $i >= 0; $i--) {
+            $tanggal = now()->subDays($i);
 
-    $grafikTrenLabel[] = $tanggal->format('d M');
+            $grafikTrenLabel[] = $tanggal->format('d M');
 
-    $grafikTrenData[] = (clone $query)
-        ->whereDate('waktu_pelaporan', $tanggal->toDateString())
-        ->count();
-}
-
+            $grafikTrenData[] = (clone $query)
+                ->whereDate('waktu_pelaporan', $tanggal->toDateString())
+                ->count();
+        }
 
         return view(
             $role === 'masyarakat'
@@ -113,10 +121,12 @@ for ($i = 6; $i >= 0; $i--) {
                 'laporanMenunggu' => $laporanMenunggu,
                 'laporanDiproses' => $laporanDiproses,
                 'laporanSelesai' => $laporanSelesai,
+                'totalTps' => $totalTps,       
+                'tpsAktif' => $tpsAktif,       
                 'laporanTerbaru' => $laporanTerbaru,
-		'grafikStatus' => $grafikStatus,
-		'grafikTrenLabel' => $grafikTrenLabel,
-		'grafikTrenData' => $grafikTrenData,
+                'grafikStatus' => $grafikStatus,
+                'grafikTrenLabel' => $grafikTrenLabel,
+                'grafikTrenData' => $grafikTrenData,
             ]
         );
     }
