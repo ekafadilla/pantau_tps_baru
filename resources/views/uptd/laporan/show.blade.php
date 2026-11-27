@@ -1,9 +1,9 @@
-﻿@extends('layouts.uptd')
+@extends('layouts.uptd')
 
 @section('title', 'Detail Laporan #' . $laporan->id . ' - UPTD')
 @section('page-title', 'Detail Laporan')
 
-@section('styles')
+@push('styles')
 <style>
     .info-label  { font-size: 11.5px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; color: #6b7f74; margin-bottom: 3px; }
     .info-value  { font-size: 14.5px; color: #1a2e22; }
@@ -51,14 +51,65 @@
     .urgensi-tinggi  { background: #fee2e2; color: #991b1b; }
     .urgensi-sangat_tinggi { background: #fce7f3; color: #9d174d; }
 
-    .foto-grid img {
-        width: 100%; height: 160px; object-fit: cover;
-        border-radius: 8px; border: 1px solid #dde8e1;
-        transition: opacity .15s;
+    .foto-grid {
+        display: grid !important;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 14px;
+        width: 100%;
+        min-width: 0;
     }
-    .foto-grid img:hover { opacity: .85; }
+    .foto-grid .foto-item {
+        min-width: 0;
+        max-width: 100%;
+    }
+    .foto-grid .foto-item a {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+        background: #f1f5f2;
+    }
+    .foto-grid .foto-item img {
+        display: block !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 190px !important;
+        max-height: 190px !important;
+        object-fit: cover !important;
+        border-radius: 10px;
+        border: 1px solid #dde8e1;
+        transition: transform .2s, opacity .2s;
+    }
+    .foto-grid .foto-item img:hover {
+        opacity: .9;
+        transform: scale(1.025);
+    }
+    .foto-grid-single {
+        grid-template-columns: minmax(0, 520px);
+    }
+    .foto-grid-single .foto-item img {
+        height: 300px !important;
+        max-height: 300px !important;
+    }
+    @media (max-width: 576px) {
+        .foto-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+        .foto-grid .foto-item img {
+            height: 140px !important;
+            max-height: 140px !important;
+        }
+        .foto-grid-single {
+            grid-template-columns: minmax(0, 1fr);
+        }
+        .foto-grid-single .foto-item img {
+            height: 230px !important;
+            max-height: 230px !important;
+        }
+    }
 </style>
-@endsection
+@endpush
 
 @section('content')
 <div class="container-fluid py-2">
@@ -78,6 +129,8 @@
                     'ditangani'   => ['sb-ditangani',   'bi-tools',            'Ditangani'],
                     'selesai'     => ['sb-selesai',     'bi-check2-circle',    'Selesai'],
                     'ditolak'     => ['sb-ditolak',     'bi-x-circle',         'Ditolak'],
+                    'menunggu_pemeriksaan' => ['sb-diproses', 'bi-hourglass-split', 'Menunggu Pemeriksaan'],
+                    'perlu_perbaikan' => ['sb-diverifikasi', 'bi-exclamation-circle', 'Perlu Perbaikan'],
                 ];
                 [$sbClass, $sbIcon, $sbLabel] = $sbMap[$laporan->status_laporan] ?? ['sb-menunggu','bi-circle','Tidak Diketahui'];
             @endphp
@@ -112,7 +165,7 @@
 
     <div class="row g-4">
 
-        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KIRI Ã¢â€â‚¬Ã¢â€â‚¬ --}}
+        {{-- KOLOM KIRI --}}
         <div class="col-lg-7 col-xl-8">
 
             {{-- Info Laporan --}}
@@ -223,7 +276,7 @@
             </div>
             @endif
             {{-- Info Penugasan (jika sudah ditugaskan) --}}
-            @if(in_array($laporan->status_laporan, ['diproses','ditangani','selesai','ditolak']) && $laporan->supir)
+            @if(in_array($laporan->status_laporan, ['diproses','ditangani','menunggu_pemeriksaan','perlu_perbaikan','selesai','ditolak']) && $laporan->supir)
             <div class="card border-0 mb-4">
                 <div class="card-body p-4">
                     <h6 class="fw-bold mb-3" style="color:#176b43"><i class="bi bi-person-check me-1"></i>Informasi Penugasan</h6>
@@ -236,7 +289,7 @@
                             <div class="info-label">Armada</div>
                             <div class="info-value">
                                 @if($laporan->armada)
-                                    {{ $laporan->armada->kode_armada }} Ã¢â‚¬â€œ {{ $laporan->armada->nomor_polisi }}
+                                    {{ $laporan->armada->kode_armada }} - {{ $laporan->armada->nomor_polisi }}
                                     <span class="text-muted small">({{ $laporan->armada->jenis_armada }})</span>
                                 @else
                                     <span class="text-muted">Tidak ada armada</span>
@@ -285,14 +338,15 @@
                     @if($laporan->fotoLaporans->isEmpty())
                         <p class="text-muted mb-0">Tidak ada foto pada laporan ini.</p>
                     @else
-                        <div class="row g-2 foto-grid">
+                        <div class="foto-grid {{ $laporan->fotoLaporans->count() === 1 ? 'foto-grid-single' : '' }}">
                             @foreach($laporan->fotoLaporans as $foto)
-                                <div class="col-6 col-md-4">
-                                    <a href="{{ asset('storage/' . $foto->path_foto) }}" target="_blank">
+                                <div class="foto-item">
+                                    <a href="{{ asset('storage/' . $foto->path_foto) }}" target="_blank" rel="noopener">
                                         <img src="{{ asset('storage/' . $foto->path_foto) }}"
-                                             alt="{{ $foto->nama_file }}">
+                                             alt="{{ $foto->nama_file }}"
+                                             loading="lazy">
                                     </a>
-                                    <div class="small text-muted mt-1 text-truncate">{{ $foto->nama_file }}</div>
+                                    <div class="small text-muted mt-2 text-truncate">{{ $foto->nama_file }}</div>
                                 </div>
                             @endforeach
                         </div>
@@ -300,6 +354,67 @@
                 </div>
             </div>
 
+            {{-- Bukti Penanganan dari Supir --}}
+            <div class="card border-0 mb-4">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-3" style="color:#176b43">
+                        <i class="bi bi-camera me-1"></i>Bukti Penanganan Supir
+                    </h6>
+
+                    @if($laporan->buktiPenanganans->isEmpty())
+                        <p class="text-muted mb-0">Belum ada bukti penanganan yang dikirim oleh supir.</p>
+                    @else
+                        @php
+                            $pengirimanBukti = $laporan->buktiPenanganans
+                                ->groupBy(function ($bukti) {
+                                    return $bukti->waktu_pengiriman
+                                        ? $bukti->waktu_pengiriman->format('Y-m-d H:i:s')
+                                        : 'tanpa-waktu';
+                                })
+                                ->sortKeysDesc();
+                        @endphp
+
+                        @foreach($pengirimanBukti as $waktu => $daftarBukti)
+                            <div class="mb-4">
+                                <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2">
+                                    <h6 class="fw-bold mb-0">
+                                        Pengiriman {{ $loop->first ? 'Terbaru' : 'Sebelumnya' }}
+                                    </h6>
+                                    @if($loop->first)
+                                        <span class="badge bg-success">Bukti Terbaru</span>
+                                    @else
+                                        <span class="badge bg-secondary">Riwayat</span>
+                                    @endif
+                                </div>
+
+                                <div class="small text-muted mb-3">
+                                    {{ $daftarBukti->first()->waktu_pengiriman
+                                        ? $daftarBukti->first()->waktu_pengiriman->format('d M Y, H:i')
+                                        : '-' }}
+                                </div>
+
+                                <div class="foto-grid">
+                                    @foreach($daftarBukti as $bukti)
+                                        <div class="foto-item">
+                                            <a href="{{ asset('storage/' . $bukti->foto_path) }}" target="_blank" rel="noopener">
+                                                <img src="{{ asset('storage/' . $bukti->foto_path) }}"
+                                                     alt="Bukti penanganan"
+                                                     loading="lazy">
+                                            </a>
+                                            <div class="small fw-semibold mt-2">
+                                                {{ $bukti->supir->name ?? 'Supir' }}
+                                            </div>
+                                            <div class="small mt-2">
+                                                {{ $bukti->keterangan }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                </div>
+            </div>
             {{-- Riwayat Status --}}
             <div class="card border-0">
                 <div class="card-body p-4">
@@ -339,7 +454,7 @@
 
         </div>{{-- /.col-left --}}
 
-        {{-- Ã¢â€â‚¬Ã¢â€â‚¬ KOLOM KANAN (Panel Aksi) Ã¢â€â‚¬Ã¢â€â‚¬ --}}
+                {{-- KOLOM KANAN (Panel Aksi) --}}
         <div class="col-lg-5 col-xl-4">
             <div class="panel-aksi">
                 <h6><i class="bi bi-shield-check me-1"></i>Panel Aksi UPTD</h6>
@@ -583,7 +698,7 @@
                     </div>
                 @endif
 
-                {{-- STATUS: menunggu Ã¢â€ â€™ tombol verifikasi & tolak --}}
+                {{-- STATUS: menunggu - tombol verifikasi dan tolak --}}
                 @if($laporan->status_laporan === 'menunggu')
 
                     <p class="text-muted small mb-3">Laporan ini menunggu verifikasi dari Anda.</p>
@@ -609,7 +724,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
                                 <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
-                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                          placeholder="Tuliskan alasan penolakan..." maxlength="500">{{ old('catatan_tolak') }}</textarea>
                                 @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <button type="submit" class="btn btn-danger w-100"
@@ -619,7 +734,7 @@
                         </form>
                     </div>
 
-                {{-- STATUS: diverifikasi Ã¢â€ â€™ form tugaskan + tolak --}}
+                {{-- STATUS: diverifikasi - form tugaskan dan tolak --}}
                 @elseif($laporan->status_laporan === 'diverifikasi')
 
                     <p class="text-muted small mb-3">Laporan telah diverifikasi. Tugaskan supir untuk menanganinya.</p>
@@ -631,14 +746,66 @@
                         <div class="mb-3">
                             <label class="form-label">Supir <span class="text-danger">*</span></label>
                             <select name="id_supir" class="form-select @error('id_supir') is-invalid @enderror" required>
-    <option value="">â€” Pilih Supir â€”</option>
-    @foreach($supirList as $supir)
-        <option value="{{ $supir->id }}" @selected(old('id_supir') == $supir->id)>
-            {{ $supir->name }}{{ $supir->tpsTugas->first()?->pivot?->rute ? ' â€” ' . $supir->tpsTugas->first()->pivot->rute : '' }}
-        </option>
-    @endforeach
-</select>
-                            @error('id_supir')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                                <option value="">-- Pilih Supir yang Tersedia --</option>
+                                @foreach($supirList as $supir)
+                                    <option value="{{ $supir->id }}"
+                                        @selected(old('id_supir') == $supir->id)
+                                        @disabled(!$supir->boleh_ditugaskan)>
+                                        {{ $supir->name }} |
+                                        {{ $supir->status_penugasan }}
+                                        @if($supir->boleh_ditugaskan)
+                                            - Siap ditugaskan
+                                        @else
+                                            - Tidak dapat dipilih
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            <div class="mt-3">
+                                @forelse($supirList as $supir)
+                                    <div class="border rounded p-3 mb-2">
+                                        <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+                                            <strong>{{ $supir->name }}</strong>
+                                            @if($supir->boleh_ditugaskan)
+                                                <span class="badge bg-success">Tersedia</span>
+                                            @elseif($supir->status_penugasan === 'Sedang bertugas')
+                                                <span class="badge bg-info text-dark">Sedang bertugas</span>
+                                            @else
+                                                <span class="badge bg-warning text-dark">
+                                                    {{ $supir->status_penugasan }}
+                                                </span>
+                                            @endif
+                                        </div>
+
+                                        @if($supir->keterangan_kehadiran)
+                                            <div class="small text-muted mt-2">
+                                                Keterangan: {{ $supir->keterangan_kehadiran }}
+                                            </div>
+                                        @endif
+
+                                        @if(!$supir->boleh_ditugaskan)
+                                            <div class="small text-danger mt-1">
+                                                {{ $supir->alasan_tidak_tersedia }}
+                                            </div>
+                                        @else
+                                            <div class="small text-success mt-1">
+                                                Siap menerima penugasan.
+                                            </div>
+                                        @endif
+
+                                        @if($supir->tpsTugas->first()?->pivot?->rute)
+                                            <div class="small text-muted mt-1">
+                                                Rute: {{ $supir->tpsTugas->first()->pivot->rute }}
+                                            </div>
+                                        @endif
+                                    </div>
+                                @empty
+                                    <div class="form-text text-warning">
+                                        Belum ada akun supir pada wilayah ini.
+                                    </div>
+                                @endforelse
+                            </div>                            @error('id_supir')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             @if($supirList->isEmpty())
                                 <div class="form-text text-warning">Belum ada supir aktif yang ditugaskan pada TPS ini.</div>
                             @endif
@@ -648,10 +815,10 @@
                         <div class="mb-3">
                             <label class="form-label">Armada <span class="text-muted fw-normal">(opsional)</span></label>
                             <select name="id_armada" class="form-select @error('id_armada') is-invalid @enderror">
-                                <option value="">Ã¢â‚¬â€ Pilih Armada Ã¢â‚¬â€</option>
+                                <option value="">-- Pilih Armada --</option>
                                 @foreach($armadaList as $arm)
                                     <option value="{{ $arm->id }}" @selected(old('id_armada') == $arm->id)>
-                                        {{ $arm->kode_armada }} Ã¢â‚¬â€œ {{ $arm->nomor_polisi }} ({{ $arm->jenis_armada }})
+                                        {{ $arm->kode_armada }} - {{ $arm->nomor_polisi }} ({{ $arm->jenis_armada }})
                                     </option>
                                 @endforeach
                             </select>
@@ -674,7 +841,7 @@
                             <textarea name="instruksi_penanganan" rows="3"
                                       class="form-control @error('instruksi_penanganan') is-invalid @enderror"
                                       maxlength="1000"
-                                      placeholder="Tambahkan instruksi khusus untuk supirÃ¢â‚¬Â¦">{{ old('instruksi_penanganan') }}</textarea>
+                                       placeholder="Tambahkan instruksi khusus untuk supir...">{{ old('instruksi_penanganan') }}</textarea>
                             @error('instruksi_penanganan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
@@ -697,7 +864,7 @@
                             <div class="mb-3">
                                 <label class="form-label">Alasan Penolakan <span class="text-danger">*</span></label>
                                 <textarea name="catatan_tolak" rows="3" class="form-control @error('catatan_tolak') is-invalid @enderror"
-                                          placeholder="Tuliskan alasan penolakanÃ¢â‚¬Â¦" maxlength="500">{{ old('catatan_tolak') }}</textarea>
+                                          placeholder="Tuliskan alasan penolakan..." maxlength="500">{{ old('catatan_tolak') }}</textarea>
                                 @error('catatan_tolak')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                             <button type="submit" class="btn btn-danger w-100"
@@ -707,6 +874,53 @@
                         </form>
                     </div>
 
+                {{-- STATUS: menunggu pemeriksaan bukti --}}
+                @elseif($laporan->status_laporan === 'menunggu_pemeriksaan')
+
+                    <div class="mb-3">
+                        <div class="alert alert-info small mb-3">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Supir telah mengirim bukti penanganan. Periksa foto dan keterangannya sebelum mengambil keputusan.
+                        </div>
+
+                        <form method="POST" action="{{ route('uptd.laporan.setujui-bukti', $laporan->id) }}" class="mb-3">
+                            @csrf
+                            <button type="submit" class="btn btn-success w-100"
+                                    onclick="return confirm('Setujui bukti penanganan ini dan selesaikan laporan?')">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Setujui Bukti dan Selesaikan
+                            </button>
+                        </form>
+
+                        <button class="btn btn-outline-danger w-100" type="button"
+                                data-bs-toggle="collapse" data-bs-target="#formPerbaikanBukti"
+                                aria-expanded="false">
+                            <i class="bi bi-arrow-counterclockwise me-1"></i>
+                            Minta Supir Memperbaiki Bukti
+                        </button>
+
+                        <div class="collapse mt-3" id="formPerbaikanBukti">
+                            <form method="POST" action="{{ route('uptd.laporan.minta-perbaikan-bukti', $laporan->id) }}">
+                                @csrf
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        Catatan Perbaikan <span class="text-danger">*</span>
+                                    </label>
+                                    <textarea name="catatan_perbaikan" rows="3"
+                                              class="form-control @error('catatan_perbaikan') is-invalid @enderror"
+                                              maxlength="500" required
+                                              placeholder="Jelaskan bagian bukti yang perlu diperbaiki...">{{ old('catatan_perbaikan') }}</textarea>
+                                    @error('catatan_perbaikan')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-danger w-100"
+                                        onclick="return confirm('Kirim permintaan perbaikan kepada supir?')">
+                                    Kirim Permintaan Perbaikan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 {{-- STATUS: diproses / ditangani / selesai / ditolak --}}
                 @else
                     <div class="text-center py-3">

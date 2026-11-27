@@ -100,6 +100,25 @@
                 </div>
 
                 <div class="mb-4">
+                    <label class="form-label fw-semibold">Tentukan Lokasi TPS pada Peta</label>
+                    <p class="text-muted small mb-2">
+                        Klik lokasi TPS pada peta untuk memasang pin. Pin juga bisa digeser
+                        agar posisinya lebih akurat. Koordinat akan terisi otomatis.
+                    </p>
+
+                    <x-peta
+                        mode="picker"
+                        height="380"
+                        class="mb-2"
+                    />
+
+                    <div class="form-text">
+                        Pastikan titik yang dipilih benar-benar lokasi TPS, bukan sekadar
+                        titik tengah wilayah atau kantor UPTD.
+                    </div>
+                </div>
+
+                <div class="mb-4">
                     <label for="keterangan" class="form-label">Keterangan (opsional)</label>
                     <textarea name="keterangan" id="keterangan" rows="3"
                         class="form-control @error('keterangan') is-invalid @enderror"

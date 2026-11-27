@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -211,6 +211,11 @@
             <span>Daftar Tugas</span>
         </a>
 
+        <a class="menu {{ request()->routeIs('supir.kehadiran.*') ? 'active' : '' }}"
+           href="{{ route('supir.kehadiran.edit') }}">
+            <i class="bi bi-calendar-check-fill"></i>
+            <span>Status Kehadiran</span>
+        </a>
         <!-- PENGATURAN -->
         <div class="menu-title" style="margin-top: 18px;">Pengaturan</div>
 

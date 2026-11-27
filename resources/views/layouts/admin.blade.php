@@ -15,6 +15,10 @@
             min-height: 100vh; 
             align-items: flex-start;
         }
+                nav[role="navigation"] svg {
+            width: 20px !important;
+            height: 20px !important;
+        }
 
         /* SIDEBAR */
         .sidebar {
@@ -258,10 +262,14 @@
 <body>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 <div class="layout">
+<<<<<<< HEAD
 
     <!-- SIDEBAR ADMIN -->
     <aside class="sidebar" id="sidebar">
         <!-- BRAND -->
+=======
+    <aside class="sidebar" id="sidebar">
+>>>>>>> 91c10e23b6fc00dd8cf442071471b0714795226d
         <a href="{{ route('admin.dashboard') }}" class="brand">
             <div class="brand-icon">
                 <i class="bi bi-recycle"></i>
@@ -300,12 +308,18 @@
                 <span>Data TPS</span>
             </a>
 
+            <a href="{{ route('admin.armada.index') }}"
+               class="menu {{ request()->routeIs('admin.armada.*') ? 'active' : '' }}">
+                <i class="bi bi-truck"></i>
+                <span>Data Armada</span>
+            </a>
             <a href="{{ route('admin.laporan.index') }}"
                class="menu {{ request()->routeIs('admin.laporan.*') ? 'active' : '' }}">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>Data Laporan</span>
             </a>
 
+<<<<<<< HEAD
             <a href="{{ route('admin.spam.index') }}"
                class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
                 <i class="bi bi-shield-exclamation"></i>
@@ -329,6 +343,16 @@
         </div>
 
         <!-- TOMBOL KELUAR -->
+=======
+        <a href="{{ route('admin.spam.index') }}"
+           class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
+            <i class="bi bi-shield-exclamation"></i><span>Deteksi Spam</span>
+        </a>
+        <a href="{{ route('pengaturan.edit') }}" class="menu {{ request()->routeIs('pengaturan.*') ? 'active' : '' }}">
+            <i class="bi bi-gear"></i> Pengaturan
+        </a>
+
+>>>>>>> 91c10e23b6fc00dd8cf442071471b0714795226d
         <div class="sidebar-bottom">
             <a href="{{ route('landing') }}" target="_blank" class="menu mb-2" style="background: rgba(255,255,255,0.08);">
                 <i class="bi bi-box-arrow-up-right"></i><span>Lihat Website</span>
@@ -346,12 +370,17 @@
     <!-- MAIN CONTENT -->
     <div class="main">
         <header class="topbar">
+<<<<<<< HEAD
             <div class="d-flex align-items-center gap-2">
                 <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu">
                     <i class="bi bi-list fs-4"></i>
                 </button>
                 <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
             </div>
+=======
+            <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Buka menu"><i class="bi bi-list"></i></button>
+            <h1 class="topbar-title">@yield('page-title', 'Dashboard Admin')</h1>
+>>>>>>> 91c10e23b6fc00dd8cf442071471b0714795226d
             <div class="user-info">
                 <div>
                     <strong>{{ auth()->user()->name }}</strong><br>
@@ -370,8 +399,11 @@
         </footer>
     </div>
 </div>
+<<<<<<< HEAD
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+=======
+>>>>>>> 91c10e23b6fc00dd8cf442071471b0714795226d
 <script>
 (function () {
     const sidebar = document.getElementById('sidebar');

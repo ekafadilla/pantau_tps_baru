@@ -67,7 +67,7 @@ class DashboardController extends Controller
             ->count();
 
         $laporanDiproses = (clone $query)
-            ->whereIn('status_laporan', ['diproses', 'ditangani'])
+            ->whereIn('status_laporan', ['diverifikasi', 'diproses', 'ditangani', 'menunggu_pemeriksaan', 'perlu_perbaikan'])
             ->count();
 
         $laporanSelesai = (clone $query)
@@ -92,7 +92,7 @@ class DashboardController extends Controller
         // Data grafik status laporan
         $grafikStatus = [
             (clone $query)->where('status_laporan', 'menunggu')->count(),
-            (clone $query)->whereIn('status_laporan', ['diproses', 'ditangani'])->count(),
+            (clone $query)->whereIn('status_laporan', ['diverifikasi', 'diproses', 'ditangani', 'menunggu_pemeriksaan', 'perlu_perbaikan'])->count(),
             (clone $query)->where('status_laporan', 'selesai')->count(),
         ];
 

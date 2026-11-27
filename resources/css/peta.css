@@ -92,3 +92,49 @@
 
 .peta-popup strong { display: block; margin-bottom: 2px; }
 .peta-popup a { display: inline-block; margin-top: 6px; }
+/* Filter khusus peta landing page */
+.peta-filter-label {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 7px;
+    color: #52645a;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.peta-filter {
+    min-height: 36px;
+    max-width: 230px;
+    padding: 7px 30px 7px 10px;
+    border: 1px solid #dce7de;
+    border-radius: 9px;
+    background: #fff;
+    color: #183528;
+    font: inherit;
+    font-size: 12px;
+    outline: none;
+}
+
+.peta-filter:focus {
+    border-color: #218653;
+    box-shadow: 0 0 0 3px rgba(33, 134, 83, .12);
+}
+
+.peta-filter-count {
+    color: #218653;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+@media (max-width: 600px) {
+    .peta-filter-label {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .peta-filter {
+        flex: 1;
+        max-width: none;
+    }
+}

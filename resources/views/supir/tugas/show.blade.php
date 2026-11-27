@@ -109,13 +109,107 @@
             <div class="row">
                 <div class="col-md-4 text-muted">Status Penanganan</div>
                 <div class="col-md-8">
-                    <span class="badge bg-success">
-                        {{ ucfirst(str_replace('_', ' ', $tugas->status_laporan)) }}
+                    @php
+                        $statusMap = [
+                            'diproses' => ['primary', 'Diproses'],
+                            'menunggu_pemeriksaan' => ['info', 'Menunggu Pemeriksaan'],
+                            'perlu_perbaikan' => ['warning', 'Perlu Perbaikan'],
+                            'selesai' => ['success', 'Selesai'],
+                            'ditolak' => ['danger', 'Ditolak'],
+                        ];
+
+                        [$warnaStatus, $labelStatus] = $statusMap[$tugas->status_laporan]
+                            ?? ['secondary', ucfirst(str_replace('_', ' ', $tugas->status_laporan))];
+                    @endphp
+
+                    <span class="badge bg-{{ $warnaStatus }}">
+                        {{ $labelStatus }}
                     </span>
                 </div>
             </div>
         </div>
     </div>
 
+    {{-- CATATAN PERBAIKAN DARI UPTD --}}
+    @if ($tugas->status_laporan === 'perlu_perbaikan')
+        @php
+            $catatanPerbaikan = $tugas->riwayatStatuses
+                ->where('status_baru', 'perlu_perbaikan')
+                ->sortByDesc('waktu_perubahan')
+                ->first();
+        @endphp
+
+        <div class="alert alert-warning border-0 shadow-sm mb-3">
+            <h5 class="mb-2">
+                <i class="bi bi-exclamation-triangle me-1"></i>
+                Bukti Perlu Diperbaiki
+            </h5>
+            <p class="mb-1">
+                Petugas UPTD meminta Anda memperbaiki bukti penanganan.
+            </p>
+            <div class="mt-2">
+                <strong>Catatan dari UPTD:</strong>
+                <p class="mb-0 mt-1">
+                    {{ $catatanPerbaikan->catatan ?? 'Tidak ada catatan tambahan.' }}
+                </p>
+            </div>
+        </div>
+    @endif
+    {{-- FORM BUKTI PENANGANAN --}}
+    @if (in_array($tugas->status_laporan, ['diproses', 'perlu_perbaikan']))
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <h5 class="mb-2">Kirim Bukti Penanganan</h5>
+                <p class="text-muted small mb-3">
+                    Unggah foto setelah penanganan TPS selesai dilakukan.
+                    Bukti akan diperiksa oleh petugas UPTD.
+                </p>
+
+                @if (session('success'))
+                    <div class="alert alert-success">{{ session('success') }}</div>
+                @endif
+
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <strong>Periksa kembali data yang diisi:</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form action="{{ route('supir.tugas.bukti', $tugas->id) }}"
+                      method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="foto" class="form-label">Foto Bukti Penanganan</label>
+                        <input type="file" name="foto[]" id="foto"
+                               class="form-control"
+                               accept=".jpg,.jpeg,.png,.webp"
+                               multiple required>
+                        <small class="text-muted">
+                            Pilih 1–5 foto, maksimal 5 MB per foto.
+                        </small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="keterangan_bukti" class="form-label">
+                            Keterangan Penanganan
+                        </label>
+                        <textarea name="keterangan" id="keterangan_bukti"
+                                  class="form-control" rows="4"
+                                  maxlength="1000" required
+                                  placeholder="Jelaskan penanganan yang sudah dilakukan...">{{ old('keterangan') }}</textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        Kirim Bukti ke UPTD
+                    </button>
+                </form>
+            </div>
+        </div>
+    @endif
 </div>
 @endsection

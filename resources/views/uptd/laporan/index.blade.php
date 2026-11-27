@@ -1,4 +1,4 @@
-﻿@extends('layouts.uptd')
+@extends('layouts.uptd')
 
 @section('title', 'Data Laporan UPTD')
 @section('page-title', 'Data Laporan')
@@ -52,7 +52,7 @@
             <form method="GET" action="{{ route('uptd.laporan.index') }}" class="row g-2 mb-4">
                 <div class="col-md-5">
                     <input type="text" name="cari" class="form-control"
-                           placeholder="Cari kategori, lokasi, TPS, atau pelaporâ€¦"
+                           placeholder="Cari kategori, lokasi, TPS, atau pelapor..."
                            value="{{ request('cari') }}">
                 </div>
                 <div class="col-md-3">
@@ -63,6 +63,8 @@
                             'diverifikasi'=> 'Diverifikasi',
                             'diproses'    => 'Diproses',
                             'ditangani'   => 'Ditangani',
+                            'menunggu_pemeriksaan' => 'Menunggu Pemeriksaan',
+                            'perlu_perbaikan' => 'Perlu Perbaikan',
                             'selesai'     => 'Selesai',
                             'ditolak'     => 'Ditolak',
                         ] as $nilai => $label)
@@ -108,6 +110,8 @@
                                     'diverifikasi' => ['info',      'Diverifikasi'],
                                     'diproses'     => ['primary',   'Diproses'],
                                     'ditangani'    => ['success',   'Ditangani'],
+                                    'menunggu_pemeriksaan' => ['info', 'Menunggu Pemeriksaan'],
+                                    'perlu_perbaikan' => ['warning', 'Perlu Perbaikan'],
                                     'selesai'      => ['success',   'Selesai'],
                                     'ditolak'      => ['danger',    'Ditolak'],
                                 ];

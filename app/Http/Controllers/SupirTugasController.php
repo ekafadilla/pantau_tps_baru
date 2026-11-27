@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Laporan;
+use App\Models\BuktiPenanganan;
+use App\Models\RiwayatStatus;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class SupirTugasController extends Controller
@@ -29,10 +32,83 @@ class SupirTugasController extends Controller
             'armada',
             'pengguna',
             'buktiPenanganans',
+            'riwayatStatuses.pengguna',
         ])
             ->where('id_supir', auth()->id())
             ->findOrFail($id);
 
         return view('supir.tugas.show', compact('tugas'));
+    }
+
+    public function kirimBukti(Request $request, $id)
+    {
+        abort_unless(auth()->user()->role === 'supir', 403);
+
+        $validated = $request->validate([
+            'foto' => ['required', 'array', 'min:1', 'max:5'],
+            'foto.*' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'keterangan' => ['required', 'string', 'max:1000'],
+        ], [
+            'foto.required' => 'Pilih minimal satu foto bukti.',
+            'foto.min' => 'Pilih minimal satu foto bukti.',
+            'foto.max' => 'Maksimal 5 foto dalam satu pengiriman.',
+            'foto.*.image' => 'File bukti harus berupa gambar.',
+            'foto.*.mimes' => 'Format foto harus JPG, JPEG, PNG, atau WEBP.',
+            'foto.*.max' => 'Ukuran setiap foto maksimal 5 MB.',
+            'keterangan.required' => 'Keterangan penanganan wajib diisi.',
+        ]);
+
+        $tugas = Laporan::where('id_supir', auth()->id())
+            ->findOrFail($id);
+
+        DB::transaction(function () use ($tugas, $request, $validated) {
+            $terkunci = Laporan::whereKey($tugas->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            abort_unless(
+                in_array($terkunci->status_laporan, ['diproses', 'perlu_perbaikan'], true),
+                422,
+                'Bukti hanya dapat dikirim saat tugas sedang diproses atau perlu perbaikan.'
+            );
+
+            $waktuKirim = now();
+
+            foreach ($request->file('foto') as $foto) {
+                $path = $foto->store('bukti-penanganan', 'public');
+
+                if (!$path) {
+                    throw new \RuntimeException('Gagal menyimpan foto bukti penanganan.');
+                }
+
+                BuktiPenanganan::create([
+                    'id_laporan' => $terkunci->id,
+                    'id_supir' => auth()->id(),
+                    'foto_path' => $path,
+                    'keterangan' => $validated['keterangan'],
+                    'waktu_pengiriman' => $waktuKirim,
+                ]);
+            }
+
+            $statusLama = $terkunci->status_laporan;
+
+            $terkunci->update([
+                'status_laporan' => 'menunggu_pemeriksaan',
+                'waktu_kirim_pemeriksaan' => $waktuKirim,
+            ]);
+
+            RiwayatStatus::create([
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
+                'status_sebelumnya' => $statusLama,
+                'status_baru' => 'menunggu_pemeriksaan',
+                'catatan' => 'Supir mengirim bukti penanganan: ' . $validated['keterangan'],
+                'waktu_perubahan' => $waktuKirim,
+            ]);
+        });
+
+        return redirect()
+            ->route('supir.tugas.show', $tugas->id)
+            ->with('success', 'Bukti penanganan berhasil dikirim dan menunggu pemeriksaan UPTD.');
     }
 }

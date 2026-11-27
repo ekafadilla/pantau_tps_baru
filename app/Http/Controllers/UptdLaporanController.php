@@ -61,12 +61,14 @@ class UptdLaporanController extends Controller
             'diverifikasi',
             'diproses',
             'ditangani',
+            'menunggu_pemeriksaan',
+            'perlu_perbaikan',
             'selesai',
             'ditolak',
         ];
 
-        if ($request->filled('status') &&
-            in_array($request->status, $statusValid, true)) {
+        if ($request->filled('status')
+            && in_array($request->status, $statusValid, true)) {
             $query->where('status_laporan', $request->status);
         }
 
@@ -80,7 +82,11 @@ class UptdLaporanController extends Controller
         $totalLaporan = (clone $dasar)->count();
         $menunggu = (clone $dasar)->where('status_laporan', 'menunggu')->count();
         $diproses = (clone $dasar)->whereIn('status_laporan', [
-            'diverifikasi', 'diproses', 'ditangani'
+            'diverifikasi',
+            'diproses',
+            'ditangani',
+            'menunggu_pemeriksaan',
+            'perlu_perbaikan',
         ])->count();
         $selesai = (clone $dasar)->where('status_laporan', 'selesai')->count();
 
@@ -105,26 +111,55 @@ class UptdLaporanController extends Controller
             'supir',
             'armada',
             'fotoLaporans',
+            'buktiPenanganans.supir',
             'riwayatStatuses.pengguna',
             'penilaianUrgensis.penilai',
         ]);
 
-        // Daftar supir aktif yang ditugaskan pada TPS laporan ini
+        // Tampilkan semua supir dari wilayah UPTD beserta kondisi kehadirannya
         $supirList = User::where('role', 'supir')
             ->where('id_wilayah', $user->id_wilayah)
-            ->whereHas('tpsTugas', function ($query) use ($laporan) {
-                $query->where('tps.id', $laporan->id_tps)
-                    ->where('supir_tps.status', true);
-            })
+            ->withCount([
+                'tugasSupir as tugas_aktif_count' => function ($query) {
+                    $query->whereIn('status_laporan', [
+                        'diproses',
+                        'ditangani',
+                        'menunggu_pemeriksaan',
+                        'perlu_perbaikan',
+                    ]);
+                },
+            ])
             ->with(['tpsTugas' => function ($query) use ($laporan) {
                 $query->where('tps.id', $laporan->id_tps)
                     ->where('supir_tps.status', true);
             }])
             ->orderBy('name')
-            ->get();
+            ->get()
+            ->each(function ($supir) {
+                $supir->boleh_ditugaskan = false;
+                $supir->alasan_tidak_tersedia = null;
 
-        // Daftar armada dari wilayah yang sama
+                if ((int) $supir->tugas_aktif_count > 0) {
+                    $supir->status_penugasan = 'Sedang bertugas';
+                    $supir->alasan_tidak_tersedia = 'Supir sedang menangani laporan lain.';
+                } elseif ($supir->status_kehadiran !== 'tersedia') {
+                    $supir->status_penugasan = ucwords(str_replace(
+                        '_',
+                        ' ',
+                        $supir->status_kehadiran ?: 'tidak diketahui'
+                    ));
+                    $supir->alasan_tidak_tersedia = 'Supir tidak sedang tersedia.';
+                } elseif ($supir->tpsTugas->isEmpty()) {
+                    $supir->status_penugasan = 'Belum terdaftar di TPS ini';
+                    $supir->alasan_tidak_tersedia = 'Supir belum memiliki penugasan aktif pada TPS laporan ini.';
+                } else {
+                    $supir->status_penugasan = 'Tersedia';
+                    $supir->boleh_ditugaskan = true;
+                }
+            });
+        // Hanya tampilkan armada tersedia dari wilayah yang sama
         $armadaList = Armada::where('id_wilayah', $user->id_wilayah)
+            ->where('status_armada', 'tersedia')
             ->orderBy('kode_armada')
             ->get();
 
@@ -169,11 +204,11 @@ class UptdLaporanController extends Controller
         $daftarCatatan = [];
 
         if (!empty(trim($validated['alasan_perubahan'] ?? ''))) {
-            $daftarCatatan[] = 'Alasan perubahan keputusan: ' . $validated['alasan_perubahan'];
+            $daftarCatatan[] = 'Alasan perubahan keputusan: '.$validated['alasan_perubahan'];
         }
 
         if (!empty(trim($validated['catatan'] ?? ''))) {
-            $daftarCatatan[] = 'Catatan pemeriksaan: ' . $validated['catatan'];
+            $daftarCatatan[] = 'Catatan pemeriksaan: '.$validated['catatan'];
         }
 
         $catatan = count($daftarCatatan) > 0
@@ -184,9 +219,8 @@ class UptdLaporanController extends Controller
             $terkunci = Laporan::whereKey($laporan->id)->lockForUpdate()->firstOrFail();
 
             abort_unless(
-                $terkunci->status_laporan === 'diverifikasi',
-                422,
-                'Penilaian urgensi hanya dapat dilakukan setelah laporan diverifikasi.'
+                in_array($terkunci->status_laporan, ['menunggu', 'diverifikasi'], true),
+                422, 'Penilaian urgensi tidak dapat dilakukan pada status laporan ini.'
             );
 
             $terkunci->penilaianUrgensis()->create(array_merge(
@@ -216,7 +250,9 @@ class UptdLaporanController extends Controller
         $this->pastikanDiWilayah($laporan);
 
         DB::transaction(function () use ($laporan) {
-            $terkunci = Laporan::whereKey($laporan->id)->lockForUpdate()->firstOrFail();
+            $terkunci = Laporan::whereKey($laporan->id)
+                ->lockForUpdate()
+                ->firstOrFail();
 
             abort_unless(
                 $terkunci->status_laporan === 'menunggu',
@@ -225,19 +261,22 @@ class UptdLaporanController extends Controller
             );
 
             $statusLama = $terkunci->status_laporan;
-            $terkunci->update(['status_laporan' => 'diverifikasi']);
+
+            $terkunci->update([
+                'status_laporan' => 'diverifikasi',
+            ]);
 
             RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
                 'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'diverifikasi',
-                'catatan'           => 'Laporan telah diverifikasi oleh UPTD.',
-                'waktu_perubahan'   => now(),
+                'status_baru' => 'diverifikasi',
+                'catatan' => 'Laporan telah diverifikasi oleh petugas UPTD.',
+                'waktu_perubahan' => now(),
             ]);
         });
 
-        return back()->with('success', 'Laporan berhasil diverifikasi.');
+        return back()->with('success', 'Laporan berhasil diverifikasi. Silakan lanjutkan penilaian urgensi.');
     }
 
     // Tahap 3: penugasan, hanya dari status diverifikasi dan sudah ada urgensi akhir
@@ -248,9 +287,9 @@ class UptdLaporanController extends Controller
         $this->pastikanDiWilayah($laporan);
 
         $validated = $request->validate([
-            'id_supir'             => ['required', 'exists:users,id'],
-            'id_armada'            => ['nullable', 'exists:armadas,id'],
-            'target_waktu'         => ['nullable', 'date'],
+            'id_supir' => ['required', 'exists:users,id'],
+            'id_armada' => ['nullable', 'exists:armadas,id'],
+            'target_waktu' => ['nullable', 'date'],
             'instruksi_penanganan' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -258,6 +297,15 @@ class UptdLaporanController extends Controller
         $supir = User::where('id', $validated['id_supir'])
             ->where('role', 'supir')
             ->where('id_wilayah', $user->id_wilayah)
+            ->where('status_kehadiran', 'tersedia')
+            ->whereDoesntHave('tugasSupir', function ($query) {
+                $query->whereIn('status_laporan', [
+                    'diproses',
+                    'ditangani',
+                    'menunggu_pemeriksaan',
+                    'perlu_perbaikan',
+                ]);
+            })
             ->whereHas('tpsTugas', function ($query) use ($laporan) {
                 $query->where('tps.id', $laporan->id_tps)
                     ->where('supir_tps.status', true);
@@ -274,12 +322,17 @@ class UptdLaporanController extends Controller
         if (!empty($validated['id_armada'])) {
             $armada = Armada::where('id', $validated['id_armada'])
                 ->where('id_wilayah', $user->id_wilayah)
+                ->where('status_armada', 'tersedia')
                 ->first();
 
-            abort_unless($armada, 422, 'Armada tidak valid atau bukan dari wilayah Anda.');
+            abort_unless(
+                $armada,
+                422,
+                'Armada tidak tersedia atau bukan dari wilayah Anda.'
+            );
         }
 
-        DB::transaction(function () use ($laporan, $validated, $supir) {
+        DB::transaction(function () use ($laporan, $validated, $user) {
             $terkunci = Laporan::whereKey($laporan->id)->lockForUpdate()->firstOrFail();
 
             abort_unless(
@@ -294,28 +347,74 @@ class UptdLaporanController extends Controller
                 'Tetapkan urgensi akhir melalui penilaian UPTD sebelum menugaskan supir.'
             );
 
+            // Kunci dan periksa ulang supir agar tidak menerima tugas bersamaan
+            $supir = User::whereKey($validated['id_supir'])
+                ->lockForUpdate()
+                ->first();
+
+            abort_unless(
+                $supir
+                && $supir->role === 'supir'
+                && (int) $supir->id_wilayah === (int) $user->id_wilayah
+                && $supir->status_kehadiran === 'tersedia'
+                && $supir->tpsTugas()
+                    ->where('tps.id', $laporan->id_tps)
+                    ->where('supir_tps.status', true)
+                    ->exists()
+                && !$supir->tugasSupir()
+                    ->whereIn('status_laporan', [
+                        'diproses',
+                        'ditangani',
+                        'menunggu_pemeriksaan',
+                        'perlu_perbaikan',
+                    ])
+                    ->exists(),
+                422,
+                'Supir sudah tidak tersedia atau sedang menangani tugas lain.'
+            );
+            // Kunci dan periksa ulang armada agar tidak dipakai oleh tugas lain
+            $armada = null;
+
+            if (!empty($validated['id_armada'])) {
+                $armada = Armada::whereKey($validated['id_armada'])
+                    ->lockForUpdate()
+                    ->first();
+
+                abort_unless(
+                    $armada
+                    && (int) $armada->id_wilayah === (int) $user->id_wilayah
+                    && $armada->status_armada === 'tersedia',
+                    422,
+                    'Armada sudah tidak tersedia atau bukan dari wilayah Anda.'
+                );
+            }
+
             $statusLama = $terkunci->status_laporan;
 
             $terkunci->update([
-                'id_supir'             => $validated['id_supir'],
-                'id_armada'            => $validated['id_armada'] ?? null,
-                'target_waktu'         => $validated['target_waktu'] ?? null,
+                'id_supir' => $validated['id_supir'],
+                'id_armada' => $validated['id_armada'] ?? null,
+                'target_waktu' => $validated['target_waktu'] ?? null,
                 'instruksi_penanganan' => $validated['instruksi_penanganan'] ?? null,
-                'status_laporan'       => 'diproses',
-                'waktu_mulai'          => now(),
+                'status_laporan' => 'diproses',
+                'waktu_mulai' => now(),
             ]);
 
+            if ($armada) {
+                $armada->update(['status_armada' => 'digunakan']);
+            }
+
             RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
                 'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'diproses',
-                'catatan'           => 'Laporan ditugaskan kepada supir: ' . $supir->name . '. ' . ($validated['instruksi_penanganan'] ?? ''),
-                'waktu_perubahan'   => now(),
+                'status_baru' => 'diproses',
+                'catatan' => 'Laporan ditugaskan kepada supir: '.$supir->name.'. '.($validated['instruksi_penanganan'] ?? ''),
+                'waktu_perubahan' => now(),
             ]);
         });
 
-        return back()->with('success', 'Laporan berhasil ditugaskan kepada ' . $supir->name . '.');
+        return back()->with('success', 'Laporan berhasil ditugaskan kepada '.$supir->name.'.');
     }
 
     public function tolak(Request $request, Laporan $laporan)
@@ -339,15 +438,133 @@ class UptdLaporanController extends Controller
             $terkunci->update(['status_laporan' => 'ditolak']);
 
             RiwayatStatus::create([
-                'id_laporan'        => $terkunci->id,
-                'id_pengguna'       => auth()->id(),
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
                 'status_sebelumnya' => $statusLama,
-                'status_baru'       => 'ditolak',
-                'catatan'           => $validated['catatan_tolak'],
-                'waktu_perubahan'   => now(),
+                'status_baru' => 'ditolak',
+                'catatan' => $validated['catatan_tolak'],
+                'waktu_perubahan' => now(),
             ]);
         });
 
         return back()->with('success', 'Laporan telah ditolak.');
+    }
+
+    // 2. Proses Pembatalan / Penolakan Laporan (Spam / Urgensi)
+    public function batalkan(Request $request, $id)
+    {
+        $request->validate([
+            'alasan_batal' => 'required|string|max:255',
+        ]);
+
+        $laporan = Laporan::findOrFail($id);
+        $laporan->update([
+            'status_laporan' => 'ditolak', // sesuaikan dengan enum/nilai status di DB Anda
+            'catatan_uptd' => $request->alasan_batal,
+        ]);
+
+        // Opsional: Jika ditandai spam, tambah spam_score pelapor
+        if (str_contains(strtolower($request->alasan_batal), 'spam') && $laporan->user) {
+            $laporan->user->increment('spam_score');
+        }
+
+        return redirect()->route('uptd.laporan.index')
+            ->with('success', 'Laporan berhasil dibatalkan.');
+    }
+
+    // Tahap pemeriksaan bukti penanganan oleh UPTD
+    public function setujuiBukti(Laporan $laporan)
+    {
+        $this->pastikanDiWilayah($laporan);
+
+        DB::transaction(function () use ($laporan) {
+            $terkunci = Laporan::whereKey($laporan->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            abort_unless(
+                $terkunci->status_laporan === 'menunggu_pemeriksaan',
+                422,
+                'Bukti penanganan belum siap diperiksa atau sudah diproses.'
+            );
+
+            $statusLama = $terkunci->status_laporan;
+
+            $terkunci->update([
+                'status_laporan' => 'selesai',
+            ]);
+
+            // Kembalikan armada jika tidak ada tugas aktif lain
+            if ($terkunci->id_armada) {
+                $armada = Armada::whereKey($terkunci->id_armada)
+                    ->lockForUpdate()
+                    ->first();
+
+                if ($armada && $armada->status_armada === 'digunakan') {
+                    $masihDigunakan = Laporan::where('id_armada', $armada->id)
+                        ->whereIn('status_laporan', [
+                            'diproses',
+                            'ditangani',
+                            'menunggu_pemeriksaan',
+                            'perlu_perbaikan',
+                        ])
+                        ->exists();
+
+                    if (!$masihDigunakan) {
+                        $armada->update([
+                            'status_armada' => 'tersedia',
+                        ]);
+                    }
+                }
+            }
+            RiwayatStatus::create([
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
+                'status_sebelumnya' => $statusLama,
+                'status_baru' => 'selesai',
+                'catatan' => 'Bukti penanganan telah diperiksa dan disetujui oleh UPTD.',
+                'waktu_perubahan' => now(),
+            ]);
+        });
+
+        return back()->with('success', 'Bukti penanganan disetujui. Laporan telah selesai.');
+    }
+
+    public function mintaPerbaikanBukti(Request $request, Laporan $laporan)
+    {
+        $this->pastikanDiWilayah($laporan);
+
+        $validated = $request->validate([
+            'catatan_perbaikan' => ['required', 'string', 'max:500'],
+        ]);
+
+        DB::transaction(function () use ($laporan, $validated) {
+            $terkunci = Laporan::whereKey($laporan->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            abort_unless(
+                $terkunci->status_laporan === 'menunggu_pemeriksaan',
+                422,
+                'Bukti penanganan belum siap diperiksa atau sudah diproses.'
+            );
+
+            $statusLama = $terkunci->status_laporan;
+
+            $terkunci->update([
+                'status_laporan' => 'perlu_perbaikan',
+            ]);
+
+            RiwayatStatus::create([
+                'id_laporan' => $terkunci->id,
+                'id_pengguna' => auth()->id(),
+                'status_sebelumnya' => $statusLama,
+                'status_baru' => 'perlu_perbaikan',
+                'catatan' => $validated['catatan_perbaikan'],
+                'waktu_perubahan' => now(),
+            ]);
+        });
+
+        return back()->with('success', 'Permintaan perbaikan bukti berhasil dikirim kepada supir.');
     }
 }

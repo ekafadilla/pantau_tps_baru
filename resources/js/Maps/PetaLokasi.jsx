@@ -103,6 +103,7 @@ function jarakMeter(a, b) {
 export default function PetaLokasi({
     mode = 'view',
     markers = [],
+    filterable = false,
     height = 360,
     tombolSaya = false,
     latInput = 'latitude',
@@ -127,10 +128,66 @@ export default function PetaLokasi({
     const [berbagi, setBerbagi] = useState(false);
     const [posisiSaya, setPosisiSaya] = useState(null);
     const [markerSupir, setMarkerSupir] = useState([]);
+    const [markerAktif, setMarkerAktif] = useState(markers);
+    const [filterWilayah, setFilterWilayah] = useState('semua');
+    const [filterStatus, setFilterStatus] = useState('semua');
+
+    useEffect(() => {
+        setMarkerAktif(markers);
+    }, [markers]);
+
+    useEffect(() => {
+        if (!filterable) return undefined;
+
+        const perbaruiMarker = (event) => {
+            const dataBaru = event.detail;
+            setMarkerAktif(Array.isArray(dataBaru) ? dataBaru : []);
+        };
+
+        window.addEventListener('landing:tps-updated', perbaruiMarker);
+
+        return () => {
+            window.removeEventListener('landing:tps-updated', perbaruiMarker);
+        };
+    }, [filterable]);
+
+    const daftarWilayah = useMemo(
+        () => [...new Set(
+            markerAktif
+                .map((m) => m.wilayah)
+                .filter((w) => typeof w === 'string' && w.trim() !== '')
+        )].sort((a, b) => a.localeCompare(b, 'id')),
+        [markerAktif]
+    );
 
     const semuaStatis = useMemo(
-        () => markers.filter((m) => Number.isFinite(Number(m.lat)) && Number.isFinite(Number(m.lng))),
-        [markers]
+        () => markerAktif.filter((m) => {
+            if (
+                m.lat === null || m.lat === undefined || m.lat === '' ||
+                m.lng === null || m.lng === undefined || m.lng === ''
+            ) return false;
+
+            const lat = Number(m.lat);
+            const lng = Number(m.lng);
+
+            if (
+                !Number.isFinite(lat) ||
+                !Number.isFinite(lng) ||
+                Math.abs(lat) > 90 ||
+                Math.abs(lng) > 180
+            ) return false;
+
+            if (filterable && filterWilayah !== 'semua' && m.wilayah !== filterWilayah) {
+                return false;
+            }
+
+            if (filterable && filterStatus !== 'semua' && m.status !== filterStatus) {
+                return false;
+            }
+
+            return true;
+        }),
+        [markerAktif, filterable, filterWilayah, filterStatus]
     );
 
     const tipeAda = useMemo(() => {
@@ -484,6 +541,41 @@ export default function PetaLokasi({
     return (
         <div className="peta">
             <div className="peta-toolbar">
+                {filterable && (
+                    <>
+                        <label className="peta-filter-label">
+                            Wilayah
+                            <select
+                                className="peta-filter"
+                                value={filterWilayah}
+                                onChange={(e) => setFilterWilayah(e.target.value)}
+                            >
+                                <option value="semua">Semua wilayah</option>
+                                {daftarWilayah.map((wilayah) => (
+                                    <option key={wilayah} value={wilayah}>{wilayah}</option>
+                                ))}
+                            </select>
+                        </label>
+
+                        <label className="peta-filter-label">
+                            Status TPS
+                            <select
+                                className="peta-filter"
+                                value={filterStatus}
+                                onChange={(e) => setFilterStatus(e.target.value)}
+                            >
+                                <option value="semua">Semua status</option>
+                                <option value="bersih">Bersih</option>
+                                <option value="terlapor">Terlapor</option>
+                            </select>
+                        </label>
+
+                        <span className="peta-filter-count">
+                            {semuaStatis.length} titik ditampilkan
+                        </span>
+                    </>
+                )}
+
                 {mode === 'picker' && (
                     <button type="button" className="peta-btn" onClick={gunakanLokasiSaya} disabled={sibuk}>
                         {sibuk ? 'Mengambil lokasi...' : 'Gunakan Lokasi Saya'}
@@ -544,7 +636,11 @@ export default function PetaLokasi({
             )}
 
             {semuaStatis.length === 0 && markerSupir.length === 0 && mode !== 'picker' && (
-                <p className="peta-catatan">Belum ada titik koordinat yang bisa ditampilkan.</p>
+                <p className="peta-catatan">
+                    {filterable && markerAktif.length > 0
+                        ? 'Tidak ada TPS yang cocok dengan filter yang dipilih.'
+                        : 'Belum ada titik koordinat TPS yang bisa ditampilkan.'}
+                </p>
             )}
         </div>
     );

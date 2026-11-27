@@ -132,19 +132,9 @@
                         <small class="field-error">{{ $message }}</small>
                     @enderror
 
-                    <input
-                        type="hidden"
-                        name="latitude"
-                        id="latitude"
-                        value="{{ old('latitude') }}"
-                    >
+                    <input type="text" name="latitude" value="-6.473120" class="form-control">
 
-                    <input
-                        type="hidden"
-                        name="longitude"
-                        id="longitude"
-                        value="{{ old('longitude') }}"
-                    >
+                    <input type="text" name="longitude" value="108.308450" class="form-control">
 
                     <x-peta
                     mode="picker"

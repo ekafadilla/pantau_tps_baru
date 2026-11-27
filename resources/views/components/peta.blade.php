@@ -1,5 +1,6 @@
 @props([
     'markers' => [],
+    'filterable' => false,
     'mode' => 'view',        // view | picker | live
     'height' => 360,
     'tombolSaya' => false,   // mode view: tombol "Tunjukkan Lokasi Saya"
@@ -14,6 +15,7 @@
     $konfigPeta = [
         'mode' => $mode,
         'markers' => array_values((array) $markers),
+        'filterable' => (bool) $filterable,
         'height' => (int) $height,
         'tombolSaya' => (bool) $tombolSaya,
         'latInput' => $latInput,

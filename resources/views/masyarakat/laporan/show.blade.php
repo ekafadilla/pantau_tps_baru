@@ -1,4 +1,4 @@
-﻿
+
 @extends('layouts.masyarakat')
 
 @section('header', 'Detail Laporan')
@@ -171,7 +171,7 @@
         </div>
 
         <div class="summary-body">
-            <div class="summary-status-icon">âœ“</div>
+            <div class="summary-status-icon">&#10003;</div>
 
             <p class="summary-label">Status Saat Ini</p>
 

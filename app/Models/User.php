@@ -19,6 +19,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'id_wilayah',
+        'status_kehadiran',
+        'keterangan_kehadiran',
     ];
 
     protected $hidden = [
@@ -55,6 +57,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function laporans(): HasMany
     {
         return $this->hasMany(Laporan::class, 'id_pengguna');
+    }
+
+    public function tugasSupir(): HasMany
+    {
+        return $this->hasMany(Laporan::class, 'id_supir');
     }
 
     public function riwayatStatuses(): HasMany

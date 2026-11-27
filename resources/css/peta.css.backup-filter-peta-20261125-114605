@@ -1,0 +1,94 @@
+.peta {
+    --peta-hijau: #176b43;
+    --peta-garis: #dde8e1;
+    font-family: inherit;
+    font-size: 13px;
+    color: #1a2e22;
+}
+
+.peta *, .peta *::before, .peta *::after { box-sizing: border-box; }
+
+.peta-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.peta-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid var(--peta-hijau);
+    border-radius: 8px;
+    background: var(--peta-hijau);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .15s;
+}
+.peta-btn:hover:not(:disabled) { background: #125735; color: #fff; }
+.peta-btn:disabled { opacity: .6; cursor: wait; }
+.peta-btn-garis { background: #fff; color: var(--peta-hijau); }
+.peta-btn-garis:hover:not(:disabled) { background: #e2f1e7; color: #125735; }
+.peta-btn-bahaya { background: #c0392b; border-color: #c0392b; }
+.peta-btn-bahaya:hover:not(:disabled) { background: #a02e22; }
+
+.peta-lencana {
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #eef1ef;
+    color: #5d6b63;
+    font-size: 12px;
+    font-weight: 600;
+}
+.peta-lencana.aktif { background: #e2f1e7; color: var(--peta-hijau); }
+
+.peta-status {
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #f4f7f5;
+    border: 1px solid var(--peta-garis);
+}
+
+.peta-kanvas {
+    width: 100%;
+    min-height: 220px;
+    border: 1px solid var(--peta-garis);
+    border-radius: 10px;
+    overflow: hidden;
+    z-index: 0;
+}
+
+.peta-legenda {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 8px;
+    color: #5d6b63;
+}
+.peta-legenda span { display: inline-flex; align-items: center; gap: 6px; }
+.peta-legenda i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+.peta-catatan { margin: 8px 0 0; color: #718078; font-size: 12px; }
+
+/* Leaflet divIcon */
+.peta-pin { background: none; border: 0; }
+.peta-pin svg { display: block; filter: drop-shadow(0 2px 2px rgba(0,0,0,.3)); }
+
+.peta-saya { background: none; border: 0; }
+.peta-saya span {
+    display: block;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #7b3fc4;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 6px rgba(123, 63, 196, .25);
+}
+
+.peta-popup strong { display: block; margin-bottom: 2px; }
+.peta-popup a { display: inline-block; margin-top: 6px; }

@@ -1,11 +1,10 @@
-﻿@extends($role === 'uptd' ? 'layouts.uptd' : 'layouts.app')
+@extends($role === 'uptd' ? 'layouts.uptd' : 'layouts.app')
 
 @section('title', 'Dashboard ' . $roleLabel . ' | SI Pantau TPS')
 @section('page-title', 'Dashboard ' . $roleLabel)
 
 @push('styles')
 <style>
-<<<<<<< HEAD
     .welcome {
         position: relative;
         overflow: hidden;
@@ -92,49 +91,6 @@
         font-size: 12px;
         font-weight: 600;
     }
-=======
-/* UPTD PROFESSIONAL DASHBOARD */
-
-/* Layout */
-.layout {
-    display: flex !important;
-    height: 100vh !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-    background: #f4f7f5 !important;
-}
-
-/* Sidebar */
-.sidebar {
-    position: fixed !important;
-    z-index: 1050 !important;
-    inset: 0 auto 0 0 !important;
-    width: 235px !important;
-    min-width: 235px !important;
-    height: 100vh !important;
-    padding: 22px 15px !important;
-    overflow-y: auto !important;
-    color: #fff !important;
-    background: linear-gradient(180deg, #125735 0%, #0e432c 100%) !important;
-    box-shadow: 3px 0 18px rgba(15, 55, 35, .12) !important;
-    transition: transform .25s ease !important;
-}
-
-.brand {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 8px 9px 30px !important;
-    color: #fff !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-    letter-spacing: .2px !important;
-}
-
-.brand i {
-    font-size: 23px !important;
-}
->>>>>>> fitur-peta
 
     .stat-icon {
         display: flex;
@@ -148,7 +104,6 @@
         font-size: 16px;
     }
 
-<<<<<<< HEAD
     .stat-number { margin-top: 10px; font-size: 24px; font-weight: bold; color: #26382f; }
     .stat-note { margin-top: 4px; color: #78857c; font-size: 11px; }
 
@@ -256,343 +211,9 @@
                 {{ auth()->user()->wilayah->nama_wilayah ?? 'belum ditentukan' }}.
             </p>
         </section>
-=======
-.sidebar .menu {
-    position: relative !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 11px !important;
-    min-height: 43px !important;
-    margin-bottom: 6px !important;
-    padding: 11px 12px !important;
-    border-radius: 8px !important;
-    color: rgba(255,255,255,.88) !important;
-    font-size: 12px !important;
-    line-height: 1.4 !important;
-    transition: background .18s ease, color .18s ease !important;
-}
-
-.sidebar .menu i {
-    flex: 0 0 18px !important;
-    width: 18px !important;
-    font-size: 16px !important;
-    text-align: center !important;
-}
-
-.sidebar .menu:hover {
-    color: #fff !important;
-    background: rgba(255,255,255,.11) !important;
-}
-
-.sidebar .menu.active {
-    color: #fff !important;
-    background: #246d49 !important;
-    box-shadow: inset 3px 0 #b9dfc6, 0 2px 8px rgba(0,0,0,.08) !important;
-}
-
-.sidebar-bottom {
-    margin-top: auto !important;
-    padding-top: 20px !important;
-    border-top: 1px solid rgba(255,255,255,.18) !important;
-}
-
-.sidebar .logout {
-    display: flex !important;
-    align-items: center !important;
-    gap: 11px !important;
-    width: 100% !important;
-    min-height: 43px !important;
-    padding: 11px 12px !important;
-    border: 0 !important;
-    border-radius: 8px !important;
-    color: #fff !important;
-    background: transparent !important;
-    font-size: 12px !important;
-    font-weight: 500 !important;
-    text-align: left !important;
-    cursor: pointer !important;
-    transition: background .18s ease !important;
-}
-
-.sidebar .logout:hover {
-    background: rgba(255,255,255,.11) !important;
-}
-
-/* Main area and navbar */
-.main {
-    display: flex !important;
-    flex-direction: column !important;
-    width: calc(100% - 235px) !important;
-    height: 100vh !important;
-    min-width: 0 !important;
-    margin-left: 235px !important;
-    overflow: hidden !important;
-}
-
-.topbar {
-    position: relative !important;
-    z-index: 100 !important;
-    display: flex !important;
-    flex: 0 0 66px !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    height: 66px !important;
-    min-height: 66px !important;
-    padding: 0 28px !important;
-    background: #fff !important;
-    border-bottom: 1px solid #e5ebe6 !important;
-    box-shadow: 0 2px 8px rgba(30,60,40,.025) !important;
-}
-
-.topbar-title {
-    color: #26382f !important;
-    font-size: 16px !important;
-    font-weight: 700 !important;
-}
-
-.dashboard-profile-link {
-    display: flex !important;
-    align-items: center !important;
-    gap: 9px !important;
-    padding: 6px 9px !important;
-    border-radius: 8px !important;
-    color: inherit !important;
-    text-decoration: none !important;
-    transition: background .18s ease !important;
-}
-
-.dashboard-profile-link:hover {
-    color: inherit !important;
-    background: #f4f7f5 !important;
-}
-
-.dashboard-profile-link:focus-visible {
-    outline: 2px solid #176b43 !important;
-    outline-offset: 2px !important;
-}
-
-/* Content */
-.content {
-    flex: 1 !important;
-    width: 100% !important;
-    padding: 24px 28px !important;
-    overflow-y: auto !important;
-    background: #f4f7f5 !important;
-}
-
-/* Welcome panel */
-.welcome {
-    position: relative !important;
-    overflow: hidden !important;
-    padding: 23px 26px !important;
-    margin-bottom: 23px !important;
-    border: 1px solid #dce9df !important;
-    border-radius: 11px !important;
-    background: linear-gradient(110deg, #e8f3eb 0%, #f8fbf8 100%) !important;
-    box-shadow: 0 3px 12px rgba(23,107,67,.035) !important;
-}
-
-.welcome::after {
-    content: "" !important;
-    position: absolute !important;
-    top: -65px !important;
-    right: -35px !important;
-    width: 185px !important;
-    height: 185px !important;
-    border: 24px solid rgba(44,128,88,.05) !important;
-    border-radius: 50% !important;
-    pointer-events: none !important;
-}
-
-.welcome h1 {
-    position: relative !important;
-    z-index: 1 !important;
-    margin: 0 0 8px !important;
-    color: #174e34 !important;
-    font-size: 21px !important;
-    font-weight: 700 !important;
-    line-height: 1.4 !important;
-}
-
-.welcome p {
-    position: relative !important;
-    z-index: 1 !important;
-    max-width: 650px !important;
-    margin: 0 !important;
-    color: #66796c !important;
-    font-size: 12px !important;
-    line-height: 1.7 !important;
-}
-
-/* Section headings and statistics */
-.section-heading {
-    margin: 22px 0 13px !important;
-}
-
-.section-heading h2 {
-    margin: 0 !important;
-    color: #26382f !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-}
-
-.stats {
-    gap: 13px !important;
-}
-
-.stat-card {
-    padding: 16px !important;
-    border: 1px solid #e3eae4 !important;
-    border-radius: 10px !important;
-    background: #fff !important;
-    box-shadow: 0 2px 9px rgba(30,60,40,.025) !important;
-    transition: box-shadow .18s ease, transform .18s ease !important;
-}
-
-.stat-card:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 5px 14px rgba(30,60,40,.06) !important;
-}
-
-.stat-number {
-    color: #26382f !important;
-}
-
-/* Charts, tables and panels */
-.chart-grid {
-    gap: 14px !important;
-    margin-top: 18px !important;
-}
-
-.chart-card,
-.panel,
-.simple-card {
-    border: 1px solid #e3eae4 !important;
-    border-radius: 10px !important;
-    background: #fff !important;
-    box-shadow: 0 2px 9px rgba(30,60,40,.025) !important;
-}
-
-.chart-card {
-    padding: 16px !important;
-}
-
-.panel-heading {
-    padding: 15px 17px !important;
-}
-
-.panel-heading h2,
-.chart-heading h3 {
-    color: #26382f !important;
-}
-
-th {
-    background: #f7f9f7 !important;
-}
-
-.help-panel {
-    border-color: #dce9df !important;
-    border-radius: 9px !important;
-    background: #edf5ef !important;
-}
-
-footer {
-    padding: 11px !important;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .sidebar {
-        transform: translateX(-100%) !important;
-    }
-
-    .sidebar.show {
-        transform: translateX(0) !important;
-    }
-
-    .main {
-        width: 100% !important;
-        margin-left: 0 !important;
-    }
-
-    .content {
-        padding: 20px 16px !important;
-    }
-
-    .chart-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    .sidebar-overlay.show {
-        position: fixed !important;
-        z-index: 1040 !important;
-        inset: 0 !important;
-        display: block !important;
-        background: rgba(15,30,20,.42) !important;
-    }
-}
-
-@media (max-width: 650px) {
-    .topbar {
-        height: 60px !important;
-        min-height: 60px !important;
-        flex-basis: 60px !important;
-        padding: 0 14px !important;
-    }
-
-    .topbar-title {
-        font-size: 14px !important;
-    }
-
-    .content {
-        padding: 15px 12px !important;
-    }
-
-    .welcome {
-        padding: 18px !important;
-    }
-
-    .welcome h1 {
-        font-size: 18px !important;
-    }
-
-    .section-heading h2 {
-        font-size: 14px !important;
-    }
-
-    .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-        gap: 10px !important;
-    }
-
-    .stat-card {
-        padding: 12px !important;
-    }
-
-    .stat-number {
-        font-size: 20px !important;
-    }
-
-    .chart-container {
-        height: 200px !important;
-    }
-}</style>
-@endif
-
-</head>
-<body>
-<div class="layout">
-    @if ($role === 'uptd')
-    @include('components.uptd.sidebar')
-@else
-    <aside class="sidebar" id="sidebar">
-        <div class="brand"><i class="bi bi-recycle"></i><span>SI PANTAU TPS</span></div>
-        <div class="menu-title">Menu Utama</div>
->>>>>>> fitur-peta
 
         <div class="section-heading"><h2>Ringkasan Laporan Wilayah</h2></div>
 
-<<<<<<< HEAD
         <section class="stats">
             <div class="stat-card">
                 <div class="stat-top"><span>Total Laporan</span><span class="stat-icon"><i class="bi bi-file-text"></i></span></div>
@@ -646,46 +267,6 @@ footer {
                     <strong>Belum ada laporan</strong>
                     <p>Belum ada laporan yang tercatat pada TPS di wilayah kerja ini.</p>
                 </div>
-=======
-        @if ($role === 'admin')
-            <div class="menu"><i class="bi bi-people"></i> Data Pengguna</div>
-            <div class="menu"><i class="bi bi-geo"></i> Data Wilayah</div>
-            <div class="menu"><i class="bi bi-trash"></i> Data TPS</div>
-        @elseif ($role === 'supir')
-            <div class="menu"><i class="bi bi-truck"></i> Tugas Pengangkutan</div>
-        @endif
-
-        <div class="sidebar-bottom">
-            <form action="{{ route('logout') }}" method="POST">
-                @csrf
-                <button type="submit" class="logout">
-                    <i class="bi bi-box-arrow-right"></i> Keluar
-                </button>
-            </form>
-        </div>
-    </aside>
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-@endif
-
-    <div class="main">
-        <header class="topbar">
-            <div class="topbar-left">
-                @if ($role === 'uptd')
-                    <button type="button" class="menu-toggle" onclick="toggleSidebar()" aria-label="Buka menu">
-                        <i class="bi bi-list"></i>
-                    </button>
-                @endif
-                <div class="topbar-title">Dashboard {{ $roleLabel }}</div>
-            </div>
-            @if ($role === 'uptd')
-                <a href="{{ route('pengaturan.edit') }}"
-                   class="user-info dashboard-profile-link"
-                   aria-label="Buka pengaturan akun UPTD"
-                   title="Pengaturan Akun">
-                    <div class="avatar">{{ strtoupper(substr(auth()->user()->name, 0, 1)) }}</div>
-                    <div><strong>{{ auth()->user()->name }}</strong><br><span>{{ $roleLabel }}</span></div>
-                </a>
->>>>>>> fitur-peta
             @else
                 <div class="table-wrap">
                     <table class="dashboard-table">
@@ -702,9 +283,21 @@ footer {
                         @foreach ($laporanTerbaru as $laporan)
                             @php
                                 $status = $laporan->status_laporan;
+                                $statusLabel = [
+                                    'menunggu' => 'Menunggu',
+                                    'diverifikasi' => 'Diverifikasi',
+                                    'diproses' => 'Diproses',
+                                    'ditangani' => 'Ditangani',
+                                    'menunggu_pemeriksaan' => 'Menunggu Pemeriksaan',
+                                    'perlu_perbaikan' => 'Perlu Perbaikan',
+                                    'selesai' => 'Selesai',
+                                    'ditolak' => 'Ditolak',
+                                ][$status] ?? ucfirst(str_replace('_', ' ', $status));
+
                                 $statusClass = match ($status) {
                                     'selesai' => 'status-selesai',
-                                    'diproses', 'ditangani' => 'status-diproses',
+                                    'diverifikasi', 'diproses', 'ditangani',
+                                    'menunggu_pemeriksaan', 'perlu_perbaikan' => 'status-diproses',
                                     'ditolak' => 'status-ditolak',
                                     default => '',
                                 };
@@ -714,7 +307,7 @@ footer {
                                 <td>{{ $laporan->tps->nama_tps ?? 'TPS tidak tersedia' }}</td>
                                 <td>{{ $laporan->kategori_kondisi }}</td>
                                 <td>{{ $laporan->waktu_pelaporan?->format('d-m-Y') ?? '-' }}</td>
-                                <td><span class="status {{ $statusClass }}">{{ ucfirst($status) }}</span></td>
+                                <td><span class="status {{ $statusClass }}">{{ $statusLabel }}</span></td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -812,14 +405,4 @@ footer {
     }
 </script>
 @endif
-<<<<<<< HEAD
 @endpush
-=======
-</body>
-</html>
-
-
-
-
-
->>>>>>> fitur-peta
