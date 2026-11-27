@@ -8,8 +8,6 @@ use App\Http\Controllers\LandingController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LokasiSupirController;
 
-use App\Http\Controllers\AdminController;
-
 use App\Http\Controllers\SupirTugasController;
 use App\Http\Controllers\UptdLaporanController;
 use App\Http\Controllers\UptdPengaturanController;
