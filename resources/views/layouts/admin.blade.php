@@ -315,11 +315,6 @@
                 <span>Data Laporan</span>
             </a>
 
-            <a href="{{ route('admin.spam.index') }}"
-   class="menu {{ request()->routeIs('admin.spam.*') ? 'active' : '' }}">
-    <i class="bi bi-shield-exclamation"></i>
-    <span>Deteksi Spam</span>
-</a>
 
             <a href="{{ route('admin.landing.edit') }}"
                class="menu {{ request()->routeIs('admin.landing.*') ? 'active' : '' }}">
